@@ -1,0 +1,92 @@
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+
+android {
+    compileSdkVersion 27
+    buildToolsVersion "27.0.3"
+
+    defaultConfig {
+        applicationId "com.beautylife.va"
+        minSdkVersion 18
+        targetSdkVersion 24
+
+        versionCode 12
+        versionName "1.2.8"
+
+//        compileOptions.encoding = "GBK"
+        compileOptions {
+            sourceCompatibility JavaVersion.VERSION_1_8
+            targetCompatibility JavaVersion.VERSION_1_8
+        }
+
+        ndk{abiFilters "armeabi"}
+//        buildConfigField 'int', 'DEFAULT_TAB', "1"
+    }
+
+    lintOptions {
+        abortOnError false
+    }
+
+    aaptOptions {
+        noCompress "pcm"
+    }
+
+    signingConfigs {
+        release {
+//            storeFile file(System.getenv("KEY_STORE_HOME") + "/keysto")
+        }
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
+            signingConfig signingConfigs.release
+
+            //rename apk
+            applicationVariants.all { variant ->
+                renameAPK(variant, defaultConfig)
+            }
+        }
+    }
+
+    sourceSets {
+        main {
+            jniLibs.srcDirs = ['libs']
+        }
+    }
+}
+
+def renameAPK(variant, defaultConfig) {
+    variant.outputs.all { output ->
+//        def formattedDate = new Date().format('yyMMdd')
+        try {
+//            def file = output.packageApplication.outputFile
+            outputFileName = "xvoice" + ".apk"
+//            output.packageApplication.outputFile = new File(file.parent, fileName)
+        } catch(Exception e) {
+
+        }
+    }
+}
+
+dependencies {
+    api 'com.android.support:appcompat-v7:27.1.1'
+    //    compile 'com.android.support:support-v4:26.1.0'
+    api "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
+    api 'com.github.stuxuhai:jpinyin:1.1.7'
+    api 'com.github.dfqin:grantor:2.1.0'
+    //Permission kit
+    api 'com.github.javiersantos:AppUpdater:2.7'
+    api 'com.rvalerio:fgchecker:1.1.0'
+    //    api group: 'com.google.code.gson', name: 'gson', version: '2.8.2'
+    //    api 'com.github.kittinunf.fuel:fuel:1.15.0' //network
+    //    implementation 'com.ohmerhe.kolley:kolley:0.3.1'
+    implementation 'com.android.volley:volley:1.1.1'
+//    implementation files('libs/Msc.jar')
+    implementation files('libs/Sunflower.jar')
+    implementation files('libs/tbs_sdk_thirdapp_v3.2.0.1104_43200_sharewithdownload_withfilereader_withoutGame_obfs_20170609_115346.jar')
+    implementation files('libs/AIUI.jar')
+    implementation files('libs/bdasr_V3_20180801_d6f298a.jar')
+    implementation files('libs/com.baidu.tts_2.3.2.20180713_6101c2a.jar')
+}

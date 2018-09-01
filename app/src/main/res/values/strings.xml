@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">小美</string>
+    <string name="accessibility_service_description">“监测您输入的文字”项只用于音量键长按事件的监测。\n\n另外锁屏状态点亮自动唤醒，也需要此服务保持开启。\n\n衷心感谢您的信任！</string>
+    <string name="not_heard">没听清</string>
+</resources>
