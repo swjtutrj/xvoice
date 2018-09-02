@@ -3,13 +3,15 @@ package com.example.ddvoice.util
 import android.util.Log
 import com.baidu.tts.client.SpeechError
 import com.baidu.tts.client.SpeechSynthesizerListener
+import com.example.ddvoice.abandonAudioFocus
+import com.example.ddvoice.requestAudioFocus
 
 /**
  * SpeechSynthesizerListener 简单地实现，仅仅记录日志
  * Created by fujiayi on 2017/5/19.
  */
 
-class MessageListener : SpeechSynthesizerListener {
+class TtsMessageListener : SpeechSynthesizerListener {
     
     //    static final int PRINT = 0;
     //    static final int UI_CHANGE_INPUT_TEXT_SELECTION = 1;
@@ -58,6 +60,7 @@ class MessageListener : SpeechSynthesizerListener {
     
     override fun onSpeechStart(utteranceId: String) {
         sendMessage("播放开始回调, 序列号:$utteranceId")
+        requestAudioFocus()
     }
     
     /**
@@ -77,6 +80,7 @@ class MessageListener : SpeechSynthesizerListener {
      */
     override fun onSpeechFinish(utteranceId: String) {
         sendMessage("播放结束回调, 序列号:$utteranceId")
+        abandonAudioFocus()
 //        if (gBWakeAnswerSaying) {
 //            gBWakeAnswerSaying = false
 //        }
@@ -93,6 +97,7 @@ class MessageListener : SpeechSynthesizerListener {
         
         sendErrorMessage("错误发生：" + speechError.description + "，错误编码："
                 + speechError.code + "，序列号:" + utteranceId)
+        abandonAudioFocus()
     }
     
     private fun sendErrorMessage(message: String) {

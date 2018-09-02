@@ -21,7 +21,7 @@ import android.widget.Toast
 import com.baidu.tts.chainofresponsibility.logger.LoggerProxy
 import com.baidu.tts.client.SpeechSynthesizer
 import com.baidu.tts.client.TtsMode
-import com.example.ddvoice.util.MessageListener
+import com.example.ddvoice.util.TtsMessageListener
 import com.github.stuxuhai.jpinyin.PinyinFormat
 import com.github.stuxuhai.jpinyin.PinyinHelper
 import com.iflytek.aiui.AIUIConstant
@@ -168,7 +168,7 @@ private fun initTTs() {
     //    }
     
     // 日志更新在UI中，可以换成MessageListener，在logcat中查看日志
-    val listener = MessageListener() //UiMessageListener(mainHandler)
+    val listener = TtsMessageListener() //UiMessageListener(mainHandler)
     
     // 1. 获取实例
     gTts = SpeechSynthesizer.getInstance()

@@ -85,10 +85,8 @@ class MainActivity : Activity(), EventListener {
     }*/
     
     
-    fun initSpeech() { //初始化
+    fun initDialog() { //初始化
         
-        
-        createAgent()
         //初始化居中显示的按住说话动画
         //        val view = View.inflate(this, R.layout.layout_microphone, null)
         //        VolumeView = view.findViewById<ImageView>(R.id.iv_recording_icon)
@@ -107,8 +105,7 @@ class MainActivity : Activity(), EventListener {
         val txt = dlgView.findViewWithTag("textlink") as TextView
         
         mTipsLocked = FlowerCollector.getOnlineParams(applicationContext, "tipsLocked")?.split(",")
-        mTipsToast = FlowerCollector.getOnlineParams(applicationContext, "tipsToast")?.split(",")
-        
+        mTips = FlowerCollector.getOnlineParams(applicationContext, "tips")?.split(",")
         val tipsSize = mTips?.size ?: 0
         if (tipsSize > 0) {
             //先随机产生一个下标再获取元素
@@ -124,11 +121,11 @@ class MainActivity : Activity(), EventListener {
             }
         }
         
-        if (mAIUIDialog == null) {
-            mAIUIDialog = AlertDialog.Builder(this)
-                    .setView(dlgView)
-                    .create()
-        }
+        //        if (mAIUIDialog == null) {
+        mAIUIDialog = AlertDialog.Builder(this)
+                .setView(dlgView)
+                .create()
+        //        }
         //        mIatDialog!!.setListener(recognizerDialogListener)
         mAIUIDialog?.setOnDismissListener({
             Log.i("lyn----------" + localClassName, "dialog:" + "dimiss")
@@ -137,7 +134,7 @@ class MainActivity : Activity(), EventListener {
             gAIUIAgent?.sendMessage(AIUIMessage(AIUIConstant.CMD_STOP_RECORD, 0, 0, "", null))
             
             Handler().postDelayed({ finish() }, if (gIsPhoneLocked) 1000L else 0L)
-            mAIUIDialog = null
+            //            mAIUIDialog = null
         })
         
         //        setParam()
@@ -154,7 +151,7 @@ class MainActivity : Activity(), EventListener {
     private var mTipsToast: List<String>? = null
     //    private var mIsHome = false
     
-    private var mPausedMusic: Boolean = false
+//    private var mPausedMusic: Boolean = false
     
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -215,8 +212,6 @@ class MainActivity : Activity(), EventListener {
             
             return
         }*/
-        
-        
         
         if (intent.action == "show_wake_up_tip") {
             speak("主子，因为不想占用麦克风，而影响需要录音的app，解锁且不在桌面时我就听不到你的召唤了哦。" +
@@ -288,17 +283,7 @@ class MainActivity : Activity(), EventListener {
             saveBool(SP_ACCESSIBILITY_ENABLED, gAccessibilityEnabled)
             //request permissions
             if (!requestAllPower()) return
-            
-            //        startService(Intent(this, MyAccessibilityService::class.java))
-            
-            //        mSharedPreferences = getSharedPreferences("", Activity.MODE_PRIVATE)
-            
-            
-            mTips = FlowerCollector.getOnlineParams(applicationContext, "tips")?.split(",")/*arrayOf("q群: 797603773", "尝试说：（微信）扫码", "尝试说：播放群星的梁祝", "尝试说：淘宝找xxx", "尝试说：打给xx",
-            "尝试说：天气", "尝试说：外卖",
-            "尝试说：（打开）微信", "尝试说：（支付宝）付款码", "尝试说：文艺之声", "屏幕亮时，长按音量键叫我", "任何时候，长按蓝牙耳机播放键叫我")*/
-            
-            
+    
             if (gDeviceId.isNullOrEmpty()) {
                 val tm = gApplicationContext!!.getSystemService(Context.TELEPHONY_SERVICE) as
                         TelephonyManager
@@ -306,32 +291,32 @@ class MainActivity : Activity(), EventListener {
                 gDeviceId = tm.deviceId
             }
             
-            //        mIsHome = gIsHome
-            //        gTts?.stopSpeaking()
-            stopWakeUp()
+            createAgent()
             
-            gTts?.stop()
             sayWakeAnswer()
-    
-            mBHeardSth = false
-            mPausedMusic = false
+            stopWakeUp()
+            gTts?.stop()
             
-            initSpeech()
-            
+//            mPausedMusic = false
             //        Handler().postDelayed({  }, 500L)
+            initDialog()
             showDialog()
-            
-            val tipsSize = mTipsToast?.size ?: 0
-            if (tipsSize > 0) {
-                val index = (Math.random() * tipsSize).toInt()
-                showTipLong(/*if (BuildConfig.DEBUG) "尝试说：天气" else */mTipsToast!![index])
-            }
-            
+    
+            showTipToast()
             
             //xun fei online parameters
             FlowerCollector.updateOnlineConfig(applicationContext, {
                 //回调仅在参数有变化时发生
             })
+        }
+    }
+    
+    fun showTipToast() {
+        mTipsToast = FlowerCollector.getOnlineParams(applicationContext, "tipsToast")?.split(",")
+        val tipsSize = mTipsToast?.size ?: 0
+        if (tipsSize > 0) {
+            val index = (Math.random() * tipsSize).toInt()
+            showTipLong(/*if (BuildConfig.DEBUG) "尝试说：天气" else */mTipsToast!![index])
         }
     }
     
@@ -361,7 +346,7 @@ class MainActivity : Activity(), EventListener {
         //        Handler().postDelayed({
         gFromHeadset = false
         
-        if (!mPausedMusic) abandonAudioFocus()
+//        if (!mPausedMusic) abandonAudioFocus()
         
         Handler().postDelayed({
             //wait for nlp result
@@ -649,10 +634,13 @@ class MainActivity : Activity(), EventListener {
                     // AIUI已就绪，等待唤醒
                     println("lyn-------------STATE_READY")
                     Log.i("lyn-" + localClassName, "mAIUIState:" + mAIUIState)
-                    //                    if (BuildConfig.DEBUG) {
-                    //                        mAIUIDialog!!
-                    //                    }
-                    if (mAIUIState == AIUIConstant.STATE_WORKING) mAIUIDialog?.dismiss()
+                    if (BuildConfig.DEBUG) {
+                        assert(mAIUIDialog != null)
+                    }
+                    if (mAIUIState == AIUIConstant.STATE_WORKING) {
+                        Log.d("lyn----------" + localClassName, "mAIUIDialog?.dismiss()")
+                        mAIUIDialog?.dismiss()
+                    }
                 } else if (AIUIConstant.STATE_WORKING == state) {
                     // AIUI工作中，可进行交互
                     println("lyn-------------STATE_WORKING")
@@ -742,6 +730,7 @@ class MainActivity : Activity(), EventListener {
     
     
     private fun handleAIUIResult(resultStr: String) {
+        mBHeardSth = false
         gBHit = true   //init
         gBAction = true
         gStrTts = ""
@@ -1042,15 +1031,12 @@ class MainActivity : Activity(), EventListener {
                                         AudioManager.ADJUST_UNMUTE,
                                         AudioManager.FX_FOCUS_NAVIGATION_UP)
                             }
-                            "pause" -> {
-                                sayOK()
-                                requestAudioFocus()
-                                mPausedMusic = true
-                            }
-                            "replay" -> {
-                                sayOK()
-                                abandonAudioFocus()
-                            } //gAudioManager.abandonAudioFocus(null)
+//                            "pause" -> {
+//                                sayOK()
+//                            }
+//                            "replay" -> {
+////                                sayOK()
+//                            } //gAudioManager.abandonAudioFocus(null)
                             else -> saySorry()
                         }
                     }
@@ -1330,7 +1316,7 @@ class MainActivity : Activity(), EventListener {
     
     private fun showDialog() { //语音识别
         //        mBIsSleeped = false
-
+        
         //        mAsrTxt = ""
         //        gBBackKeyPressed = false
         
@@ -1342,6 +1328,7 @@ class MainActivity : Activity(), EventListener {
         //        mVoicePop!!.showAtLocation(window.decorView, Gravity.CENTER, 0, 0)
         
         // 显示听写对话框
+        Log.d("lyn----------" + localClassName, "mAIUIDialog?.show()")
         mAIUIDialog?.show()
         mAIUIDialog?.window?.setLayout(800, ViewGroup.LayoutParams.WRAP_CONTENT)
         
