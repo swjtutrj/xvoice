@@ -836,6 +836,17 @@ class MainActivity : Activity(), EventListener {
                     }
                 }
             }
+            "websearch" -> {
+                val channel = getSlotValueByName("channel") ?: ""
+                val word = getSlotValueByName("keyword") ?: ""
+                if (channel == "taobao") {
+                    speak("淘宝搜索$word")
+                    val url = "https://s.m.taobao.com/h5?q=" + word
+                    loadUrl(url, true)
+                } else {
+                    search(word)
+                }
+            }
             "weather" -> {
                 speak(answer)
                 //泛问天气才显示web

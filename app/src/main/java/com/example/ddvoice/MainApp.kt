@@ -588,7 +588,7 @@ fun turnOnScreen() {
     wl?.release() // 释放
 }
 
-fun search(word: String?, useOtherBrowser: Boolean = false, shouldSpeak: Boolean = false) {
+fun search(word: String?, useOtherBrowser: Boolean = false, shouldSpeak: Boolean = true) {
     if (!word.isNullOrEmpty()) {
         val shortWord = if (word!!.length > 10) "以上内容" else word
         if (shouldSpeak) speak("搜索$shortWord")
