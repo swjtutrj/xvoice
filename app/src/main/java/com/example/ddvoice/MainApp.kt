@@ -596,6 +596,12 @@ fun search(word: String?, useOtherBrowser: Boolean = false, shouldSpeak: Boolean
     }
 }
 
+fun doubanFM() {
+//    speak("播放豆瓣fm")
+    sayOK()
+    loadUrl("https://douban.fm", true)
+}
+
 fun loadUrl(url: String, useOtherBrowser: Boolean = false) {
     if (!gIsPhoneLocked && useOtherBrowser) {
         try {
