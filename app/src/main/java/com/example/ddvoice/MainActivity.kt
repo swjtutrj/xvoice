@@ -867,9 +867,30 @@ class MainActivity : Activity(), EventListener {
             "datetime" -> {
                 if (answer.contains(":")) {
                     val timeArray = answer.split(" ")?.get(2).split(":")
-                    val time = timeArray[0].toInt()
-                    speak((if (time > 12) time - 12 else time).toString() + ":" +
-                            timeArray[1])
+                    val hour = timeArray[0].toInt()
+                    val minute = timeArray[1].toInt()
+                    var hourStr: String
+                    var minuteStr: String
+                    //                    if (BuildConfig.DEBUG) {
+//                        //                       speak("12:30")
+//                        hour = 24
+//                        minute = 0
+//                    }
+                    when (hour) {
+                        0 -> hourStr = "12"
+                        in 13..24 -> hourStr = "${hour - 12}"
+                        else -> hourStr = hour.toString()
+                    }
+                    
+                    when (minute) {
+                        0 -> minuteStr = ""
+                        2 -> minuteStr = "零二分"
+                        in 1..9 -> minuteStr = "零${minute}分"
+                        10 -> minuteStr = "十分"
+                        30 -> minuteStr = "半"
+                        else -> minuteStr = "$minute"
+                    }
+                    speak("${hourStr}点$minuteStr")
                 } else {
                     speak(answer)
                 }
