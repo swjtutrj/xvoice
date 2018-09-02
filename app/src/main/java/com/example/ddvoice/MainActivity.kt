@@ -973,7 +973,9 @@ class MainActivity : Activity(), EventListener {
                                 showMyAppDetailsActiviry()
                             }
                             "wifi" -> {
-                                if (setWifiEnabled(false)) speak("wifi已关闭") else {
+                                if (setWifiEnabled(false)) {
+                                    Handler().postDelayed({ speak("wifi已关闭") }, 1000L)
+                                } else {
                                     gBAction = false
                                     speak("关闭失败,请检查权限")
                                     showMyAppDetailsActiviry()
