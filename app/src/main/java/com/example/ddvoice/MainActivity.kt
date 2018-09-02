@@ -151,7 +151,7 @@ class MainActivity : Activity(), EventListener {
     private var mTipsToast: List<String>? = null
     //    private var mIsHome = false
     
-//    private var mPausedMusic: Boolean = false
+    //    private var mPausedMusic: Boolean = false
     
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -283,7 +283,7 @@ class MainActivity : Activity(), EventListener {
             saveBool(SP_ACCESSIBILITY_ENABLED, gAccessibilityEnabled)
             //request permissions
             if (!requestAllPower()) return
-    
+            
             if (gDeviceId.isNullOrEmpty()) {
                 val tm = gApplicationContext!!.getSystemService(Context.TELEPHONY_SERVICE) as
                         TelephonyManager
@@ -297,11 +297,11 @@ class MainActivity : Activity(), EventListener {
             stopWakeUp()
             gTts?.stop()
             
-//            mPausedMusic = false
+            //            mPausedMusic = false
             //        Handler().postDelayed({  }, 500L)
             initDialog()
             showDialog()
-    
+            
             showTipToast()
             
             //xun fei online parameters
@@ -346,7 +346,7 @@ class MainActivity : Activity(), EventListener {
         //        Handler().postDelayed({
         gFromHeadset = false
         
-//        if (!mPausedMusic) abandonAudioFocus()
+        //        if (!mPausedMusic) abandonAudioFocus()
         
         Handler().postDelayed({
             //wait for nlp result
@@ -883,10 +883,10 @@ class MainActivity : Activity(), EventListener {
                     var hourStr: String
                     var minuteStr: String
                     //                    if (BuildConfig.DEBUG) {
-//                        //                       speak("12:30")
-//                        hour = 24
-//                        minute = 0
-//                    }d
+                    //                        //                       speak("12:30")
+                    //                        hour = 24
+                    //                        minute = 0
+                    //                    }d
                     when (hour) {
                         0 -> hourStr = "12"
                         in 13..24 -> hourStr = "${hour - 12}"
@@ -937,7 +937,9 @@ class MainActivity : Activity(), EventListener {
                                 speak("已打开长按home键唤醒")
                                 turnOnHomeKeyWake()
                             }
-                            else -> if (!openApp(appName, applicationContext)) onAsrResult(text)
+                            else -> if (!openApp(appName, applicationContext)) speak("没有找到${appName}呢")
+                            //onAsrResult
+                            // (text)
                         }
                         //                        }
                     }
@@ -1009,7 +1011,7 @@ class MainActivity : Activity(), EventListener {
                         val content = getSlotValueByName("content") ?: ""  //LXY.music
                         
                         speak("查找歌曲。")
-                        Thread({
+                        thread {
                             val word = genre + artist + song + tags + content
                             val htmlContent = URL("https://www.baidu" +
                                     ".com/sf?pd=music_songmulti&openapi=1&dspName=iphone&from_sf=1&resource_id=4621" +
@@ -1029,7 +1031,7 @@ class MainActivity : Activity(), EventListener {
                                     loadUrl(url!!, true)
                                 }
                             }
-                        }).start()
+                        }
                     }
                     "INSTRUCTION" -> {
                         val insType = getSlotValueByName("insType")
@@ -1063,12 +1065,12 @@ class MainActivity : Activity(), EventListener {
                                         AudioManager.ADJUST_UNMUTE,
                                         AudioManager.FX_FOCUS_NAVIGATION_UP)
                             }
-//                            "pause" -> {
-//                                sayOK()
-//                            }
-//                            "replay" -> {
-////                                sayOK()
-//                            } //gAudioManager.abandonAudioFocus(null)
+                            //                            "pause" -> {
+                            //                                sayOK()
+                            //                            }
+                            //                            "replay" -> {
+                            ////                                sayOK()
+                            //                            } //gAudioManager.abandonAudioFocus(null)
                             else -> saySorry()
                         }
                     }
@@ -1181,7 +1183,7 @@ class MainActivity : Activity(), EventListener {
                 //                val url = "https://www.baidu.com/s?word=${asrResult!!.substring(2)}"
                 search(asrResult!!.substring(2), shouldSpeak = true)
             }
-            asrResult.startsWith("拨打") || asrResult.startsWith("打给") || asrResult.startsWith("博达")-> {
+            asrResult.startsWith("拨打") || asrResult.startsWith("打给") || asrResult.startsWith("博达") -> {
                 CallAction(asrResult!!.substring(2), "", applicationContext).start()
             }
             else -> when (PinyinHelper.convertToPinyinString(asrResult, "", PinyinFormat
@@ -1217,7 +1219,7 @@ class MainActivity : Activity(), EventListener {
                 //                    starter.flags = Intent.FLAG_RECEIVER_FOREGROUND
                 //                    startActivity(starter)
                 //                }
-
+                
                 "fukuanma", "zhifubaofukuanma" -> {
                     speak("支付宝付款码")
                     //            Intent starter = new Intent();com.eg.android.AlipayGphone/.FastStartActivity
