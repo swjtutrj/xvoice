@@ -249,7 +249,9 @@ class MyAccessibilityService : AccessibilityService() {
                 WechatUtils.findFocusAndPaste(this, shortPinYin)
                 Thread.sleep(1000)
                 if (!WechatUtils.findTextPYAndClick(this, pinYin)) {
-                    if (!WechatUtils.findTextShortPYAndClick(this, shortPinYin)) {
+                    //if there is content, don't match short pinyin
+                    if (!gWxContent.isNullOrEmpty() || !WechatUtils.findTextShortPYAndClick(this,
+                            shortPinYin)) {
                         speak("主人,我尽力了")
                         return
                     }

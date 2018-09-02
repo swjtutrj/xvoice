@@ -1170,20 +1170,7 @@ class MainActivity : Activity(), EventListener {
                 //                val url = "https://www.baidu.com/s?word=${asrResult!!.substring(2)}"
                 search(asrResult!!.substring(2), shouldSpeak = true)
             }
-            
-            //            asrResult.startsWith("淘宝搜索") -> {
-            //                //                shouldFinishSelf = false
-            //
-            //                //                mWebView.loadUrl(url,val url)
-            //            }
-            //            asrResult.startsWith("淘宝找") || asrResult.startsWith("淘宝搜") -> {
-            //                //                shouldFinishSelf = false
-            //                val url = "https://s.m.taobao.com/h5?q=" + asrResult.substring(3)
-            //                //                val url = "taobao://http://s.taobao.com/?q=" + asrResult
-            //                // .substring(3)
-            //                loadUrl(url, true)
-            //                //                mWebView.loadUrl(url,val url)
-            //            }
+
             else -> when (PinyinHelper.convertToPinyinString(asrResult, "", PinyinFormat
                     .WITHOUT_TONE)) {
                 "quxiaotixing", "quxiaonaozhong" -> ScheduleCreate("clock", "", null, "",
@@ -1198,18 +1185,6 @@ class MainActivity : Activity(), EventListener {
                     loadUrl(url)
                     //                mWebView.loadUrl(url,gUrlToLoad)
                 }
-                /*"taobao" -> {
-                    //                shouldFinishSelf = false
-                    val url = "https://h5.m.taobao.com"
-                    loadUrl(url, true)
-                    //                mWebView.loadUrl(url,gUrlToLoad)
-                }*/
-                //                "美团外卖", "外卖" -> {
-                //                    //                shouldFinishSelf = false
-                //                    val url = "https://i.waimai.meituan.com"
-                //                    loadUrl(url,)
-                //                    //                mWebView.loadUrl(url,gUrlToLoad)
-                //                }
                 "waimai" -> {
                     //                shouldFinishSelf = false
                     val url = "https://h5.ele.me"
@@ -1229,20 +1204,7 @@ class MainActivity : Activity(), EventListener {
                 //                    starter.flags = Intent.FLAG_RECEIVER_FOREGROUND
                 //                    startActivity(starter)
                 //                }
-                
-                /*"手电筒" -> {
-                //                starter.component = ComponentName("com.android.systemui", "com.android" +
-                //                        ".systemui" + ".android.widget.Switch")
-                ////                starter.action = Intent.ACTION_VIEW
-                //                startActivity(starter)
-                
-                val camera = Camera.open()
-                val parameters = camera.getParameters()
-                parameters.setFlashMode(Camera.Parameters.FLASH_MODE_TORCH)
-                camera.setParameters(parameters)
-                camera.startPreview()
-                camera.release()
-            }*/
+
                 "fukuanma", "zhifubaofukuanma" -> {
                     speak("支付宝付款码")
                     //            Intent starter = new Intent();com.eg.android.AlipayGphone/.FastStartActivity
@@ -1277,24 +1239,8 @@ class MainActivity : Activity(), EventListener {
                         gBAction = false
                         search(asrResult, false, true)
                     }
-                    
-                    //                    if (mBFromIntent) {
-                    //                        speak("没找到应用,跳到搜索")
-                    //                    } else {    //非intent，也未找到app，才算未命中
-                    //                        gMHit = false
-                    //                    }
-                    
-                    //                    if (!openApp.start()) {
-                    //                        //                speak("app not found!", false)
-                    //                        //                quitAtOnce = false
-                    //
-                    //                val searchAction = SearchAction(appName, this@MainActivity)
-                    //                        //                        searchAction.Search()
-                    //
-                    //                    }
                 }
-            } //            finish();
-            //  key long pressed          finish();
+            }
         }
     }
     
