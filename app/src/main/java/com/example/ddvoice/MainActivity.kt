@@ -875,7 +875,7 @@ class MainActivity : Activity(), EventListener {
 //                        //                       speak("12:30")
 //                        hour = 24
 //                        minute = 0
-//                    }
+//                    }d
                     when (hour) {
                         0 -> hourStr = "12"
                         in 13..24 -> hourStr = "${hour - 12}"
