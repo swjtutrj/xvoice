@@ -590,7 +590,8 @@ fun turnOnScreen() {
 
 fun search(word: String?, useOtherBrowser: Boolean = false, shouldSpeak: Boolean = false) {
     if (!word.isNullOrEmpty()) {
-        if (shouldSpeak) speak("搜索$word")
+        val shortWord = if (word!!.length > 10) "以上内容" else word
+        if (shouldSpeak) speak("搜索$shortWord")
         loadUrl("https://www.baidu.com/s?word=$word", useOtherBrowser)
     }
 }
