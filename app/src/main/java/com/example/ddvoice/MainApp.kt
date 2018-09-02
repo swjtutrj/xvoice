@@ -11,10 +11,13 @@ import android.database.ContentObserver
 import android.media.AudioFormat
 import android.media.AudioManager
 import android.media.AudioTrack
+import android.net.Uri
+import android.net.wifi.WifiManager
 import android.os.Handler
 import android.os.PowerManager
 import android.preference.PreferenceManager
 import android.provider.ContactsContract
+import android.provider.Settings
 import android.util.Base64
 import android.util.Log
 import android.widget.Toast
@@ -698,6 +701,11 @@ fun turnOffBluetooth(): Boolean {
     return false
 }
 
+fun setWifiEnabled(enabled: Boolean): Boolean {
+    val wifiManager = gApplicationContext.getSystemService(Context.WIFI_SERVICE) as WifiManager
+    return wifiManager.setWifiEnabled(enabled)
+}
+
 
 var gBHomeKeyWakeOn = false
 fun turnOnHomeKeyWake() {
@@ -710,6 +718,12 @@ fun turnOffHomeKeyWake() {
     saveBool(SP_HOME_KEY_WAKE, gBHomeKeyWakeOn)
 }
 
+fun showMyAppDetailsActiviry() {
+    val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
+    val uri = Uri.fromParts("package", gApplicationContext.getPackageName(), null)
+    intent.setData(uri)
+    gApplicationContext.startActivity(intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK))
+}
 
 const val SP_WAKE_UP_TIP_SHOWN = "wakeuptipshown"
 const val SP_HOME_KEY_WAKE = "homekeywake"

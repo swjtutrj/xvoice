@@ -74,7 +74,7 @@ class MainActivity : Activity(), EventListener {
     
     private val TAG: String = "MainActivity"
     
-//    private var mBHeardSth = false
+    //    private var mBHeardSth = false
     
     private val mLogParams = HashMap<String, String>()
     private val mVolleyQueue = Volley.newRequestQueue(gApplicationContext)
@@ -717,7 +717,8 @@ class MainActivity : Activity(), EventListener {
         if (!PermissionsUtil.hasPermission(this, Manifest.permission.RECORD_AUDIO) ||
                 !PermissionsUtil.hasPermission(this, Manifest.permission.CALL_PHONE) ||
                 !PermissionsUtil.hasPermission(this, Manifest.permission.READ_PHONE_STATE) ||
-                !PermissionsUtil.hasPermission(this, Manifest.permission.READ_CONTACTS)) {
+                !PermissionsUtil.hasPermission(this, Manifest.permission.READ_CONTACTS) ||
+                !PermissionsUtil.hasPermission(this, Manifest.permission.CHANGE_WIFI_STATE)) {
             requestPermission(this, object : PermissionListener {
                 override fun permissionGranted(permission: Array<out String>) {
                     recreate()
@@ -727,7 +728,7 @@ class MainActivity : Activity(), EventListener {
                     finish()
                 }
             }, Manifest.permission.RECORD_AUDIO, Manifest.permission.CALL_PHONE, Manifest
-                    .permission.READ_CONTACTS, Manifest.permission.READ_PHONE_STATE)
+                    .permission.READ_CONTACTS, Manifest.permission.READ_PHONE_STATE, Manifest.permission.CHANGE_WIFI_STATE)
             return false
         } else {
             return true
@@ -736,7 +737,7 @@ class MainActivity : Activity(), EventListener {
     
     
     private fun handleAIUIResult(resultStr: String) {
-//        mBHeardSth = false
+        //        mBHeardSth = false
         gBHit = true   //init
         gBAction = true
         gLatePostLog = false
@@ -791,7 +792,7 @@ class MainActivity : Activity(), EventListener {
             return
         }
         
-//        mBHeardSth = true
+        //        mBHeardSth = true
         //        mAsrTxt = text
         //        FlowerCollector.onEvent(this, "asr", text)       //记录asr
         //        Log.i("lyn----------" + localClassName, "service:" + service)
@@ -934,7 +935,18 @@ class MainActivity : Activity(), EventListener {
                         //                        } else {  //dakai or null
                         //                        speak("打开" + appName)
                         when (appName) {
-                            "蓝牙" -> if (turnOnBluetooth()) speak("蓝牙已打开") else speak("打开失败")
+                            "蓝牙" -> if (turnOnBluetooth()) speak("蓝牙已打开") else {
+                                gBAction = false
+                                speak("打开失败,请检查权限")
+                                showMyAppDetailsActiviry()
+                            }
+                            "wifi" -> {
+                                if (setWifiEnabled(true)) speak("wifi已打开") else {
+                                    gBAction = false
+                                    speak("打开失败,请检查权限")
+                                    showMyAppDetailsActiviry()
+                                }
+                            }
                             "微信扫码" -> scanQrCode()
                             "手电筒" -> {
                                 sayOK()
@@ -944,7 +956,10 @@ class MainActivity : Activity(), EventListener {
                                 speak("已打开长按home键唤醒")
                                 turnOnHomeKeyWake()
                             }
-                            else -> if (!openApp(appName, applicationContext)) speak("没有找到${appName}呢")
+                            else -> if (!openApp(appName, applicationContext)) {
+                                speak("没有找到${appName}呢")
+                                gBAction = false
+                            }
                             //onAsrResult
                             // (text)
                         }
@@ -952,7 +967,18 @@ class MainActivity : Activity(), EventListener {
                     }
                     "close_app" -> {
                         when (appName) {
-                            "蓝牙" -> if (turnOffBluetooth()) speak("蓝牙已关闭") else speak("关闭失败")
+                            "蓝牙" -> if (turnOffBluetooth()) speak("蓝牙已关闭") else {
+                                gBAction = false
+                                speak("关闭失败,请检查权限")
+                                showMyAppDetailsActiviry()
+                            }
+                            "wifi" -> {
+                                if (setWifiEnabled(false)) speak("wifi已关闭") else {
+                                    gBAction = false
+                                    speak("关闭失败,请检查权限")
+                                    showMyAppDetailsActiviry()
+                                }
+                            }
                             "手电筒" -> {
                                 sayOK()
                                 turnOffFlash()
@@ -1039,7 +1065,7 @@ class MainActivity : Activity(), EventListener {
                                     loadUrl(url!!, true)
                                     mLogParams["action"] = "1"
                                 }
-                       
+                                
                                 //late post log
                                 mLogParams["tts"] = gStrTts
                                 val request = JsonObjectRequest(
@@ -1159,7 +1185,7 @@ class MainActivity : Activity(), EventListener {
             mLogParams["service"] = service
             mLogParams["tts"] = gStrTts
             mLogParams["action"] = if (gBAction) "1" else "0"
-    
+            
             if (!gLatePostLog) {
                 val request = JsonObjectRequest(
                         Request.Method.POST, mLogUrl,
