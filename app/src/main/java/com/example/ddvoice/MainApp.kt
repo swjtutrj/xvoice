@@ -48,6 +48,7 @@ const val STOP_WAKE_UP_DELAY = 0L    //unlock stop wake delay
 lateinit var gAccessibilityService: MyAccessibilityService
 var gIsMainActActive = false
 var gIsRecording = false
+var gIsSpeaking = false
 var gContactSyncOK = false
 var gFromHeadset = false
 var gIsPhoneLocked: Boolean = false

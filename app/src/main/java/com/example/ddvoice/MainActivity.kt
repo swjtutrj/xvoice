@@ -302,6 +302,7 @@ class MainActivity : Activity(), EventListener {
             sayWakeAnswer()
             stopWakeUp()
             gTts?.stop()
+            gIsSpeaking = false
             
             //            mPausedMusic = false
             //        Handler().postDelayed({  }, 500L)
@@ -345,34 +346,14 @@ class MainActivity : Activity(), EventListener {
         Log.d("lyn-" + getLocalClassName(), "onDestroy!")
         
         gIsMainActActive = false
-        //        gIsRecording = false
-        
-        //        mIatDialog?.dismiss()
-        
-        //        Handler().postDelayed({
+
         gFromHeadset = false
-        
-        //        if (!mPausedMusic) abandonAudioFocus()
         
         Handler().postDelayed({
             //wait for nlp result
             if (!gIsMainActActive) destroyAgent()   //if activity created again, not destroy
+            if (!gIsSpeaking) abandonAudioFocus()
         }, 2000)
-        
-        
-        //        Log.i("lyn----------" + localClassName, "heard:${mBHeardSth}" + "------- " +
-        //                "backPressed:${gBBackKeyPressed}")
-        
-        //        if (!mBHeardSth && !gBBackKeyPressed/*not canceled by user*/) {
-        //            //            Handler().postDelayed({
-        //            startActivity(Intent(applicationContext,
-        //                    MainActivity::class.java))
-        //            //            }, 2000)
-        //        }
-        
-        //        if (gIsPhoneLocked) startWakeUp()
-        
-        //        }, 2000)
     }
     
     

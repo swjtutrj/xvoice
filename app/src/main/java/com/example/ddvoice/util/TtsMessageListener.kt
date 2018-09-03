@@ -4,6 +4,7 @@ import android.util.Log
 import com.baidu.tts.client.SpeechError
 import com.baidu.tts.client.SpeechSynthesizerListener
 import com.example.ddvoice.abandonAudioFocus
+import com.example.ddvoice.gIsSpeaking
 import com.example.ddvoice.requestAudioFocus
 
 /**
@@ -59,6 +60,8 @@ class TtsMessageListener : SpeechSynthesizerListener {
     }
     
     override fun onSpeechStart(utteranceId: String) {
+        gIsSpeaking = true
+        
         sendMessage("播放开始回调, 序列号:$utteranceId")
         requestAudioFocus()
     }
@@ -79,11 +82,10 @@ class TtsMessageListener : SpeechSynthesizerListener {
      * @param utteranceId
      */
     override fun onSpeechFinish(utteranceId: String) {
+        gIsSpeaking = false
+    
         sendMessage("播放结束回调, 序列号:$utteranceId")
         abandonAudioFocus()
-//        if (gBWakeAnswerSaying) {
-//            gBWakeAnswerSaying = false
-//        }
     }
     
     /**
@@ -93,7 +95,7 @@ class TtsMessageListener : SpeechSynthesizerListener {
      * @param speechError 包含错误码和错误信息
      */
     override fun onError(utteranceId: String, speechError: SpeechError) {
-//        gBWakeAnswerSaying = false
+        gIsSpeaking = false
         
         sendErrorMessage("错误发生：" + speechError.description + "，错误编码："
                 + speechError.code + "，序列号:" + utteranceId)

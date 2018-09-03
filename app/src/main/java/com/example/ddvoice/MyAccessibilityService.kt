@@ -46,7 +46,7 @@ fun startWakeUp() {
     printLog("gBWakeupOn：$gBWakeupOn")
     
     if (gIsMainActActive || gIsRecording/* || gBWakeupOn*/) {
-        return //printLog("已为开启状态，无须再次开启")
+        return
     } else {
         val params = TreeMap<String, Any>()
         
