@@ -1014,36 +1014,40 @@ class MainActivity : Activity(), EventListener {
                         val tags = getSlotValueByName("tags") ?: ""
                         val content = getSlotValueByName("content") ?: ""  //LXY.music
                         
-                        speak("查找歌曲。")
-                        gLatePostLog = true
-                        thread {
-                            val word = genre + artist + song + tags + content
-                            val htmlContent = URL("https://www.baidu" +
-                                    ".com/sf?pd=music_songmulti&openapi=1&dspName=iphone&from_sf=1&resource_id=4621" +
-                                    "&word=$word" +
-                                    "&lid=15992139653238374049&ms=1&frsrcid=8041&frorder=4").readText()
-                            val url = numPattern.find(htmlContent)?.value?.replace("\\", "")
-                            Log.i("lyn----------" + localClassName, "music url:" + url)
-                            
-                            runOnUiThread {
-                                if (url.isNullOrEmpty()) {
-                                    speak("未找到歌曲")
-                                    search(word, true, false)
-                                    mLogParams["action"] = "0"
-                                    
-                                } else {
-                                    speak("找到歌曲")
-                                    loadUrl(url!!, true)
-                                    mLogParams["action"] = "1"
+                        if (content != "音乐") {
+                            speak("查找歌曲。")
+                            gLatePostLog = true
+                            thread {
+                                val word = genre + artist + song + tags + content
+                                val htmlContent = URL("https://www.baidu" +
+                                        ".com/sf?pd=music_songmulti&openapi=1&dspName=iphone&from_sf=1&resource_id=4621" +
+                                        "&word=$word" +
+                                        "&lid=15992139653238374049&ms=1&frsrcid=8041&frorder=4").readText()
+                                val url = numPattern.find(htmlContent)?.value?.replace("\\", "")
+                                Log.i("lyn----------" + localClassName, "music url:" + url)
+        
+                                runOnUiThread {
+                                    if (url.isNullOrEmpty()) {
+                                        speak("未找到歌曲")
+                                        search(word, true, false)
+                                        mLogParams["action"] = "0"
+                
+                                    } else {
+                                        speak("找到歌曲")
+                                        loadUrl(url!!, true)
+                                        mLogParams["action"] = "1"
+                                    }
+            
+                                    //late post log
+                                    mLogParams["tts"] = gStrTts
+                                    val request = JsonObjectRequest(
+                                            Request.Method.POST, mLogUrl,
+                                            JSONObject(mLogParams), { jsonObj -> }, { jsonObj -> })
+                                    mVolleyQueue.add(request)
                                 }
-                                
-                                //late post log
-                                mLogParams["tts"] = gStrTts
-                                val request = JsonObjectRequest(
-                                        Request.Method.POST, mLogUrl,
-                                        JSONObject(mLogParams), { jsonObj -> }, { jsonObj -> })
-                                mVolleyQueue.add(request)
                             }
+                        } else {
+                            doubanFM()
                         }
                     }
                     "RANDOM_SEARCH" -> {
