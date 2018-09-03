@@ -345,7 +345,7 @@ class MainActivity : Activity(), EventListener {
         Log.d("lyn-" + getLocalClassName(), "onDestroy!")
         
         gIsMainActActive = false
-
+        
         gFromHeadset = false
         
         Handler().postDelayed({
@@ -936,6 +936,12 @@ class MainActivity : Activity(), EventListener {
                                 speak("已打开长按home键唤醒")
                                 turnOnHomeKeyWake()
                             }
+                            "静音" -> {
+                                sayOK()
+                                gAudioManager.adjustStreamVolume(AudioManager.STREAM_MUSIC,
+                                        AudioManager.ADJUST_MUTE,
+                                        AudioManager.FX_FOCUS_NAVIGATION_UP)
+                            }
                             else -> if (!openApp(appName, applicationContext)) {
                                 speak("没有找到${appName}呢")
                                 gBAction = false
@@ -969,6 +975,12 @@ class MainActivity : Activity(), EventListener {
                                 speak("已关闭长按home键唤醒")
                                 turnOffHomeKeyWake()
                             }
+                            "静音" -> {
+                                sayOK()
+                                gAudioManager.adjustStreamVolume(AudioManager.STREAM_MUSIC,
+                                        AudioManager.ADJUST_UNMUTE,
+                                        AudioManager.FX_FOCUS_NAVIGATION_UP)
+                            }
                             else -> saySorry()
                         }
                     }
@@ -987,7 +999,7 @@ class MainActivity : Activity(), EventListener {
                     
                     gBAction = CallAction(name, code, applicationContext).start()
                 } else {
-//                    val name = getSlotValueByName("name")
+                    //                    val name = getSlotValueByName("name")
                     gBAction = false
                     speak("没找到这个人呢")
                 }
@@ -1025,19 +1037,19 @@ class MainActivity : Activity(), EventListener {
                                         "&lid=15992139653238374049&ms=1&frsrcid=8041&frorder=4").readText()
                                 val url = numPattern.find(htmlContent)?.value?.replace("\\", "")
                                 Log.i("lyn----------" + localClassName, "music url:" + url)
-        
+                                
                                 runOnUiThread {
                                     if (url.isNullOrEmpty()) {
                                         speak("未找到歌曲")
                                         search(word, true, false)
                                         mLogParams["action"] = "0"
-                
+                                        
                                     } else {
                                         speak("找到歌曲")
                                         loadUrl(url!!, true)
                                         mLogParams["action"] = "1"
                                     }
-            
+                                    
                                     //late post log
                                     mLogParams["tts"] = gStrTts
                                     val request = JsonObjectRequest(
