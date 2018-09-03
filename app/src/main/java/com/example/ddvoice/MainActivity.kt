@@ -1207,7 +1207,8 @@ class MainActivity : Activity(), EventListener {
                 //                val url = "https://www.baidu.com/s?word=${asrResult!!.substring(2)}"
                 search(asrResult!!.substring(2), shouldSpeak = true)
             }
-            asrResult.startsWith("拨打") || asrResult.startsWith("打给") || asrResult.startsWith("博达") -> {
+            asrResult.startsWith("拨打") || asrResult.startsWith("打给")
+                    || asrResult.startsWith("博达") || asrResult.startsWith("播打")-> {
                 CallAction(asrResult!!.substring(2), "", applicationContext).start()
             }
             else -> when (PinyinHelper.convertToPinyinString(asrResult, "", PinyinFormat
