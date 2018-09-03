@@ -1059,11 +1059,11 @@ class MainActivity : Activity(), EventListener {
                                 }
                             }
                         } else {
-                            doubanFM()
+                            musicFM()
                         }
                     }
                     "RANDOM_SEARCH" -> {
-                        doubanFM()
+                        musicFM()
                     }
                     "INSTRUCTION" -> {
                         val insType = getSlotValueByName("insType")
