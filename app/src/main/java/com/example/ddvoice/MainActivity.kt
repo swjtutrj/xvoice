@@ -40,7 +40,6 @@ import com.iflytek.aiui.AIUIConstant
 import com.iflytek.aiui.AIUIListener
 import com.iflytek.aiui.AIUIMessage
 import com.iflytek.sunflower.FlowerCollector
-import org.json.JSONArray
 import org.json.JSONException
 import org.json.JSONObject
 import java.io.DataOutputStream
@@ -975,34 +974,23 @@ class MainActivity : Activity(), EventListener {
                     }
                 }
             }
-            "telephone", "LXY.tel" -> {
-                //                when (intent) {
-                //                    "DIAL" -> {
-                //                val slots = semantic!!.optJSONArray("slots")
-                //                for (i in 0..slots.length()) {
-                //                    val slot = slots.optJSONObject(i)
-                
+            "telephone"/*, "LXY.tel"*/ -> {
                 val contact = parsedSemanticResult!!.data?.optJSONArray("result")
                         ?.optJSONObject(0)
-                val name = contact?.optString("name") ?: getSlotValueByName("contact"/*LXY.tel*/)
-                val code = contact?.optString("phoneNumber")
+                val name = contact?.optString("name") ?: getSlotValueByName("name")
+                val code = contact?.optString("phoneNumber") ?: getSlotValueByName("code")
                 //                val name = getSlotValueByName("name")
                 //                val code = getSlotValueByName("code")
                 if (!name.isNullOrEmpty() || !code.isNullOrEmpty()) {
                     
                     //                    requestAllPower()
                     
-                    gBAction = CallAction(name, code, applicationContext).start() /*{
-                        println(name + "not " + "found")
-                    }*/
-                    //                        break
+                    gBAction = CallAction(name, code, applicationContext).start()
                 } else {
-                    val name = getSlotValueByName("name")
-                    speak("没有找到" + name + "的号码")
+//                    val name = getSlotValueByName("name")
+                    gBAction = false
+                    speak("没找到这个人呢")
                 }
-                //                }
-                //                    }
-                //                }
             }
             "radio" -> {
                 val result0 = parsedSemanticResult!!.data!!.optJSONArray("result")?.optJSONObject(0)
@@ -1440,52 +1428,5 @@ class MainActivity : Activity(), EventListener {
     //        info!!.setText(str)
     //        info!!.show()
     //    }
-    
-    companion object {
-        
-        
-        //语义
-        
-        
-        var serviceFlag = false //表示是否在一项服务中
-        
-        //        var semantic: JSONObject? = null
-        var slots: JSONObject? = null
-        var answer: JSONObject? = null
-        var datetime: JSONObject? = null
-        var location: JSONObject? = null
-        var data: JSONObject? = null
-        var operation: String? = null
-        var service: String? = null
-        var result: JSONArray? = null
-        var receiver: String? = null
-        var name: String? = null
-        var price: String? = null
-        var code: String? = null
-        var song: String? = null
-        var keywords: String? = null
-        var content: String? = null
-        //        var url: String? = null
-        var text: String? = null
-        var time: String? = null
-        var date: String? = null
-        var city: String? = null
-        var sourceName: String? = null
-        var target: String? = null
-        var source: String? = null
-        var weatherDate: Array<String>? = null
-        var weather: Array<String>? = null
-        var tempRange: Array<String>? = null
-        var airQuality: Array<String>? = null
-        var wind: Array<String>? = null
-        var humidity: Array<String>? = null
-        var windLevel: Array<String>? = null
-        
-        
-        var SRResult: String = ""   //识别结果
-        private var SAResult: String? = "" //语义识别结果
-        private val TAG = MainActivity::class.java.simpleName
-    }
-    
     
 }

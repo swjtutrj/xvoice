@@ -8,35 +8,13 @@ import com.github.stuxuhai.jpinyin.PinyinFormat
 import com.github.stuxuhai.jpinyin.PinyinHelper
 
 
-class CallAction(person: String?, code: String?, internal var mContext: Context) {
-    private var mPerson: String? = null
-    private var number: String? = null
-    
-    init {
-        mPerson = person
-        number = code
-    }
-    
-    
+class CallAction(var mPerson: String?, var mCode: String?, var mContext: Context) {
 //    @SuppressLint("MissingPermission")
     fun start(): Boolean {
-        if (!mPerson.isNullOrEmpty()) {
-            //            if (mPerson.isNullOrEmpty())
-            //                //speak("至少告诉我名字或者号码吧？", false);
-            //
-            //                //            Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + ""));
-            //                //            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            //                //            mActivity.startActivity(intent);
-            //            } else {
-            //                mPerson = mPerson!!.trim { it <= ' ' }
-            //                number = gContactNameNumMap.get(PinyinHelper.convertToPinyinString(mPerson!!.toLowerCase(),
-            //                        "",
-            //                        PinyinFormat.WITHOUT_TONE))
-            number = gContactNamePYNumMap.get(PinyinHelper.convertToPinyinString(mPerson!!
-                    .toLowerCase(),
-                    "", PinyinFormat
-                    .WITHOUT_TONE))
-            if (number.isNullOrEmpty()) {
+        if (mCode.isNullOrEmpty()) {
+            mCode = gContactNamePYNumMap.get(PinyinHelper.convertToPinyinString(mPerson!!
+                    .toLowerCase(),"", PinyinFormat.WITHOUT_TONE))
+            if (mCode.isNullOrEmpty()) {
                 speak("没有找到" + mPerson + "的号码。")
 //                genContactNameNumStr(gApplicationContext)   //update map
                 gContactSyncOK = false
@@ -45,15 +23,15 @@ class CallAction(person: String?, code: String?, internal var mContext: Context)
                 //打电话
                 speak("即将拨给$mPerson...")
                 Handler().postDelayed({
-                    val intent = Intent(Intent.ACTION_CALL, Uri.parse("tel:" + number!!))
+                    val intent = Intent(Intent.ACTION_CALL, Uri.parse("tel:" + mCode!!))
                     mContext.startActivity(intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK))
                 }, 3500)
             }
             //            }
         } else {
-            speak("即将拨给$number...")
+            speak("即将拨给${if (mPerson.isNullOrEmpty()) mCode else mPerson}")
             Handler().postDelayed({
-                val intent = Intent(Intent.ACTION_CALL, Uri.parse("tel:" + number!!)).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                val intent = Intent(Intent.ACTION_CALL, Uri.parse("tel:" + mCode!!)).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
                 mContext.startActivity(intent)
             }, 6000)
             
@@ -63,7 +41,7 @@ class CallAction(person: String?, code: String?, internal var mContext: Context)
     }
     
     
-    //   private String getNumberByName(String name, Context context)//通过名字查找号码
+    //   private String getcodeByName(String name, Context context)//通过名字查找号码
     //   {
     //      Uri uri = Uri.withAppendedPath(ContactsContract.Contacts.CONTENT_FILTER_URI, name);
     //      ContentResolver resolver = context.getContentResolver();
@@ -86,7 +64,7 @@ class CallAction(person: String?, code: String?, internal var mContext: Context)
     //   }
     
     
-    /*private fun getNumberByName(asrName: String): String {
+    /*private fun getcodeByName(asrName: String): String {
         //联系人的Uri，也就是content://com.android.contacts/contacts
         val uri = ContactsContract.Contacts.CONTENT_URI
         //指定获取_id和display_name两列数据，display_name即为姓名
@@ -102,8 +80,8 @@ class CallAction(person: String?, code: String?, internal var mContext: Context)
                 val id = cursor.getLong(0)
                 //获取姓名
                 val name = cursor.getString(1)
-                //指定获取NUMBER这一列数据
-                val phoneProjection = arrayOf(ContactsContract.CommonDataKinds.Phone.NUMBER)
+                //指定获取code这一列数据
+                val phoneProjection = arrayOf(ContactsContract.CommonDataKinds.Phone.code)
                 //            arr[i] = id + " , 姓名：" + name;
                 
                 //根据联系人的ID获取此人的电话号码
