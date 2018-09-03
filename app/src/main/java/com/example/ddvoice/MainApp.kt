@@ -607,7 +607,7 @@ fun doubanFM() {
 }
 
 fun loadUrl(url: String, useOtherBrowser: Boolean = false) {
-    if (!gIsPhoneLocked && useOtherBrowser) {
+    if (useOtherBrowser) {
         try {
             val intent: Intent
             intent = Intent.parseUri(url,
@@ -616,7 +616,9 @@ fun loadUrl(url: String, useOtherBrowser: Boolean = false) {
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
             gApplicationContext!!.startActivity(intent)
         } catch (e: Exception) {
+            e.printStackTrace()
         }
+        if (gIsPhoneLocked) speak("需要解锁屏幕哦")
     } else {
         //        turnOnScreen()
         
