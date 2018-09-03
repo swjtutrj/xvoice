@@ -10,7 +10,7 @@ android {
         minSdkVersion 18
         targetSdkVersion 24
 
-        versionCode 14
+        versionCode 15
         versionName "1.2.9"
 
 //        compileOptions.encoding = "GBK"
