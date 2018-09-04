@@ -17,7 +17,7 @@ val APP_NAMES_ARRAY = arrayOf(
         arrayOf("饿了么", "饿了吗"),
         arrayOf("yy", "歪歪"),
         arrayOf("qq", "腾讯qq", "手机qq"),
-        arrayOf("小美", "小美小美", "小妹小妹"),
+        arrayOf("小美", "小美小美", "小妹小妹", "小美小梅"),
         arrayOf("酷安", "库恩", "酷嗯"),
         arrayOf("Teambition", "听必选", "听必行"),
         arrayOf("Habitica", "习惯")
