@@ -25,9 +25,9 @@ import android.view.Window
 import android.view.WindowManager
 import android.widget.TextView
 import com.android.volley.Request
-import com.android.volley.Request.Method.HEAD
 import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.Volley
+import com.baidu.mobstat.StatService
 import com.example.ddvoice.action.scanQrCode
 import com.example.ddvoice.action.trunOnFlash
 import com.example.ddvoice.action.turnOffFlash
@@ -40,7 +40,6 @@ import com.iflytek.aiui.AIUIAgent
 import com.iflytek.aiui.AIUIConstant
 import com.iflytek.aiui.AIUIListener
 import com.iflytek.aiui.AIUIMessage
-import com.iflytek.aiui.jni.AIUI.destroyAgent
 import com.iflytek.sunflower.FlowerCollector
 import org.json.JSONException
 import org.json.JSONObject
@@ -316,6 +315,9 @@ class MainActivity : Activity(), EventListener {
             FlowerCollector.updateOnlineConfig(applicationContext, {
                 //回调仅在参数有变化时发生
             })
+    
+            //baidu statistic
+            StatService.start(this)
         }
     }
     

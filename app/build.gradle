@@ -83,6 +83,8 @@ dependencies {
     //    api 'com.github.kittinunf.fuel:fuel:1.15.0' //network
     //    implementation 'com.ohmerhe.kolley:kolley:0.3.1'
     implementation 'com.android.volley:volley:1.1.1'
+
+    api 'com.baidu.mobstat:mtj-sdk:latest.integration'
 //    implementation files('libs/Msc.jar')
     implementation files('libs/Sunflower.jar')
     implementation files('libs/tbs_sdk_thirdapp_v3.2.0.1104_43200_sharewithdownload_withfilereader_withoutGame_obfs_20170609_115346.jar')

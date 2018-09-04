@@ -75,8 +75,8 @@
             android:name="IFLYTEK_APPKEY"
             android:value="539e78ed"/>
         <meta-data
-            android:name="IFLYTEK_CHANNEL"
-            android:value=""/>
+            android:name="BaiduMobAd_STAT_ID"
+            android:value="6d9beefcf0" />
 
         <activity
             android:name=".MainActivity"
