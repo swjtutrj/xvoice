@@ -3,6 +3,7 @@ package com.example.ddvoice
 import android.app.Activity
 import android.app.Application
 import android.bluetooth.BluetoothAdapter
+import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
@@ -600,14 +601,30 @@ fun search(word: String?, useOtherBrowser: Boolean = false, shouldSpeak: Boolean
     }
 }
 
-fun doubanFM() {
-//    speak("播放豆瓣fm")
+fun musicFM() {
+    //    speak("播放豆瓣fm")
     sayOK()
-    loadUrl("https://douban.fm", true)
+    
+    //    if (gAppNamePackageMap.containsValue("com.netease.cloudmusic")) {
+    val starter = Intent()
+    starter.component = ComponentName("com.netease.cloudmusic", "com.netease" + ".cloudmusic.activity.RedirectActivity")
+    starter.action = Intent.ACTION_VIEW
+    starter.data = Uri.parse("orpheus://radio")
+    starter.flags = Intent.FLAG_RECEIVER_FOREGROUND
+    try {
+        gApplicationContext.startActivity(starter.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK))
+        if (gIsPhoneLocked) speak("可能要解锁哦")
+    } catch (e: Exception) {
+        e.printStackTrace()
+        loadUrl("https://douban.fm", true)
+    }
+    //    } else {
+    //        loadUrl("https://douban.fm", true)
+    //    }
 }
 
 fun loadUrl(url: String, useOtherBrowser: Boolean = false) {
-    if (useOtherBrowser) {
+    if (url.contains("douban.fm") || (!gIsPhoneLocked && useOtherBrowser)) {
         try {
             val intent: Intent
             intent = Intent.parseUri(url,
@@ -618,7 +635,7 @@ fun loadUrl(url: String, useOtherBrowser: Boolean = false) {
         } catch (e: Exception) {
             e.printStackTrace()
         }
-        if (gIsPhoneLocked) speak("需要解锁屏幕哦")
+        if (gIsPhoneLocked) speak("需要解锁哦")
     } else {
         //        turnOnScreen()
         
@@ -862,7 +879,7 @@ class MainApp : Application() {
         //联系人变动监测
         contentResolver.registerContentObserver(
                 ContactsContract.Contacts.CONTENT_URI, true, mContactsObserver)
-    
+        
         
         //所有contact name的拼音和number映射
         //        updateContactNameNumMap(this)

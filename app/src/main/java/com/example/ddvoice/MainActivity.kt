@@ -25,6 +25,7 @@ import android.view.Window
 import android.view.WindowManager
 import android.widget.TextView
 import com.android.volley.Request
+import com.android.volley.Request.Method.HEAD
 import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.Volley
 import com.example.ddvoice.action.scanQrCode
@@ -39,6 +40,7 @@ import com.iflytek.aiui.AIUIAgent
 import com.iflytek.aiui.AIUIConstant
 import com.iflytek.aiui.AIUIListener
 import com.iflytek.aiui.AIUIMessage
+import com.iflytek.aiui.jni.AIUI.destroyAgent
 import com.iflytek.sunflower.FlowerCollector
 import org.json.JSONException
 import org.json.JSONObject
@@ -1059,11 +1061,11 @@ class MainActivity : Activity(), EventListener {
                                 }
                             }
                         } else {
-                            doubanFM()
+                            musicFM()
                         }
                     }
                     "RANDOM_SEARCH" -> {
-                        doubanFM()
+                        musicFM()
                     }
                     "INSTRUCTION" -> {
                         val insType = getSlotValueByName("insType")
@@ -1208,7 +1210,7 @@ class MainActivity : Activity(), EventListener {
                 search(asrResult!!.substring(2), shouldSpeak = true)
             }
             asrResult.startsWith("拨打") || asrResult.startsWith("打给")
-                    || asrResult.startsWith("博达") -> {
+                    || asrResult.startsWith("博达") || asrResult.startsWith("播打")-> {
                 CallAction(asrResult!!.substring(2), "", applicationContext).start()
             }
             asrResult.startsWith("打电话给") -> {
