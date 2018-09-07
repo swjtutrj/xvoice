@@ -807,7 +807,7 @@ class MainActivity : Activity(), EventListener {
                         }
                         
                         if (callMapOk) sayOK()
-                        else speak("抱歉主人，需要先安装百度地图或高德地图哦")
+                        else speak("主人，需要先安装百度地图或高德地图哦")
                     }
                     else -> saySorry()
                 }
