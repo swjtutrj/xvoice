@@ -315,7 +315,7 @@ class MainActivity : Activity(), EventListener {
             FlowerCollector.updateOnlineConfig(applicationContext, {
                 //回调仅在参数有变化时发生
             })
-    
+            
             //baidu statistic
             StatService.start(this)
         }
@@ -785,7 +785,30 @@ class MainActivity : Activity(), EventListener {
             "LXY.map" -> {
                 gBAction = false
                 when (intent) {
-                    "daohang" -> speak("主人，导航技能小美还在努力学习中哦，给小美一点时间好吗？")
+                    "daohang" -> {
+                        val dest = getSlotValueByName("destination")
+                        val i1 = Intent()
+                        // 驾车路线规划（百度）
+                        i1.data = Uri.parse("baidumap://map/direction?destination=${dest}&mode=driving")
+                        var callMapOk = false
+                        try {
+                            startActivity(i1)
+                            callMapOk = true
+                        } catch (e: Exception) {
+                            e.printStackTrace()
+                            //高德
+                            i1.data = Uri.parse("androidamap://poi?&keywords=${dest}&dev=0")
+                            try {
+                                startActivity(i1)
+                                callMapOk = true
+                            } catch (e: Exception) {
+                                e.printStackTrace()
+                            }
+                        }
+                        
+                        if (callMapOk) sayOK()
+                        else speak("抱歉主人，需要先安装百度地图或高德地图哦")
+                    }
                     else -> saySorry()
                 }
             }
@@ -1212,7 +1235,7 @@ class MainActivity : Activity(), EventListener {
                 search(asrResult!!.substring(2), shouldSpeak = true)
             }
             asrResult.startsWith("拨打") || asrResult.startsWith("打给")
-                    || asrResult.startsWith("博达") || asrResult.startsWith("播打")-> {
+                    || asrResult.startsWith("博达") || asrResult.startsWith("播打") -> {
                 CallAction(asrResult!!.substring(2), "", applicationContext).start()
             }
             asrResult.startsWith("打电话给") -> {
