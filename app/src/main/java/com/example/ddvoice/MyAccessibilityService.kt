@@ -9,6 +9,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.media.AudioManager
+import android.media.AudioManager.USE_DEFAULT_STREAM_TYPE
 import android.os.Build
 import android.os.Handler
 import android.provider.Settings
@@ -251,7 +252,7 @@ class MyAccessibilityService : AccessibilityService() {
                 if (!WechatUtils.findTextPYAndClick(this, pinYin)) {
                     //if there is content, don't match short pinyin
                     if (!gWxContent.isNullOrEmpty() || !WechatUtils.findTextShortPYAndClick(this,
-                            shortPinYin)) {
+                                    shortPinYin)) {
                         speak("主人,我尽力了")
                         return
                     }
@@ -261,7 +262,7 @@ class MyAccessibilityService : AccessibilityService() {
             Thread.sleep(750)
             WechatUtils.findEditableAndPaste(this, gWxContent)
             
-//            gWxContact = ""
+            //            gWxContact = ""
             
         } catch (e: Exception) {
             e.printStackTrace()
@@ -322,9 +323,7 @@ class MyAccessibilityService : AccessibilityService() {
         Log.d(TAG, "parcelable:" + event.text?.toString())
         //        Log.d(TAG, "isHome:" + isHome())
         
-//        windowManager = getSystemService(Context.WINDOW_SERVICE) as WindowManager
-        
-        
+        //        windowManager = getSystemService(Context.WINDOW_SERVICE) as WindowManager
         
         
         when (event.eventType) {
@@ -332,26 +331,26 @@ class MyAccessibilityService : AccessibilityService() {
             AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED -> {
                 Log.d(TAG, "TYPE_WINDOW_STATE_CHANGED");
                 
-//                when (sourcePackageName) {
-//                    //                    "com.beautylife.va" -> return
-//                    "com.tencent.mm" -> {
-//                        stopWakeUp()
-//                        val currentActivity = event.className?.toString()
-//                        if (currentActivity == "com.tencent.mm.ui.LauncherUI") {
-//                            if (!gWxContact.isNullOrEmpty()) wxContact()
-//                        }
-//                    }
-//                    //                    "com.android.settings" -> {
-//                    //                    }
-//                    //                    //                        if (!gWakeUpTipShown) {
-//                    //                    //                            startActivity(Intent("show_wake_up_tip").addFlags(Intent.FLAG_ACTIVITY_NEW_TASK))
-//                    //                    //                            gWakeUpTipShown = true
-//                    //                    //                            saveBool(SP_WAKE_UP_TIP_SHOWN, gWakeUpTipShown)
-//                    //                    //                        }
-//                    //                    //                    }
-//                    //                    else -> {
-//                    //                    }
-//                }
+                //                when (sourcePackageName) {
+                //                    //                    "com.beautylife.va" -> return
+                //                    "com.tencent.mm" -> {
+                //                        stopWakeUp()
+                //                        val currentActivity = event.className?.toString()
+                //                        if (currentActivity == "com.tencent.mm.ui.LauncherUI") {
+                //                            if (!gWxContact.isNullOrEmpty()) wxContact()
+                //                        }
+                //                    }
+                //                    //                    "com.android.settings" -> {
+                //                    //                    }
+                //                    //                    //                        if (!gWakeUpTipShown) {
+                //                    //                    //                            startActivity(Intent("show_wake_up_tip").addFlags(Intent.FLAG_ACTIVITY_NEW_TASK))
+                //                    //                    //                            gWakeUpTipShown = true
+                //                    //                    //                            saveBool(SP_WAKE_UP_TIP_SHOWN, gWakeUpTipShown)
+                //                    //                    //                        }
+                //                    //                    //                    }
+                //                    //                    else -> {
+                //                    //                    }
+                //                }
                 
             }
             AccessibilityEvent.CONTENT_CHANGE_TYPE_SUBTREE -> Log.d(TAG, "CONTENT_CHANGE_TYPE_SUBTREE")
@@ -474,13 +473,13 @@ class MyAccessibilityService : AccessibilityService() {
                     timer.cancel()
                     if (keyCode == KeyEvent
                                     .KEYCODE_VOLUME_DOWN) {
-                        gAudioManager.adjustStreamVolume(AudioManager.STREAM_MUSIC, AudioManager.ADJUST_LOWER,
-                                AudioManager.FX_FOCUS_NAVIGATION_UP)
+                        gAudioManager.adjustSuggestedStreamVolume(AudioManager
+                                .ADJUST_LOWER, USE_DEFAULT_STREAM_TYPE, AudioManager.FLAG_SHOW_UI)
                         
                     } else if (keyCode == KeyEvent
                                     .KEYCODE_VOLUME_UP) {   //增加音量，调出系统音量控制
-                        gAudioManager.adjustStreamVolume(AudioManager.STREAM_MUSIC, AudioManager.ADJUST_RAISE,
-                                AudioManager.FX_FOCUS_NAVIGATION_UP);
+                        gAudioManager.adjustSuggestedStreamVolume(AudioManager
+                                .ADJUST_RAISE, USE_DEFAULT_STREAM_TYPE, AudioManager.FLAG_SHOW_UI)
                     }
                 }
             }
