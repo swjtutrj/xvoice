@@ -1245,7 +1245,8 @@ class MainActivity : Activity(), EventListener {
                     .WITHOUT_TONE)) {
                 "quxiaotixing", "quxiaonaozhong" -> ScheduleCreate("clock", "", null, "",
                         applicationContext).cancelClock()
-                "paizhao" -> {
+                "paizhao","woyaopaizhao" -> {
+                    sayOK()
                     starter.action = "android.media.action.STILL_IMAGE_CAMERA_SECURE"
                     startActivity(starter)
                 }
