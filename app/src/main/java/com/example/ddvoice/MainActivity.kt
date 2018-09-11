@@ -813,36 +813,45 @@ class MainActivity : Activity(), EventListener {
                     else -> saySorry()
                 }
             }
-            "LXY.weixin" -> {
-                gWxContact = getSlotValueByName("contact") ?: getSlotValueByName("fukuan") ?: ""
+            "weixin","LXY.weixin" -> {
+                gWxContact = getSlotValueByName("receiver") ?: getSlotValueByName("contact") ?: getSlotValueByName("fukuan") ?: ""
                 
                 val contactPinYin = PinyinHelper.convertToPinyinString(gWxContact, "", PinyinFormat
                         .WITHOUT_TONE)
                 
                 
                 when (intent) {
-                    "send_msg" -> {
-                        if (arrayOf("saoyisao", "saoma", "erweima", "saomiaoerweima").contains
-                                (contactPinYin)) {
-                            gWxContact = ""
-                            return scanQrCode()
-                        }
-                        
-                        gWxContent = getSlotValueByName("content") ?: ""
-                        if (gWxContent.isNullOrEmpty()) {
-                            speak("微信查找$gWxContact")
+                    "SEND","send_msg" -> {
+                        val contentType = getSlotValueByName("content") ?: ""
+                        if (contentType == "voice") {  //语音
+                            speak("发语音技能还在学习中，查找$gWxContact")
+                            startActivity(Intent().setComponent(ComponentName("com.tencent.mm",
+                                    "com.tencent.mm.ui.LauncherUI")).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))
+                            gAccessibilityService.wxContact()
                         } else {
-                            speak("发送${gWxContent}给$gWxContact")
+                            if (arrayOf("saoyisao", "saoma", "erweima", "saomiaoerweima").contains
+                                    (contactPinYin)) {
+                                gWxContact = ""
+                                return scanQrCode()
+                            }
+    
+                            gWxContent = getSlotValueByName("content") ?: ""
+                            if (gWxContent.isNullOrEmpty()) {
+                                speak("微信查找$gWxContact")
+                            } else {
+                                speak("发送${gWxContent}给$gWxContact")
+                            }
+                            startActivity(Intent().setComponent(ComponentName("com.tencent.mm",
+                                    "com.tencent.mm.ui.LauncherUI")).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))
+                            gAccessibilityService.wxContact()
                         }
-                        startActivity(Intent().setComponent(ComponentName("com.tencent.mm",
-                                "com.tencent.mm.ui.LauncherUI")).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))
-                        gAccessibilityService.wxContact()
                     }
                     "send_redbag" -> {
                         speak("发红包技能还在学习中，查找$gWxContact")
-                        gWxContact = getSlotValueByName("contact") ?: ""
+//                        gWxContact = getSlotValueByName("contact") ?: ""
                         startActivity(Intent().setComponent(ComponentName("com.tencent.mm",
                                 "com.tencent.mm.ui.LauncherUI")).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))
+                        gAccessibilityService.wxContact()
                     }
                     "scan_qrcode" -> {
                         scanQrCode()
