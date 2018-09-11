@@ -19,6 +19,7 @@ import android.text.Html
 import android.text.TextUtils
 import android.text.method.LinkMovementMethod
 import android.util.Log
+import android.view.KeyEvent
 import android.view.View.inflate
 import android.view.ViewGroup
 import android.view.Window
@@ -1124,12 +1125,42 @@ class MainActivity : Activity(), EventListener {
                                         AudioManager.ADJUST_UNMUTE,
                                         AudioManager.FX_FOCUS_NAVIGATION_UP)
                             }
-                            //                            "pause" -> {
-                            //                                sayOK()
-                            //                            }
-                            //                            "replay" -> {
-                            ////                                sayOK()
-                            //                            } //gAudioManager.abandonAudioFocus(null)
+                            "pause" -> {
+                                try {
+                                    val keyCommand = "input keyevent " + KeyEvent.KEYCODE_MEDIA_PAUSE
+                                    Runtime.getRuntime().exec(keyCommand)
+                                    sayOK()
+                                } catch (e: IOException) {
+                                    e.printStackTrace()
+                                }
+                            }
+                            "replay" -> {
+                                try {
+                                    val keyCommand = "input keyevent " + KeyEvent.KEYCODE_MEDIA_PLAY
+                                    Runtime.getRuntime().exec(keyCommand)
+                                    sayOK()
+                                } catch (e: IOException) {
+                                    e.printStackTrace()
+                                }
+                            }
+                            "next" -> {
+                                try {
+                                    val keyCommand = "input keyevent " + KeyEvent.KEYCODE_MEDIA_NEXT
+                                    Runtime.getRuntime().exec(keyCommand)
+                                    sayOK()
+                                } catch (e: IOException) {
+                                    e.printStackTrace()
+                                }
+                            }
+                            "past" -> {
+                                try {
+                                    val keyCommand = "input keyevent " + KeyEvent.KEYCODE_MEDIA_PREVIOUS
+                                    Runtime.getRuntime().exec(keyCommand)
+                                    sayOK()
+                                } catch (e: IOException) {
+                                    e.printStackTrace()
+                                }
+                            }
                             else -> saySorry()
                         }
                     }
