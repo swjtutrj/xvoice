@@ -143,8 +143,9 @@ class MyAccessibilityService : AccessibilityService() {
                     
                     
                     //post log
+                    gLogParams.clear()
                     gLogParams["username"] = gDeviceId
-                    gLogParams["message"] = params
+                    gLogParams["message"] = "{" + JSONObject(params).optString("word") + "}"
 //                    gLogParams["intent"] = resultStr
                     gLogParams["service"] = "wakeup"
                     //                    gLogParams["tts"] = gStrTts
@@ -431,8 +432,9 @@ class MyAccessibilityService : AccessibilityService() {
                             .java).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK))
     
                     //post log
+                    gLogParams.clear()
                     gLogParams["username"] = gDeviceId
-                    gLogParams["message"] = KeyEvent.keyCodeToString(keyCode)
+                    gLogParams["message"] = "{" + KeyEvent.keyCodeToString(keyCode) + "}"
                     gLogParams["service"] = "wakeup"
                     gLogParams["action"] = "1"
     
@@ -480,8 +482,9 @@ class MyAccessibilityService : AccessibilityService() {
                             .java).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK))
     
                     //post log
+                    gLogParams.clear()
                     gLogParams["username"] = gDeviceId
-                    gLogParams["message"] = KeyEvent.keyCodeToString(keyCode)
+                    gLogParams["message"] = "{" + KeyEvent.keyCodeToString(keyCode) + "}"
                     gLogParams["service"] = "wakeup"
                     gLogParams["action"] = "1"
                     val request = JsonObjectRequest(
