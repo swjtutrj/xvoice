@@ -27,7 +27,6 @@ import android.view.WindowManager
 import android.widget.TextView
 import com.android.volley.Request
 import com.android.volley.toolbox.JsonObjectRequest
-import com.android.volley.toolbox.Volley
 import com.baidu.mobstat.StatService
 import com.example.ddvoice.action.scanQrCode
 import com.example.ddvoice.action.trunOnFlash
@@ -76,10 +75,6 @@ class MainActivity : Activity(), EventListener {
     private val TAG: String = "MainActivity"
     
     //    private var mBHeardSth = false
-    
-    private val mLogParams = HashMap<String, String>()
-    private val mVolleyQueue = Volley.newRequestQueue(gApplicationContext)
-    private val mLogUrl = "http://121.40.106.47:6000/log/asr"
     
     /**
      * 初始化监听器。
@@ -727,6 +722,7 @@ class MainActivity : Activity(), EventListener {
         gBAction = true
         gLatePostLog = false
         gStrTts = ""
+        gLogParams.clear()
         
         initSemanticResult(resultStr)
         var text = (parsedSemanticResult?.text ?: "")
@@ -822,7 +818,7 @@ class MainActivity : Activity(), EventListener {
                 
                 when (intent) {
                     "SEND","send_msg" -> {
-                        val contentType = getSlotValueByName("content") ?: ""
+                        val contentType = getSlotValueByName("contentType") ?: ""
                         if (contentType == "voice") {  //语音
                             speak("发语音技能还在学习中，查找$gWxContact")
                             startActivity(Intent().setComponent(ComponentName("com.tencent.mm",
@@ -1079,20 +1075,20 @@ class MainActivity : Activity(), EventListener {
                                     if (url.isNullOrEmpty()) {
                                         speak("未找到歌曲")
                                         search(word, true, false)
-                                        mLogParams["action"] = "0"
+                                        gLogParams["action"] = "0"
                                         
                                     } else {
                                         speak("找到歌曲")
                                         loadUrl(url!!, true)
-                                        mLogParams["action"] = "1"
+                                        gLogParams["action"] = "1"
                                     }
                                     
                                     //late post log
-                                    mLogParams["tts"] = gStrTts
+                                    gLogParams["tts"] = gStrTts
                                     val request = JsonObjectRequest(
-                                            Request.Method.POST, mLogUrl,
-                                            JSONObject(mLogParams), { jsonObj -> }, { jsonObj -> })
-                                    mVolleyQueue.add(request)
+                                            Request.Method.POST, gLogUrl,
+                                            JSONObject(gLogParams), { jsonObj -> }, { jsonObj -> })
+                                    gVolleyQueue.add(request)
                                 }
                             }
                         } else {
@@ -1232,19 +1228,19 @@ class MainActivity : Activity(), EventListener {
         
         if (!text.isNullOrEmpty()) {
             //统计
-            mLogParams["username"] = gDeviceId
-            mLogParams["message"] = text
-            mLogParams["hit"] = if (gBHit) "1" else "0"
-            mLogParams["intent"] = resultStr
-            mLogParams["service"] = service
-            mLogParams["tts"] = gStrTts
-            mLogParams["action"] = if (gBAction) "1" else "0"
+            gLogParams["username"] = gDeviceId
+            gLogParams["message"] = text
+            gLogParams["hit"] = if (gBHit) "1" else "0"
+            gLogParams["intent"] = resultStr
+            gLogParams["service"] = service
+            gLogParams["tts"] = gStrTts
+            gLogParams["action"] = if (gBAction) "1" else "0"
             
             if (!gLatePostLog) {
                 val request = JsonObjectRequest(
-                        Request.Method.POST, mLogUrl,
-                        JSONObject(mLogParams), { jsonObj -> }, { jsonObj -> })
-                mVolleyQueue.add(request)
+                        Request.Method.POST, gLogUrl,
+                        JSONObject(gLogParams), { jsonObj -> }, { jsonObj -> })
+                gVolleyQueue.add(request)
             }
         }
         

@@ -22,6 +22,8 @@ import android.provider.Settings
 import android.util.Base64
 import android.util.Log
 import android.widget.Toast
+import com.android.volley.RequestQueue
+import com.android.volley.toolbox.Volley
 import com.baidu.tts.chainofresponsibility.logger.LoggerProxy
 import com.baidu.tts.client.SpeechSynthesizer
 import com.baidu.tts.client.TtsMode
@@ -831,6 +833,12 @@ private fun initAudioTrack() {
 }
 
 
+
+val gLogParams = HashMap<String, String>()
+lateinit var gVolleyQueue: RequestQueue
+val gLogUrl = "http://121.40.106.47:6000/log/asr"
+
+
 class MainApp : Application() {
     private val mContactsObserver = object : ContentObserver(Handler()) {
         override fun onChange(selfChange: Boolean) {
@@ -850,10 +858,11 @@ class MainApp : Application() {
         
         gApplicationContext = this
         
-        
         loadSetting()
         
         mHomes = getHomes()
+    
+        gVolleyQueue = Volley.newRequestQueue(gApplicationContext)
         
         startChecker()
         //        mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this)

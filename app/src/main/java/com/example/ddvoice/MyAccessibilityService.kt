@@ -18,6 +18,8 @@ import android.view.KeyEvent
 import android.view.WindowManager
 import android.view.accessibility.AccessibilityEvent
 import android.widget.Toast
+import com.android.volley.Request
+import com.android.volley.toolbox.JsonObjectRequest
 import com.baidu.speech.EventManager
 import com.baidu.speech.EventManagerFactory
 import com.baidu.speech.asr.SpeechConstant
@@ -117,14 +119,7 @@ class MyAccessibilityService : AccessibilityService() {
         gWakeup!!.registerListener { name: String?, params: String?, data: ByteArray?, i: Int, i1:
         Int ->
             when (name) {
-                "wp.data" -> //                val pm = getSystemService(Context.POWER_SERVICE) as PowerManager
-                    //                // 获取PowerManager.WakeLock对象,后面的参数|表示同时传入两个值,最后的是LogCat里用的Tag
-                    //                val wl = pm.newWakeLock(
-                    //                        PowerManager.ACQUIRE_CAUSES_WAKEUP or PowerManager.SCREEN_BRIGHT_WAKE_LOCK, "bright")
-                    //                wl.acquire(10000) // 点亮屏幕
-                    //                wl.release() // 释放
-                    
-                    //                turnOnScreen()
+                "wp.data" -> {
                     when {
                         params!!.contains("拍照") -> {
                             turnOnScreen()
@@ -145,6 +140,21 @@ class MyAccessibilityService : AccessibilityService() {
                         else -> //                    stopWakeUp()
                             startActivity(Intent(applicationContext, MainActivity::class.java).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK))
                     }
+                    
+                    
+                    //post log
+                    gLogParams["username"] = gDeviceId
+                    gLogParams["message"] = params
+//                    gLogParams["intent"] = resultStr
+                    gLogParams["service"] = "wakeup"
+                    //                    gLogParams["tts"] = gStrTts
+                    gLogParams["action"] = "1"
+                    
+                    val request = JsonObjectRequest(
+                            Request.Method.POST, gLogUrl,
+                            JSONObject(gLogParams), { jsonObj -> }, { jsonObj -> })
+                    gVolleyQueue.add(request)
+                }
                 "wp.error" -> {
                     if (JSONObject(params).optInt("error") == 3)/*拿不到mic？*/ startWakeUp()
                 }
@@ -331,27 +341,6 @@ class MyAccessibilityService : AccessibilityService() {
             AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED -> {
                 Log.d(TAG, "TYPE_WINDOW_STATE_CHANGED");
                 
-                //                when (sourcePackageName) {
-                //                    //                    "com.beautylife.va" -> return
-                //                    "com.tencent.mm" -> {
-                //                        stopWakeUp()
-                //                        val currentActivity = event.className?.toString()
-                //                        if (currentActivity == "com.tencent.mm.ui.LauncherUI") {
-                //                            if (!gWxContact.isNullOrEmpty()) wxContact()
-                //                        }
-                //                    }
-                //                    //                    "com.android.settings" -> {
-                //                    //                    }
-                //                    //                    //                        if (!gWakeUpTipShown) {
-                //                    //                    //                            startActivity(Intent("show_wake_up_tip").addFlags(Intent.FLAG_ACTIVITY_NEW_TASK))
-                //                    //                    //                            gWakeUpTipShown = true
-                //                    //                    //                            saveBool(SP_WAKE_UP_TIP_SHOWN, gWakeUpTipShown)
-                //                    //                    //                        }
-                //                    //                    //                    }
-                //                    //                    else -> {
-                //                    //                    }
-                //                }
-                
             }
             AccessibilityEvent.CONTENT_CHANGE_TYPE_SUBTREE -> Log.d(TAG, "CONTENT_CHANGE_TYPE_SUBTREE")
             AccessibilityEvent.CONTENT_CHANGE_TYPE_TEXT -> Log.d(TAG, "CONTENT_CHANGE_TYPE_TEXT")
@@ -424,20 +413,7 @@ class MyAccessibilityService : AccessibilityService() {
         //                .repeatCount, Toast.LENGTH_SHORT).show()
         
         val keyCode = event.keyCode
-        
-        //        if (KeyEvent.keyCodeToString(keyCode) == "KEYCODE_BACK") Handler().postDelayed({ isHome()
-        //        }, 1000L)
-        //
-        //
-        //        var manager = this.getSystemService(ACTIVITY_SERVICE) as ActivityManager
-        //        var processes = manager.runningAppProcesses
-        //        Log.i(TAG, "processes.size:" + processes.size)
-        //        Log.i(TAG, "processes[1]:" + processes[1].pkgList[0])
-        //
-        //        for (process in processes) {
-        //            if (process.importance == ActivityManager.RunningAppProcessInfo.IMPORTANCE_FOREGROUND)
-        //            Log.i(TAG, "process.pkgList[0]:" + process.pkgList[0])
-        //        }
+
         
         if (intArrayOf(KeyEvent.KEYCODE_VOLUME_UP, KeyEvent.KEYCODE_VOLUME_DOWN/*, KeyEvent
                         .KEYCODE_MEDIA_PLAY, KeyEvent.KEYCODE_HEADSETHOOK*/)
@@ -453,17 +429,23 @@ class MyAccessibilityService : AccessibilityService() {
                     //                    startActivity(Intent("STOP_WEB_ACT"))
                     startActivity(Intent(this@MyAccessibilityService, MainActivity::class
                             .java).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK))
+    
+                    //post log
+                    gLogParams["username"] = gDeviceId
+                    gLogParams["message"] = KeyEvent.keyCodeToString(keyCode)
+                    gLogParams["service"] = "wakeup"
+                    gLogParams["action"] = "1"
+    
+                    val request = JsonObjectRequest(
+                            Request.Method.POST, gLogUrl,
+                            JSONObject(gLogParams), { jsonObj -> }, { jsonObj -> })
+                    gVolleyQueue.add(request)
+                    
                 }, LONG_PRESS_INTERVAL)
                 
-                //                object : Handler() {}.postDelayed(
-                //                        { if (isVolumeKeyPressed) startActivity(Intent(this, MainActivity::class
-                //                                .java)) },
-                //                        LONG_PRESS_INTERVAL)
                 return true
             } else if (event.action == KeyEvent.ACTION_UP) {
-                //                isVolumeKeyPressed = false
-                //                println("lyn____________time gap:" + (Calendar.getInstance().time.time -
-                //                        mKeyDownTime))
+
                 if (Calendar.getInstance().time.time - mKeyDownTime > LONG_PRESS_INTERVAL) {
                     //长按，不处理
                     //                    Toast.makeText(this, "lyn____________:key long pressed!", Toast.LENGTH_SHORT).show()
@@ -496,13 +478,19 @@ class MyAccessibilityService : AccessibilityService() {
                     startActivity(Intent("STOP_WEB_ACT").addFlags(Intent.FLAG_ACTIVITY_NEW_TASK))
                     startActivity(Intent(this@MyAccessibilityService, MainActivity::class
                             .java).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK))
+    
+                    //post log
+                    gLogParams["username"] = gDeviceId
+                    gLogParams["message"] = KeyEvent.keyCodeToString(keyCode)
+                    gLogParams["service"] = "wakeup"
+                    gLogParams["action"] = "1"
+                    val request = JsonObjectRequest(
+                            Request.Method.POST, gLogUrl,
+                            JSONObject(gLogParams), { jsonObj -> }, { jsonObj -> })
+                    gVolleyQueue.add(request)
+                    
                 }, LONG_PRESS_INTERVAL)
                 
-                //                object : Handler() {}.postDelayed(
-                //                        { if (isVolumeKeyPressed) startActivity(Intent(this, MainActivity::class
-                //                                .java)) },
-                //                        LONG_PRESS_INTERVAL)
-                //                return true
             } else if (event.action == KeyEvent.ACTION_UP) {
                 //                isVolumeKeyPressed = false
                 //                println("lyn____________time gap:" + (Calendar.getInstance().time.time -
@@ -526,11 +514,7 @@ class MyAccessibilityService : AccessibilityService() {
                     
                     timer_dbc = Timer()
                     timer_dbc.schedule(timerTask {
-                        //                    print("lyn____________:key long pressed!")
-                        
-                        //                    startActivity(Intent("STOP_WEB_ACT"))
-                        //                        startActivity(Intent(this@MyAccessibilityService, MainActivity::class
-                        //                                .java).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK))
+
                         dbcTimerRunning = false
                     }, DOUBLE_CLICK_INTERVAL)
                     dbcTimerRunning = true
