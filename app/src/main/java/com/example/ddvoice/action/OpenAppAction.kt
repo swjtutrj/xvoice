@@ -1,8 +1,9 @@
-package com.example.ddvoice
+package com.example.ddvoice.action
 
 import android.content.Context
 import android.content.Intent
 import android.os.Handler
+import com.example.ddvoice.*
 import com.github.stuxuhai.jpinyin.PinyinFormat
 import com.github.stuxuhai.jpinyin.PinyinHelper
 

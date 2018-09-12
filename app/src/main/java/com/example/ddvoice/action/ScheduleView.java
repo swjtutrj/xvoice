@@ -1,9 +1,11 @@
-package com.example.ddvoice;
+package com.example.ddvoice.action;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.provider.AlarmClock;
 import android.provider.CalendarContract;
+
+import com.example.ddvoice.MainActivity;
 
 public class ScheduleView {
 

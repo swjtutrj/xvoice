@@ -28,9 +28,7 @@ import android.widget.TextView
 import com.android.volley.Request
 import com.android.volley.toolbox.JsonObjectRequest
 import com.baidu.mobstat.StatService
-import com.example.ddvoice.action.scanQrCode
-import com.example.ddvoice.action.trunOnFlash
-import com.example.ddvoice.action.turnOffFlash
+import com.example.ddvoice.action.*
 import com.github.dfqin.grantor.PermissionListener
 import com.github.dfqin.grantor.PermissionsUtil
 import com.github.dfqin.grantor.PermissionsUtil.requestPermission

@@ -1,4 +1,4 @@
-package com.example.ddvoice
+package com.example.ddvoice.action
 
 import android.annotation.SuppressLint
 import android.app.AlarmManager
@@ -7,6 +7,8 @@ import android.content.Context
 import android.content.Intent
 import android.provider.CalendarContract
 import android.util.Log
+import com.example.ddvoice.MyAccessibilityService
+import com.example.ddvoice.speak
 import java.text.SimpleDateFormat
 import java.util.*
 
