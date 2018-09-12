@@ -19,7 +19,6 @@ import android.text.Html
 import android.text.TextUtils
 import android.text.method.LinkMovementMethod
 import android.util.Log
-import android.view.KeyEvent
 import android.view.View.inflate
 import android.view.ViewGroup
 import android.view.Window
@@ -126,7 +125,7 @@ class MainActivity : Activity(), EventListener {
             
             Handler().postDelayed({ finish() }, if (gIsPhoneLocked) 1000L else 0L)
         }
-    
+        
         //        setParam()
     }
     
@@ -797,7 +796,7 @@ class MainActivity : Activity(), EventListener {
                     else -> saySorry()
                 }
             }
-            "weixin","LXY.weixin" -> {
+            "weixin", "LXY.weixin" -> {
                 gWxContact = getSlotValueByName("receiver") ?: getSlotValueByName("contact") ?: getSlotValueByName("fukuan") ?: ""
                 
                 val contactPinYin = PinyinHelper.convertToPinyinString(gWxContact, "", PinyinFormat
@@ -805,7 +804,7 @@ class MainActivity : Activity(), EventListener {
                 
                 
                 when (intent) {
-                    "SEND","send_msg" -> {
+                    "SEND", "send_msg" -> {
                         val contentType = getSlotValueByName("contentType") ?: ""
                         if (contentType == "voice") {  //语音
                             speak("发语音技能还在学习中，查找$gWxContact")
@@ -818,7 +817,7 @@ class MainActivity : Activity(), EventListener {
                                 gWxContact = ""
                                 return scanQrCode()
                             }
-    
+                            
                             gWxContent = getSlotValueByName("content") ?: ""
                             if (gWxContent.isNullOrEmpty()) {
                                 speak("微信查找$gWxContact")
@@ -832,7 +831,7 @@ class MainActivity : Activity(), EventListener {
                     }
                     "send_redbag" -> {
                         speak("发红包技能还在学习中，查找$gWxContact")
-//                        gWxContact = getSlotValueByName("contact") ?: ""
+                        //                        gWxContact = getSlotValueByName("contact") ?: ""
                         startActivity(Intent().setComponent(ComponentName("com.tencent.mm",
                                 "com.tencent.mm.ui.LauncherUI")).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))
                         gAccessibilityService.wxContact()
@@ -1119,40 +1118,24 @@ class MainActivity : Activity(), EventListener {
                                         AudioManager.FX_FOCUS_NAVIGATION_UP)
                             }
                             "pause" -> {
-                                try {
-                                    val keyCommand = "input keyevent " + KeyEvent.KEYCODE_MEDIA_PAUSE
-                                    Runtime.getRuntime().exec(keyCommand)
-                                    sayOK()
-                                } catch (e: IOException) {
-                                    e.printStackTrace()
-                                }
+                                val starter = Intent(this, ExecCmdActivity::class.java)
+                                starter.action = "pause"
+                                startActivity(starter)
                             }
                             "replay" -> {
-                                try {
-                                    val keyCommand = "input keyevent " + KeyEvent.KEYCODE_MEDIA_PLAY
-                                    Runtime.getRuntime().exec(keyCommand)
-                                    sayOK()
-                                } catch (e: IOException) {
-                                    e.printStackTrace()
-                                }
+                                val starter = Intent(this, ExecCmdActivity::class.java)
+                                starter.action = "replay"
+                                startActivity(starter)
                             }
                             "next" -> {
-                                try {
-                                    val keyCommand = "input keyevent " + KeyEvent.KEYCODE_MEDIA_NEXT
-                                    Runtime.getRuntime().exec(keyCommand)
-                                    sayOK()
-                                } catch (e: IOException) {
-                                    e.printStackTrace()
-                                }
+                                val starter = Intent(this, ExecCmdActivity::class.java)
+                                starter.action = "next"
+                                startActivity(starter)
                             }
                             "past" -> {
-                                try {
-                                    val keyCommand = "input keyevent " + KeyEvent.KEYCODE_MEDIA_PREVIOUS
-                                    Runtime.getRuntime().exec(keyCommand)
-                                    sayOK()
-                                } catch (e: IOException) {
-                                    e.printStackTrace()
-                                }
+                                val starter = Intent(this, ExecCmdActivity::class.java)
+                                starter.action = "past"
+                                startActivity(starter)
                             }
                             else -> saySorry()
                         }
@@ -1269,7 +1252,7 @@ class MainActivity : Activity(), EventListener {
                     .WITHOUT_TONE)) {
                 "quxiaotixing", "quxiaonaozhong" -> ScheduleCreate("clock", "", null, "",
                         applicationContext).cancelClock()
-                "paizhao","woyaopaizhao" -> {
+                "paizhao", "woyaopaizhao" -> {
                     sayOK()
                     starter.action = "android.media.action.STILL_IMAGE_CAMERA_SECURE"
                     startActivity(starter)

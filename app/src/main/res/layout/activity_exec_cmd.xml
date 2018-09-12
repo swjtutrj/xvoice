@@ -1,7 +1,7 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
              xmlns:tools="http://schemas.android.com/tools"
-             android:layout_width="match_parent"
-             android:layout_height="match_parent"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
              android:background="#0099cc"
              tools:context="com.example.ddvoice.ExecCmdActivity">
 
@@ -9,14 +9,15 @@
          is needed to present your content, e.g. VideoView, SurfaceView,
          TextureView, etc. -->
     <TextView
+        android:padding="25dp"
         android:id="@+id/fullscreen_content"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:gravity="center"
         android:keepScreenOn="true"
-        android:text="指令执行中。。。"
+        android:text="指令执行中..."
         android:textColor="#33b5e5"
         android:textSize="50sp"
         android:textStyle="bold"/>
 
-</FrameLayout>
+</LinearLayout>
