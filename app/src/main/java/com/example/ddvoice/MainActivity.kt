@@ -95,12 +95,6 @@ class MainActivity : Activity(), EventListener {
         //        mVoicePop = PopupWindowFactory(this, view)
         
         
-        // 初始化听写Dialog，如果只使用有UI听写功能，无需创建SpeechRecognizer
-        //        mIatDialog = RecognizerDialog(this@MainActivity, mInitListener)
-        
-        //        println("lyn-------------- " + "tips:${value.split(",").get(0)}")
-        //        println("lyn-------------- " + "tipslocked:${value2.split(",").get(0)}")
-        
         val dlgView = inflate(this, R.layout.layout_microphone, null)
         //        VolumeView = dlgView.findViewById(R.id.iv_recording_icon)
         
@@ -123,22 +117,18 @@ class MainActivity : Activity(), EventListener {
             }
         }
         
-        //        if (mAIUIDialog == null) {
         mAIUIDialog = AlertDialog.Builder(this)
                 .setView(dlgView)
                 .create()
-        //        }
-        //        mIatDialog!!.setListener(recognizerDialogListener)
-        mAIUIDialog?.setOnDismissListener({
+        mAIUIDialog?.setOnDismissListener {
             Log.i("lyn----------" + localClassName, "dialog:" + "dimiss")
-            //            mIatDialog = null
+            
             //if finish at once, the webviewAct can't display over lock screen
             gAIUIAgent?.sendMessage(AIUIMessage(AIUIConstant.CMD_STOP_RECORD, 0, 0, "", null))
             
             Handler().postDelayed({ finish() }, if (gIsPhoneLocked) 1000L else 0L)
-            //            mAIUIDialog = null
-        })
-        
+        }
+    
         //        setParam()
     }
     
