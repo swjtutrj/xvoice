@@ -9,6 +9,8 @@
     <!--<color name="user_bubble_color">#69d3fe</color>-->
     <!--<color name="aiui_bubble_color">#FFFFFF</color>-->
     <color name="record_background">#226688</color>
+
+    <color name="black_overlay">#66000000</color>
     <!--<color name="record_background">#ffffff</color>-->
     <!--<color name="send_btn_background">#1990ff</color>-->
 

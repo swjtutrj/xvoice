@@ -19,7 +19,7 @@ android {
             targetCompatibility JavaVersion.VERSION_1_8
         }
 
-        ndk{abiFilters "armeabi"}
+        ndk { abiFilters "armeabi" }
 //        buildConfigField 'int', 'DEFAULT_TAB', "1"
     }
 
@@ -64,7 +64,7 @@ def renameAPK(variant, defaultConfig) {
 //            def file = output.packageApplication.outputFile
             outputFileName = "xvoice" + ".apk"
 //            output.packageApplication.outputFile = new File(file.parent, fileName)
-        } catch(Exception e) {
+        } catch (Exception e) {
 
         }
     }
@@ -91,4 +91,7 @@ dependencies {
     implementation files('libs/AIUI.jar')
     implementation files('libs/bdasr_V3_20180801_d6f298a.jar')
     implementation files('libs/com.baidu.tts_2.3.2.20180713_6101c2a.jar')
+    implementation 'com.android.support:support-v4:27.1.1'
 }
+
+apply plugin: 'kotlin-android-extensions'
