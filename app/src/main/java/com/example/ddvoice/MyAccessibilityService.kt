@@ -7,6 +7,7 @@ import android.app.AppOpsManager
 import android.app.Service
 import android.content.Context
 import android.content.Intent
+import android.content.Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS
 import android.content.IntentFilter
 import android.media.AudioManager
 import android.media.AudioManager.USE_DEFAULT_STREAM_TYPE
@@ -477,8 +478,7 @@ class MyAccessibilityService : AccessibilityService() {
                     //                    print("lyn____________:key long pressed!")
                     
                     startActivity(Intent("STOP_WEB_ACT").addFlags(Intent.FLAG_ACTIVITY_NEW_TASK))
-                    startActivity(Intent(this@MyAccessibilityService, MainActivity::class
-                            .java).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK))
+                    
     
                     //post log
                     gLogParams.clear()
