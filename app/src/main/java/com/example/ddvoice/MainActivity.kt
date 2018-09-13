@@ -1123,14 +1123,10 @@ class MainActivity : Activity(), EventListener {
                                         AudioManager.FX_FOCUS_NAVIGATION_UP)
                             }
                             "pause" -> {
-                                val starter = Intent(this, ExecCmdActivity::class.java)
-                                starter.action = "pause"
-                                startActivity(starter)
+                                pauseMusic()
                             }
                             "replay" -> {
-                                val starter = Intent(this, ExecCmdActivity::class.java)
-                                starter.action = "replay"
-                                startActivity(starter)
+                                replayMusic()
                             }
                             "next" -> {
                                 val starter = Intent(this, ExecCmdActivity::class.java)
@@ -1267,8 +1263,7 @@ class MainActivity : Activity(), EventListener {
                 }
                 "tianqi" -> {
                     //                shouldFinishSelf = false
-                    val url = "https://www.baidu.com/s?word=天气"
-                    loadUrl(url)
+                    loadUrl("https://www.baidu.com/s?word=天气")
                     //                mWebView.loadUrl(url,gUrlToLoad)
                 }
                 "waimai" -> {

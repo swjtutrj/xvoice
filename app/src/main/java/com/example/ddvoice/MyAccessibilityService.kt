@@ -7,7 +7,6 @@ import android.app.AppOpsManager
 import android.app.Service
 import android.content.Context
 import android.content.Intent
-import android.content.Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS
 import android.content.IntentFilter
 import android.media.AudioManager
 import android.media.AudioManager.USE_DEFAULT_STREAM_TYPE
@@ -24,8 +23,7 @@ import com.android.volley.toolbox.JsonObjectRequest
 import com.baidu.speech.EventManager
 import com.baidu.speech.EventManagerFactory
 import com.baidu.speech.asr.SpeechConstant
-import com.example.ddvoice.action.trunOnFlash
-import com.example.ddvoice.action.turnOffFlash
+import com.example.ddvoice.action.*
 import com.example.ddvoice.receiver.ScreenOffBroadcastReceiver
 import com.example.ddvoice.receiver.ScreenOnBroadcastReceiver
 import com.example.ddvoice.util.WechatUtils
@@ -124,22 +122,38 @@ class MyAccessibilityService : AccessibilityService() {
                     when {
                         params!!.contains("拍照") -> {
                             turnOnScreen()
-                            //                        sayOK()
+                            sayOK()
                             val starter = Intent()
                             starter.action = "android.media.action.STILL_IMAGE_CAMERA_SECURE"
                             starter.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
                             startActivity(starter)
                         }
                         params!!.contains("打开手电筒") -> {
-                            //                        sayOK()
+                            sayOK()
                             trunOnFlash()
                         }
                         params!!.contains("关闭手电筒") -> {
-                            //                        sayOK()
+                            sayOK()
                             turnOffFlash()
                         }
+                        params!!.contains("播放") -> {
+                            sayOK()
+                            replayMusic()
+                        }
+                        params!!.contains("暂停") -> {
+                            sayOK()
+                            pauseMusic()
+                        }
+                        params!!.contains("天气天气") -> {
+                            sayOK()
+                            loadUrl("https://www.baidu.com/s?word=天气")
+                        }
+                        params!!.contains("微信扫码") -> {
+                            sayOK()
+                            scanQrCode()
+                        }
                         else -> //                    stopWakeUp()
-                            startActivity(Intent(applicationContext, MainActivity::class.java).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK))
+                            startMainAct()
                     }
                     
                     
@@ -147,7 +161,7 @@ class MyAccessibilityService : AccessibilityService() {
                     gLogParams.clear()
                     gLogParams["username"] = gDeviceId
                     gLogParams["message"] = "{" + JSONObject(params).optString("word") + "}"
-//                    gLogParams["intent"] = resultStr
+                    //                    gLogParams["intent"] = resultStr
                     gLogParams["service"] = "wakeup"
                     //                    gLogParams["tts"] = gStrTts
                     gLogParams["action"] = "1"
@@ -160,8 +174,8 @@ class MyAccessibilityService : AccessibilityService() {
                 "wp.error" -> {
                     if (JSONObject(params).optInt("error") == 3)/*拿不到mic？*/ startWakeUp()
                 }
-//                "wp.exit" -> gBWakeupOn = false
-//                "wp.ready" -> gBWakeupOn = true
+                //                "wp.exit" -> gBWakeupOn = false
+                //                "wp.ready" -> gBWakeupOn = true
             }
             
             var logTxt = "name: $name"
@@ -417,7 +431,7 @@ class MyAccessibilityService : AccessibilityService() {
         val keyCode = event.keyCode
         
         if (gBVolumeKeyWakeUp && intArrayOf(KeyEvent.KEYCODE_VOLUME_UP, KeyEvent
-        .KEYCODE_VOLUME_DOWN/*, KeyEvent
+                        .KEYCODE_VOLUME_DOWN/*, KeyEvent
                         .KEYCODE_MEDIA_PLAY, KeyEvent.KEYCODE_HEADSETHOOK*/)
                         .contains(keyCode)) {
             if (event.action == KeyEvent.ACTION_DOWN) {
@@ -429,16 +443,15 @@ class MyAccessibilityService : AccessibilityService() {
                     //                    print("lyn____________:key long pressed!")
                     
                     //                    startActivity(Intent("STOP_WEB_ACT"))
-                    startActivity(Intent(this@MyAccessibilityService, MainActivity::class
-                            .java).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK))
-    
+                    startMainAct()
+                    
                     //post log
                     gLogParams.clear()
                     gLogParams["username"] = gDeviceId
                     gLogParams["message"] = "{" + KeyEvent.keyCodeToString(keyCode) + "}"
                     gLogParams["service"] = "wakeup"
                     gLogParams["action"] = "1"
-    
+                    
                     val request = JsonObjectRequest(
                             Request.Method.POST, gLogUrl,
                             JSONObject(gLogParams), { jsonObj -> }, { jsonObj -> })
@@ -448,7 +461,7 @@ class MyAccessibilityService : AccessibilityService() {
                 
                 return true
             } else if (event.action == KeyEvent.ACTION_UP) {
-
+                
                 if (Calendar.getInstance().time.time - mKeyDownTime > LONG_PRESS_INTERVAL) {
                     //长按，不处理
                     //                    Toast.makeText(this, "lyn____________:key long pressed!", Toast.LENGTH_SHORT).show()
@@ -479,7 +492,7 @@ class MyAccessibilityService : AccessibilityService() {
                     
                     startActivity(Intent("STOP_WEB_ACT").addFlags(Intent.FLAG_ACTIVITY_NEW_TASK))
                     
-    
+                    
                     //post log
                     gLogParams.clear()
                     gLogParams["username"] = gDeviceId
@@ -516,7 +529,7 @@ class MyAccessibilityService : AccessibilityService() {
                     
                     timer_dbc = Timer()
                     timer_dbc.schedule(timerTask {
-
+                        
                         dbcTimerRunning = false
                     }, DOUBLE_CLICK_INTERVAL)
                     dbcTimerRunning = true
