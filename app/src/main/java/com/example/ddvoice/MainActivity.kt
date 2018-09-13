@@ -300,10 +300,10 @@ class MainActivity : Activity(), EventListener {
             showTipToast()
             
             //xun fei online parameters
-            FlowerCollector.updateOnlineConfig(applicationContext, {
+            FlowerCollector.updateOnlineConfig(applicationContext) {
                 //回调仅在参数有变化时发生
-            })
-            
+            }
+    
             //baidu statistic
             StatService.start(this)
         }

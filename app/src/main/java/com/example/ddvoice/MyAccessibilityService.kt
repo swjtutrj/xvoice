@@ -69,7 +69,7 @@ fun stopWakeUp() {
     //    if (!gBWakeupOn) {
     //        return //printLog("已为停止状态，无须再次停止")
     //    } else {
-    if (gBVoiceWakeUp) gWakeup?.send(SpeechConstant.WAKEUP_STOP, null, null, 0, 0)
+    gWakeup?.send(SpeechConstant.WAKEUP_STOP, null, null, 0, 0)
     //        printLog("stop")
     //    }
 }
