@@ -149,7 +149,7 @@ class MyAccessibilityService : AccessibilityService() {
                             loadUrl("https://www.baidu.com/s?word=天气")
                         }
                         params!!.contains("微信扫码") -> {
-                            sayOK()
+//                            sayOK()
                             scanQrCode()
                         }
                         else -> //                    stopWakeUp()
