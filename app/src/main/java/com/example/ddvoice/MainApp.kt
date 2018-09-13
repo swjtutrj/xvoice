@@ -729,15 +729,14 @@ fun setWifiEnabled(enabled: Boolean): Boolean {
 }
 
 
-var gBHomeKeyWakeOn = false
 fun turnOnHomeKeyWake() {
-    gBHomeKeyWakeOn = true
-    saveBool(SP_HOME_KEY_WAKE, gBHomeKeyWakeOn)
+    gBHomeKeyWakeUp = true
+    saveBool(SP_HOME_KEY_WAKE, gBHomeKeyWakeUp)
 }
 
 fun turnOffHomeKeyWake() {
-    gBHomeKeyWakeOn = false
-    saveBool(SP_HOME_KEY_WAKE, gBHomeKeyWakeOn)
+    gBHomeKeyWakeUp = false
+    saveBool(SP_HOME_KEY_WAKE, gBHomeKeyWakeUp)
 }
 
 fun showMyAppDetailsActiviry() {
@@ -748,15 +747,26 @@ fun showMyAppDetailsActiviry() {
 }
 
 const val SP_WAKE_UP_TIP_SHOWN = "wakeuptipshown"
-const val SP_HOME_KEY_WAKE = "homekeywake"
+const val SP_HOME_KEY_WAKE = "pref_home_key_wakeup"
+const val SP_VOLUME_KEY_WAKE = "pref_volume_key_wakeup"
+const val SP_VOICE_WAKE = "pref_voice_wakeup"
+const val SP_EXCLUDE_FROM_RECENTS = "pref_exclude_from_recents"
 const val SP_ACCESSIBILITY_ENABLED = "accessibilityEnabled"
 
 var gWakeUpTipShown = false     //only show once on home
 var gAccessibilityEnabled = false
+var gBHomeKeyWakeUp = true
+var gBVolumeKeyWakeUp = true
+var gBVoiceWakeUp = true
+var gBExcludeFromRecents = false
+
 //var gIsRecording = false
 
-private fun loadSetting() {
-    gBHomeKeyWakeOn = loadBool(SP_HOME_KEY_WAKE, true)
+fun loadSharedPrefs() {
+    gBHomeKeyWakeUp = loadBool(SP_HOME_KEY_WAKE, true)
+    gBVolumeKeyWakeUp = loadBool(SP_VOLUME_KEY_WAKE, true)
+    gBVoiceWakeUp = loadBool(SP_VOICE_WAKE, true)
+    gBExcludeFromRecents = loadBool(SP_EXCLUDE_FROM_RECENTS, false)
     gWakeUpTipShown = loadBool(SP_WAKE_UP_TIP_SHOWN, false)
     gAccessibilityEnabled = loadBool(SP_ACCESSIBILITY_ENABLED, false)
 }
@@ -795,7 +805,13 @@ fun startChecker() {
     } /*else {
         stopChecker()
     }*/
-    
+}
+
+
+fun startMainAct() {
+    val intent = Intent(gApplicationContext, MainActivity::class.java).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+    if (gBExcludeFromRecents) intent.addFlags(Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS)
+    gApplicationContext.startActivity(intent)
 }
 
 const val TAG: String = "MainApp"
@@ -858,7 +874,7 @@ class MainApp : Application() {
         
         gApplicationContext = this
         
-        loadSetting()
+        loadSharedPrefs()
         
         mHomes = getHomes()
     

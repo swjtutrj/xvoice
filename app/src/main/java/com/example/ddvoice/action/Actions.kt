@@ -1,6 +1,7 @@
 package com.example.ddvoice.action
 
 import android.content.Intent
+import com.example.ddvoice.ExecCmdActivity
 import com.example.ddvoice.gApplicationContext
 import com.example.ddvoice.speak
 
@@ -17,4 +18,16 @@ fun scanQrCode() {
     } catch (e: Exception) {
         e.printStackTrace()
     }
+}
+
+fun pauseMusic() {
+    val starter = Intent(gApplicationContext, ExecCmdActivity::class.java).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+    starter.action = "pause"
+    gApplicationContext.startActivity(starter)
+}
+
+fun replayMusic() {
+    val starter = Intent(gApplicationContext, ExecCmdActivity::class.java).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+    starter.action = "replay"
+    gApplicationContext.startActivity(starter)
 }

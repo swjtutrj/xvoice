@@ -16,6 +16,7 @@ class ExecCmdActivity : Activity() {
         requestWindowFeature(Window.FEATURE_NO_TITLE)
         window.addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
         window.addFlags(WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED)
+        window.addFlags(WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON)
     
         setContentView(R.layout.activity_exec_cmd)
         
@@ -31,7 +32,7 @@ class ExecCmdActivity : Activity() {
             sayOK()
             val keyCommand = "input keyevent " + key
             Runtime.getRuntime().exec(keyCommand)
-            Handler().postDelayed({ finish() }, 2000L)
+            Handler().postDelayed({ finish() }, 1500L)
         } catch (e: IOException) {
             e.printStackTrace()
         }

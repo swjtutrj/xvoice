@@ -38,6 +38,7 @@ import com.iflytek.aiui.AIUIConstant
 import com.iflytek.aiui.AIUIListener
 import com.iflytek.aiui.AIUIMessage
 import com.iflytek.sunflower.FlowerCollector
+import kotlinx.android.synthetic.main.layout_microphone.view.*
 import org.json.JSONException
 import org.json.JSONObject
 import java.io.DataOutputStream
@@ -95,6 +96,10 @@ class MainActivity : Activity(), EventListener {
         val dlgView = inflate(this, R.layout.layout_microphone, null)
         //        VolumeView = dlgView.findViewById(R.id.iv_recording_icon)
         
+        dlgView.setting.setOnClickListener {
+            startActivity(Intent(this, PreferencesActivity::class.java))
+        }
+    
         val txt = dlgView.findViewWithTag("textlink") as TextView
         
         mTipsLocked = FlowerCollector.getOnlineParams(applicationContext, "tipsLocked")?.split(",")
@@ -295,10 +300,10 @@ class MainActivity : Activity(), EventListener {
             showTipToast()
             
             //xun fei online parameters
-            FlowerCollector.updateOnlineConfig(applicationContext, {
+            FlowerCollector.updateOnlineConfig(applicationContext) {
                 //回调仅在参数有变化时发生
-            })
-            
+            }
+    
             //baidu statistic
             StatService.start(this)
         }
@@ -1118,14 +1123,10 @@ class MainActivity : Activity(), EventListener {
                                         AudioManager.FX_FOCUS_NAVIGATION_UP)
                             }
                             "pause" -> {
-                                val starter = Intent(this, ExecCmdActivity::class.java)
-                                starter.action = "pause"
-                                startActivity(starter)
+                                pauseMusic()
                             }
                             "replay" -> {
-                                val starter = Intent(this, ExecCmdActivity::class.java)
-                                starter.action = "replay"
-                                startActivity(starter)
+                                replayMusic()
                             }
                             "next" -> {
                                 val starter = Intent(this, ExecCmdActivity::class.java)
@@ -1250,6 +1251,9 @@ class MainActivity : Activity(), EventListener {
             }
             else -> when (PinyinHelper.convertToPinyinString(asrResult, "", PinyinFormat
                     .WITHOUT_TONE)) {
+                "shezhi", "xiaomeishezhi", "shezhixiaomei" -> startActivity(Intent(this,
+                        PreferencesActivity::class
+                        .java))
                 "quxiaotixing", "quxiaonaozhong" -> ScheduleCreate("clock", "", null, "",
                         applicationContext).cancelClock()
                 "paizhao", "woyaopaizhao" -> {
@@ -1259,8 +1263,7 @@ class MainActivity : Activity(), EventListener {
                 }
                 "tianqi" -> {
                     //                shouldFinishSelf = false
-                    val url = "https://www.baidu.com/s?word=天气"
-                    loadUrl(url)
+                    loadUrl("https://www.baidu.com/s?word=天气")
                     //                mWebView.loadUrl(url,gUrlToLoad)
                 }
                 "waimai" -> {

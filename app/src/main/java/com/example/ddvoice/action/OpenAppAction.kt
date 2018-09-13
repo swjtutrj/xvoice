@@ -38,8 +38,7 @@ fun openApp(mAppName: String?, mContext: Context, mBFromIntent: Boolean = true):
     
     if (appName == "小美" || appName == "小梅") {
         Handler().postDelayed({
-            if (!gIsMainActActive) mContext.startActivity(Intent(mContext, MainActivity::class
-                    .java).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK))
+            if (!gIsMainActActive) startMainAct()
         }, 1000L)
         return true
     }

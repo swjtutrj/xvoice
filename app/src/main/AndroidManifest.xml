@@ -177,8 +177,13 @@
 
         <activity
             android:name=".ExecCmdActivity"
-            android:theme="@style/Theme.AppCompat.Dialog.Alert"
-            android:label="@string/title_activity_exec_cmd">
+            android:label="@string/title_activity_exec_cmd"
+            android:theme="@style/Theme.AppCompat.Dialog.Alert">
+        </activity>
+        <activity
+            android:name=".PreferencesActivity"
+            android:label="设置"
+            android:theme="@style/AppTheme">
         </activity>
     </application>
 
