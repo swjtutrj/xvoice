@@ -490,9 +490,9 @@ class MyAccessibilityService : AccessibilityService() {
                 timer.schedule(timerTask {
                     //                    print("lyn____________:key long pressed!")
                     
-                    startActivity(Intent("STOP_WEB_ACT").addFlags(Intent.FLAG_ACTIVITY_NEW_TASK))
-                    
-                    
+//                    startActivity(Intent("STOP_WEB_ACT").addFlags(Intent.FLAG_ACTIVITY_NEW_TASK))
+                    startMainAct()
+    
                     //post log
                     gLogParams.clear()
                     gLogParams["username"] = gDeviceId
