@@ -39,16 +39,16 @@ var gWxContact = ""
 var gWxContent = ""
 //var gOpenningUsageAccess = false
 private var gWakeup: EventManager? = null
-private var gBWakeupOn = false
+//private var gBWakeupOn = false
 
 /**
  * 测试参数填在这里
  */
 fun startWakeUp() {
     printLog("gIsRecording：$gIsRecording")
-    printLog("gBWakeupOn：$gBWakeupOn")
+    printLog("gBVoiceWakeUp：$gBVoiceWakeUp")
     
-    if (gIsMainActActive || gIsRecording/* || gBWakeupOn*/) {
+    if (gIsMainActActive || gIsRecording || gBVoiceWakeUp) {
         return
     } else {
         val params = TreeMap<String, Any>()
@@ -69,7 +69,7 @@ fun stopWakeUp() {
     //    if (!gBWakeupOn) {
     //        return //printLog("已为停止状态，无须再次停止")
     //    } else {
-    gWakeup?.send(SpeechConstant.WAKEUP_STOP, null, null, 0, 0) //
+    if (gBVoiceWakeUp) gWakeup?.send(SpeechConstant.WAKEUP_STOP, null, null, 0, 0)
     //        printLog("stop")
     //    }
 }
@@ -159,8 +159,8 @@ class MyAccessibilityService : AccessibilityService() {
                 "wp.error" -> {
                     if (JSONObject(params).optInt("error") == 3)/*拿不到mic？*/ startWakeUp()
                 }
-                "wp.exit" -> gBWakeupOn = false
-                "wp.ready" -> gBWakeupOn = true
+//                "wp.exit" -> gBWakeupOn = false
+//                "wp.ready" -> gBWakeupOn = true
             }
             
             var logTxt = "name: $name"
@@ -414,9 +414,9 @@ class MyAccessibilityService : AccessibilityService() {
         //                .repeatCount, Toast.LENGTH_SHORT).show()
         
         val keyCode = event.keyCode
-
         
-        if (intArrayOf(KeyEvent.KEYCODE_VOLUME_UP, KeyEvent.KEYCODE_VOLUME_DOWN/*, KeyEvent
+        if (gBVolumeKeyWakeUp && intArrayOf(KeyEvent.KEYCODE_VOLUME_UP, KeyEvent
+        .KEYCODE_VOLUME_DOWN/*, KeyEvent
                         .KEYCODE_MEDIA_PLAY, KeyEvent.KEYCODE_HEADSETHOOK*/)
                         .contains(keyCode)) {
             if (event.action == KeyEvent.ACTION_DOWN) {
@@ -467,8 +467,7 @@ class MyAccessibilityService : AccessibilityService() {
                     }
                 }
             }
-        } else if (gBHomeKeyWakeOn && intArrayOf(KeyEvent.KEYCODE_HOME)
-                        .contains(keyCode)) {
+        } else if (gBHomeKeyWakeUp && KeyEvent.KEYCODE_HOME == keyCode) {
             if (event.action == KeyEvent.ACTION_DOWN) {
                 mKeyDownTime = Calendar.getInstance().time.time
                 //                isVolumeKeyPressed = true
