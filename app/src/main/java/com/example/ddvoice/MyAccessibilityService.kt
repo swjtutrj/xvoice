@@ -137,11 +137,11 @@ class MyAccessibilityService : AccessibilityService() {
                             turnOffFlash()
                         }
                         params!!.contains("播放") -> {
-                            sayOK()
+//                            sayOK()
                             replayMusic()
                         }
                         params!!.contains("暂停") -> {
-                            sayOK()
+//                            sayOK()
                             pauseMusic()
                         }
                         params!!.contains("天气天气") -> {
