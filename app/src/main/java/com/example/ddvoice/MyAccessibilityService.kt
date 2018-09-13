@@ -48,7 +48,7 @@ fun startWakeUp() {
     printLog("gIsRecording：$gIsRecording")
     printLog("gBVoiceWakeUp：$gBVoiceWakeUp")
     
-    if (gIsMainActActive || gIsRecording || gBVoiceWakeUp) {
+    if (gIsMainActActive || gIsRecording || !gBVoiceWakeUp) {
         return
     } else {
         val params = TreeMap<String, Any>()
