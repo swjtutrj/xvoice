@@ -1259,6 +1259,7 @@ class MainActivity : Activity(), EventListener {
                     starter.action = "android.media.action.STILL_IMAGE_CAMERA_SECURE"
                     startActivity(starter)
                 }
+                "bofang" -> replayMusic()
                 "tianqi" -> {
                     //                shouldFinishSelf = false
                     loadUrl("https://www.baidu.com/s?word=天气")
