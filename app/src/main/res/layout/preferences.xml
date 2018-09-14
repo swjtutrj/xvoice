@@ -36,30 +36,4 @@
             android:summary="按键或语音唤醒后，不显示在最近任务列表中"
             android:title="从最近任务排除"/>
     </PreferenceCategory>
-
-    <!--<PreferenceCategory android:title="流量与速度" >-->
-    <!--<CheckBoxPreference-->
-    <!--android:key="pref_web_nopic_mode"-->
-    <!--android:defaultValue="false"-->
-    <!--android:title="书城无图模式"-->
-    <!--android:summaryOff="去除书城图片，浏览更快速"-->
-    <!--android:summaryOn="已开启，您可以极速浏览书城" />	     -->
-    <!--<CheckBoxPreference-->
-    <!--android:key="pref_not_wifi_protect"-->
-    <!--android:defaultValue="true"-->
-    <!--android:title="流量保护"-->
-    <!--android:summary="在非Wi-Fi连接的情况下，下载和播放之前会弹出确认对话框。连播和下载过程中如果Wi-Fi断开也会停止消耗流量。"/>	    -->
-    <!--</PreferenceCategory>-->
-    <!---->
-    <!--<PreferenceCategory android:title="下载设置" > -->
-    <!--<CheckBoxPreference-->
-    <!--android:key="pref_wifi_auto_download"-->
-    <!--android:defaultValue="false"-->
-    <!--android:title="自动续传"-->
-    <!--android:summary="Wi-Fi连接恢复时，自动继续未完成的下载任务"	/>-->
-    <!--<tiger.unfamous.common.TextViewPreference-->
-    <!--android:key="textview_preference"-->
-    <!--android:title="下载目录"-->
-    <!--android:defaultValue="false" />-->
-    <!--</PreferenceCategory>-->
 </PreferenceScreen>
