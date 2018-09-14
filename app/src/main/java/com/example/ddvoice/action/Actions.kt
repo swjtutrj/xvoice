@@ -31,3 +31,9 @@ fun replayMusic() {
     starter.action = "replay"
     gApplicationContext.startActivity(starter)
 }
+
+fun nextMusic() {
+    val starter = Intent(gApplicationContext, ExecCmdActivity::class.java).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+    starter.action = "next"
+    gApplicationContext.startActivity(starter)
+}

@@ -144,6 +144,10 @@ class MyAccessibilityService : AccessibilityService() {
 //                            sayOK()
                             pauseMusic()
                         }
+                        params!!.contains("下一首") -> {
+//                            sayOK()
+                            nextMusic()
+                        }
                         params!!.contains("天气天气") -> {
                             sayOK()
                             loadUrl("https://www.baidu.com/s?word=天气")

@@ -1129,9 +1129,7 @@ class MainActivity : Activity(), EventListener {
                                 replayMusic()
                             }
                             "next" -> {
-                                val starter = Intent(this, ExecCmdActivity::class.java)
-                                starter.action = "next"
-                                startActivity(starter)
+                                nextMusic()
                             }
                             "past" -> {
                                 val starter = Intent(this, ExecCmdActivity::class.java)
