@@ -154,7 +154,7 @@ class MyAccessibilityService : AccessibilityService() {
                         }
                         params!!.contains("微信扫码") -> {
 //                            sayOK()
-                            scanQrCode()
+                            wxScan()
                         }
                         else -> //                    stopWakeUp()
                             startMainAct()
