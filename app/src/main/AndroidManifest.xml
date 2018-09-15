@@ -45,7 +45,7 @@
 
 
     <!-- act：android.media.action.STILL_IMAGE_CAMERA_SECURE -->
-    <uses-feature android:name="com.huawei.camera.permission.PRIVATE"/>
+    <uses-permission android:name="com.huawei.camera.permission.PRIVATE"/>
 
     <uses-permission android:name="android.permission.WAKE_LOCK"/>
     <uses-permission android:name="android.permission.BLUETOOTH"/>
