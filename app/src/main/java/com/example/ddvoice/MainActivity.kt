@@ -820,7 +820,7 @@ class MainActivity : Activity(), EventListener {
                             if (arrayOf("saoyisao", "saoma", "erweima", "saomiaoerweima").contains
                                     (contactPinYin)) {
                                 gWxContact = ""
-                                return scanQrCode()
+                                return wxScan()
                             }
                             
                             gWxContent = getSlotValueByName("content") ?: ""
@@ -842,11 +842,17 @@ class MainActivity : Activity(), EventListener {
                         gAccessibilityService.wxContact()
                     }
                     "scan_qrcode" -> {
-                        scanQrCode()
+                        wxScan()
                     }
                     else -> {
                         saySorry()
                     }
+                }
+            }
+            "LXY.alipay" -> {
+                when (intent) {
+                    "scan" -> alipayScan()
+                    "qrcode" -> alipayQRcode()
                 }
             }
             "websearch" -> {
@@ -952,7 +958,7 @@ class MainActivity : Activity(), EventListener {
                                     showMyAppDetailsActiviry()
                                 }
                             }
-                            "微信扫码" -> scanQrCode()
+                            "微信扫码" -> wxScan()
                             "手电筒" -> {
                                 sayOK()
                                 trunOnFlash()
@@ -1129,9 +1135,7 @@ class MainActivity : Activity(), EventListener {
                                 replayMusic()
                             }
                             "next" -> {
-                                val starter = Intent(this, ExecCmdActivity::class.java)
-                                starter.action = "next"
-                                startActivity(starter)
+                                nextMusic()
                             }
                             "past" -> {
                                 val starter = Intent(this, ExecCmdActivity::class.java)
@@ -1261,6 +1265,7 @@ class MainActivity : Activity(), EventListener {
                     starter.action = "android.media.action.STILL_IMAGE_CAMERA_SECURE"
                     startActivity(starter)
                 }
+                "bofang" -> replayMusic()
                 "tianqi" -> {
                     //                shouldFinishSelf = false
                     loadUrl("https://www.baidu.com/s?word=天气")
@@ -1287,13 +1292,7 @@ class MainActivity : Activity(), EventListener {
                 //                }
                 
                 "fukuanma", "zhifubaofukuanma" -> {
-                    speak("支付宝付款码")
-                    //            Intent starter = new Intent();com.eg.android.AlipayGphone/.FastStartActivity
-                    starter.component = ComponentName("com.eg.android.AlipayGphone", "com.eg.android.AlipayGphone" + ".FastStartActivity")
-                    starter.action = Intent.ACTION_VIEW
-                    starter.data = Uri.parse("alipayss://platformapi/startapp?appId=20000056&source=shortcut")
-                    starter.flags = Intent.FLAG_RECEIVER_FOREGROUND
-                    startActivity(starter)
+                    alipayQRcode()
                 }
                 //                "saoma", "saoyisao", "erweima" -> {
                 //                    speak("微信扫码")
