@@ -772,7 +772,6 @@ class MainActivity : Activity(), EventListener {
         
         when (service) {
             "LXY.map" -> {
-                gBAction = false
                 when (intent) {
                     "daohang" -> {
                         val dest = getSlotValueByName("destination")
