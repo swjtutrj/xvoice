@@ -689,8 +689,9 @@ class MainActivity : Activity(), EventListener {
         if (!PermissionsUtil.hasPermission(this, Manifest.permission.RECORD_AUDIO) ||
                 !PermissionsUtil.hasPermission(this, Manifest.permission.CALL_PHONE) ||
                 !PermissionsUtil.hasPermission(this, Manifest.permission.READ_PHONE_STATE) ||
-                !PermissionsUtil.hasPermission(this, Manifest.permission.READ_CONTACTS) ||
-                !PermissionsUtil.hasPermission(this, Manifest.permission.CHANGE_WIFI_STATE)) {
+                !PermissionsUtil.hasPermission(this, Manifest.permission.READ_CONTACTS)/* ||
+                !PermissionsUtil.hasPermission(this, Manifest.permission.CHANGE_WIFI_STATE)
+                有诺基亚机型报一直无法获取权限*/) {
             requestPermission(this, object : PermissionListener {
                 override fun permissionGranted(permission: Array<out String>) {
                     recreate()
