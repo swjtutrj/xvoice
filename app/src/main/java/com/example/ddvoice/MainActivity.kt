@@ -7,7 +7,6 @@ import android.app.KeyguardManager
 import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
-import android.content.SharedPreferences
 import android.media.AudioManager
 import android.net.Uri
 import android.os.Bundle
@@ -47,7 +46,7 @@ import java.net.URL
 import java.util.*
 import kotlin.concurrent.thread
 
-//wake up word: 关闭手电筒,打开手电筒,小美小美,播放,暂停,茄子,下一首,微信扫码,天气天气
+//wake up word: 小美小美,关闭手电筒,打开手电筒,播放,暂停,茄子,下一首,微信扫码,天气天气
 
 var gAIUIAgent: AIUIAgent? = null
 //var gUrlToLoad = ""
@@ -66,7 +65,7 @@ class MainActivity : Activity(), EventListener {
     //    private val mIatResults = LinkedHashMap<String, String>()
     // 引擎类型
     //    private val mEngineType = SpeechConstant.TYPE_CLOUD
-    private lateinit var mSharedPreferences: SharedPreferences
+//    private lateinit var mSharedPreferences: SharedPreferences
     //    private lateinit var mSharedPreferencesTTS: SharedPreferences
     
     
