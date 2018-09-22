@@ -74,6 +74,10 @@
             android:name="BaiduMobAd_STAT_ID"
             android:value="6d9beefcf0"/>
 
+        <meta-data
+            android:name="BaiduMobAd_EXCEPTION_LOG"
+            android:value="true" />
+
         <activity
             android:name=".MainActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"

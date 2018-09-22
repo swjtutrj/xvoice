@@ -23,4 +23,9 @@ class PreferencesActivity : PreferenceActivity(), Preference.OnPreferenceClickLi
         findPreference(SP_VOLUME_KEY_WAKE).onPreferenceClickListener = this
         findPreference(SP_EXCLUDE_FROM_RECENTS).onPreferenceClickListener = this
     }
+    
+    override fun onPause() {
+        super.onPause()
+        finish()
+    }
 }
