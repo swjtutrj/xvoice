@@ -47,7 +47,7 @@ import java.net.URL
 import java.util.*
 import kotlin.concurrent.thread
 
-//wake up word: 关闭手电筒,打开手电筒,小美小美,播放,暂停,拍照,下一首,微信扫码,天气天气
+//wake up word: 关闭手电筒,打开手电筒,小美小美,播放,暂停,茄子,下一首,微信扫码,天气天气
 
 var gAIUIAgent: AIUIAgent? = null
 //var gUrlToLoad = ""
@@ -215,7 +215,7 @@ class MainActivity : Activity(), EventListener {
                     .setMessage("主子，因为不想占用麦克风，而影响需要录音的app，解锁且不在桌面时我就听不到你的召唤了哦。\n\n此时可以长按home" +
                             "键或音量键叫我\n" +
                             "\n" +
-                            "息屏,锁定以及显示桌面状态都可以叫我“小美小美”召唤我。\n\n还可以不叫我直接说“拍照”，以及“打开/关闭手电筒”哦。")
+                            "息屏,锁定以及显示桌面状态都可以叫我“小美小美”召唤我。\n\n还可以不叫我直接说“茄子”，以及“打开/关闭手电筒”等唤醒指令哦。")
                     .setPositiveButton("确定", null)
                     .setOnDismissListener { finish() }
                     .show()
