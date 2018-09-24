@@ -46,7 +46,7 @@ import java.net.URL
 import java.util.*
 import kotlin.concurrent.thread
 
-//wake up word: 小美小美,关闭手电筒,打开手电筒,播放,暂停,茄子,下一首,微信扫码,天气天气
+//wake up word: 小美小美,关闭手电筒,打开手电筒,播放,暂停,上一首,下一首,微信扫码,天气天气
 
 var gAIUIAgent: AIUIAgent? = null
 //var gUrlToLoad = ""
