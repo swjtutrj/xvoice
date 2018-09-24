@@ -29,7 +29,6 @@ class ExecCmdActivity : Activity() {
         }
     
         try {
-            sayOK()
             val keyCommand = "input keyevent " + key
             Runtime.getRuntime().exec(keyCommand)
             Handler().postDelayed({ finish() }, 1500L)

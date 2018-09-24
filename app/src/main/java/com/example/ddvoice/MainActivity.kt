@@ -1137,9 +1137,7 @@ class MainActivity : Activity(), EventListener {
                                 nextMusic()
                             }
                             "past" -> {
-                                val starter = Intent(this, ExecCmdActivity::class.java)
-                                starter.action = "past"
-                                startActivity(starter)
+                                prevMusic()
                             }
                             else -> saySorry()
                         }

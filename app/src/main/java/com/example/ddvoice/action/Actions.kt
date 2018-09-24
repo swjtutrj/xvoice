@@ -60,19 +60,29 @@ fun wxScan() {
 }
 
 fun pauseMusic() {
+    sayOK()
     val starter = Intent(gApplicationContext, ExecCmdActivity::class.java).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
     starter.action = "pause"
     gApplicationContext.startActivity(starter)
 }
 
 fun replayMusic() {
+    sayOK()
     val starter = Intent(gApplicationContext, ExecCmdActivity::class.java).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
     starter.action = "replay"
     gApplicationContext.startActivity(starter)
 }
 
 fun nextMusic() {
+    sayOK()
     val starter = Intent(gApplicationContext, ExecCmdActivity::class.java).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
     starter.action = "next"
+    gApplicationContext.startActivity(starter)
+}
+
+fun prevMusic() {
+    sayOK()
+    val starter = Intent(gApplicationContext, ExecCmdActivity::class.java).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+    starter.action = "past"
     gApplicationContext.startActivity(starter)
 }
