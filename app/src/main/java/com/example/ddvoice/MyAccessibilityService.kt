@@ -120,7 +120,7 @@ class MyAccessibilityService : AccessibilityService() {
             when (name) {
                 "wp.data" -> {
                     when {
-                        params!!.contains("茄子") -> {
+                        params!!.contains("拍照拍照") -> {
 //                            turnOnScreen()
 //                            sayOK()
 //                            val starter = Intent()

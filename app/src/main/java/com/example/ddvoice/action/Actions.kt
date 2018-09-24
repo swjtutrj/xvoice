@@ -42,12 +42,14 @@ fun alipayQRcode() {
 }
 
 fun alipayScan() {
-    speak("支付宝扫码")
+//    speak("支付宝扫码")
+    sayOK()
     viewUri("alipays://platformapi/startapp?appId=10000007")
 }
 
 fun wxScan() {
-    speak("微信扫码")
+//    speak("微信扫码")
+    sayOK()
     try {
         val intent = gApplicationContext.packageManager.getLaunchIntentForPackage("com.tencent.mm")
         intent.putExtra("LauncherUI.From.Scaner.Shortcut", true).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
