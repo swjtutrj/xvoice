@@ -17,14 +17,14 @@ class CallReceiver : BroadcastReceiver() {
     private val TAG: String? = "CallReceiver"
     
     override fun onReceive(ctx: Context, intent: Intent) {
-        // Èç¹ûÊÇ²¦´òµç»°
+        // å¦‚æœæ˜¯æ‹¨æ‰“ç”µè¯
         if (intent.action.equals(Intent.ACTION_NEW_OUTGOING_CALL)) {
 //            mIncomingFlag = false
 //            val phoneNumber = intent.getStringExtra(Intent.EXTRA_PHONE_NUMBER)
 //            Log.i(TAG, "call OUT:$phoneNumber")
         
         } else {
-            // Èç¹ûÊÇÀ´µç
+            // å¦‚æœæ˜¯æ¥ç”µ
             val tManager = ctx.getSystemService(Service.TELEPHONY_SERVICE) as TelephonyManager
             when (tManager.callState) {
             

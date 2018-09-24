@@ -1,14 +1,32 @@
 package com.example.ddvoice.action
 
+import android.content.Context
 import android.content.Intent
 import android.net.Uri
-import com.example.ddvoice.ExecCmdActivity
-import com.example.ddvoice.gApplicationContext
-import com.example.ddvoice.speak
+import com.example.ddvoice.*
 
 /**
  * Created by Lyn on 18-8-27.
  */
+
+fun Context.stAct(intent: Intent) {
+    startActivity(intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK))
+}
+
+fun launchCamera() {
+    sayOK()
+    turnOnScreen()
+    val starter = Intent()
+    starter.action = if (gIsPhoneLocked)  "android.media.action.STILL_IMAGE_CAMERA_SECURE" else
+        "android.media.action.STILL_IMAGE_CAMERA"
+    try {
+        gApplicationContext.stAct(starter)
+    } catch (e: SecurityException) {
+        starter.action = "android.media.action.STILL_IMAGE_CAMERA"
+        gApplicationContext.stAct(starter)
+    }
+}
+
 
 fun viewUri(uri: String) {
     val starter = Intent().addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)

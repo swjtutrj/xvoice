@@ -1232,7 +1232,7 @@ class MainActivity : Activity(), EventListener {
         
         //        var quitAtOnce = true
         //        var shouldFinishSelf = true
-        val starter = Intent()
+//        val starter = Intent()
         
         //        val resultPinYin = PinyinHelper.convertToPinyinString(asrResult, "", PinyinFormat
         //                .WITHOUT_TONE)
@@ -1260,9 +1260,8 @@ class MainActivity : Activity(), EventListener {
                 "quxiaotixing", "quxiaonaozhong" -> ScheduleCreate("clock", "", null, "",
                         applicationContext).cancelClock()
                 "paizhao", "woyaopaizhao" -> {
-                    sayOK()
-                    starter.action = "android.media.action.STILL_IMAGE_CAMERA_SECURE"
-                    startActivity(starter)
+//                    sayOK()
+                    launchCamera()
                 }
                 "bofang" -> replayMusic()
                 "tianqi" -> {

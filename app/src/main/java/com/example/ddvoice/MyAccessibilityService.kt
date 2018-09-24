@@ -80,7 +80,7 @@ private fun printLog(text: String) {
         text += "  ;time=" + System.currentTimeMillis()
     }
     text += "\n"
-    Log.i("lyn:-------- wakeup:", text)
+    Log.d("lyn:-------- wakeup:", text)
 }
 
 
@@ -121,12 +121,13 @@ class MyAccessibilityService : AccessibilityService() {
                 "wp.data" -> {
                     when {
                         params!!.contains("茄子") -> {
-                            turnOnScreen()
-                            sayOK()
-                            val starter = Intent()
-                            starter.action = "android.media.action.STILL_IMAGE_CAMERA_SECURE"
-                            starter.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                            startActivity(starter)
+//                            turnOnScreen()
+//                            sayOK()
+//                            val starter = Intent()
+//                            starter.action = "android.media.action.STILL_IMAGE_CAMERA_SECURE"
+//                            starter.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+//                            startActivity(starter)
+                            launchCamera()
                         }
                         params!!.contains("打开手电筒") -> {
                             sayOK()

@@ -3,6 +3,7 @@ package com.example.ddvoice.receiver
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
+import com.example.ddvoice.gIsPhoneLocked
 import com.example.ddvoice.startWakeUp
 import com.example.ddvoice.stopChecker
 
@@ -13,8 +14,9 @@ import com.example.ddvoice.stopChecker
 
 class ScreenOffBroadcastReceiver : BroadcastReceiver() {
     override fun onReceive(ctx: Context, intent: Intent) {
+        println("lyn______________: screen off")
+        gIsPhoneLocked = true
         startWakeUp()
         stopChecker()
-        println("lyn______________: screen off")
     }
 }
