@@ -398,7 +398,7 @@ class MainActivity : Activity(), EventListener {
             } else {
                 parsedSemanticResult!!.service = semanticResult.optString("service")
                 parsedSemanticResult!!.answer =
-                        if (semanticResult.optJSONObject("answer") == null) "已为您完成操作"
+                        if (semanticResult.optJSONObject("answer") == null) ""
                         else semanticResult.optJSONObject("answer").optString("text")
                 // 兼容3.1和4.0的语义结果，通过判断结果最外层的operation字段
                 /*val isAIUI3_0 = semanticResult.has(KEY_OPERATION)
@@ -881,7 +881,7 @@ class MainActivity : Activity(), EventListener {
             "scheduleX" -> {
                 when (intent) {
                     "CREATE" -> {
-                        speak((answer ?: "好的，我记住啦") + "。要取消的话，对我说取消提醒哦")
+                        speak(answer + "。要取消的话，对我说取消提醒哦")
                         val suggestDatetime = JSONObject(getSlotValueByName("datetime")).optString("suggestDatetime")
                         val content = getSlotValueByName("content") ?: ""
                         ScheduleCreate("clock", suggestDatetime, null, content,
@@ -897,6 +897,10 @@ class MainActivity : Activity(), EventListener {
             "joke" -> {
                 val result0 = parsedSemanticResult!!.data!!.optJSONArray("result")?.optJSONObject(0)
                 speak(result0?.optString("content"))
+            }
+            "translation" -> {
+                val result0 = parsedSemanticResult!!.data!!.optJSONArray("result")?.optJSONObject(0)
+                speak(result0?.optString("translated"))
             }
             "datetime" -> {
                 if (answer.contains(":")) {

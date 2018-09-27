@@ -65,7 +65,7 @@ fun wxScan() {
 }
 
 fun wxContact() {
-    Thread.sleep(750)
+    Thread.sleep(1000)
     try {
         val pinYin = PinyinHelper.convertToPinyinString(gWxContact, "", PinyinFormat.WITHOUT_TONE)
         val shortPinYin = PinyinHelper.getShortPinyin(gWxContact)
@@ -85,7 +85,7 @@ fun wxContact() {
             }
         }
         
-        Thread.sleep(750)
+        Thread.sleep(1000)
         
         if (gWxContact == "滴答清单") {
             findTextAndClick(gAccessibilityService, "消息")
@@ -100,7 +100,7 @@ fun wxContact() {
         }
         
         if (gWxContact == "滴答清单") {
-            Thread.sleep(500)
+//            Thread.sleep(500)
             findTextAndClick(gAccessibilityService, "发送")
         }
         //            gWxContact = ""
@@ -114,13 +114,14 @@ fun wxContact() {
  * 钉钉打卡下班
  */
 fun punchOut() {
+    sayOK()
     try {
         openApp("com.alibaba.android.rimet")
-        Thread.sleep(4000)
+        Thread.sleep(5000)
         findTextAndClick(gAccessibilityService, "工作")
         Thread.sleep(1000)
         findTextAndClick(gAccessibilityService, "考勤打卡")
-        Thread.sleep(7000)
+        Thread.sleep(6000)
         if (findTextAndClick(gAccessibilityService, "下班打卡")) {
             Thread.sleep(3000)
             performGlobalAction(AccessibilityService.GLOBAL_ACTION_HOME)

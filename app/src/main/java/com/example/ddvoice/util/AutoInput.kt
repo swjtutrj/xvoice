@@ -65,10 +65,9 @@ import com.github.stuxuhai.jpinyin.PinyinHelper
                     performClick(info.parent.parent.parent)
                     found = true
                 }
-                
             } else {
                 for (i in 0 until info.childCount) {
-                    if (info.getChild(i) != null) {
+                    if (!found && info.getChild(i) != null) {
                         traverse(info.getChild(i))
                     }
                 }
