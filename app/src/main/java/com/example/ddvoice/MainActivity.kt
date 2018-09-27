@@ -95,6 +95,11 @@ class MainActivity : Activity(), EventListener {
         val dlgView = inflate(this, R.layout.layout_microphone, null)
         //        VolumeView = dlgView.findViewById(R.id.iv_recording_icon)
         
+        dlgView.donate.setOnClickListener {
+            mAIUIDialog?.dismiss()
+            donate()
+        }
+        
         dlgView.setting.setOnClickListener {
             startActivity(Intent(this, PreferencesActivity::class.java))
         }
@@ -1405,6 +1410,9 @@ class MainActivity : Activity(), EventListener {
         json = JSONObject(params).toString() // 这里可以替换成你需要测试的json
         asr!!.send(event, json, null, 0, 0)*/
         
+        if (BuildConfig.DEBUG) {
+//           donate()
+        }
     }
     
     

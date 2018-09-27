@@ -587,69 +587,6 @@ fun syncContacts(ctx: Context) {
 lateinit var gApplicationContext: Context
 lateinit var gAccessibilityService: AccessibilityService
 
-fun turnOnScreen() {
-    val pm = gApplicationContext?.getSystemService(Context.POWER_SERVICE) as PowerManager?
-    // 获取PowerManager.WakeLock对象,后面的参数|表示同时传入两个值,最后的是LogCat里用的Tag
-    val wl = pm?.newWakeLock(
-            PowerManager.ACQUIRE_CAUSES_WAKEUP or PowerManager.SCREEN_BRIGHT_WAKE_LOCK,
-            "xvoice:mywakelocktag")
-    wl?.acquire(20000) // 点亮屏幕
-    wl?.release() // 释放
-}
-
-fun search(word: String?, useOtherBrowser: Boolean = false, shouldSpeak: Boolean = true) {
-    if (!word.isNullOrEmpty()) {
-        val shortWord = if (word!!.length > 10) "以上内容" else word
-        if (shouldSpeak) speak("搜索$shortWord")
-        loadUrl("https://www.baidu.com/s?word=$word", useOtherBrowser)
-    }
-}
-
-fun musicFM() {
-    //    speak("播放豆瓣fm")
-    sayOK()
-    
-    //    if (gAppNamePackageMap.containsValue("com.netease.cloudmusic")) {
-    val starter = Intent()
-    starter.component = ComponentName("com.netease.cloudmusic", "com.netease" + ".cloudmusic.activity.RedirectActivity")
-    starter.action = Intent.ACTION_VIEW
-    starter.data = Uri.parse("orpheus://radio")
-    starter.flags = Intent.FLAG_RECEIVER_FOREGROUND
-    try {
-        gApplicationContext.startActivity(starter.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK))
-        if (gIsPhoneLocked) speak("可能要解锁哦")
-    } catch (e: Exception) {
-        e.printStackTrace()
-        loadUrl("https://douban.fm", true)
-    }
-    //    } else {
-    //        loadUrl("https://douban.fm", true)
-    //    }
-}
-
-fun loadUrl(url: String, useOtherBrowser: Boolean = false) {
-    if (url.contains("douban.fm") || (!gIsPhoneLocked && useOtherBrowser)) {
-        try {
-            val intent: Intent
-            intent = Intent.parseUri(url,
-                    Intent.URI_INTENT_SCHEME)
-            intent.addCategory("android.intent.category.BROWSABLE")
-            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-            gApplicationContext!!.startActivity(intent)
-        } catch (e: Exception) {
-            e.printStackTrace()
-        }
-        if (gIsPhoneLocked) speak("需要解锁哦")
-    } else {
-        //        turnOnScreen()
-        
-        gUrlToLoad = url
-        //        Handler().postDelayed({
-        gApplicationContext!!.startActivity(Intent(gApplicationContext, WebViewAct::class
-                .java).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK))
-        //        }, 6500)
-    }
-}
 
 
 private var mSharedPreferences: SharedPreferences? = null
