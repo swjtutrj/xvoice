@@ -771,6 +771,11 @@ class MainActivity : Activity(), EventListener {
         //        Log.i("lyn----------" + localClassName, "service:" + service)
         
         when (service) {
+            "LXY.default" -> {
+                when (intent) {
+                    "punch_out" -> punchOut()
+                }
+            }
             "LXY.map" -> {
                 when (intent) {
                     "daohang" -> {

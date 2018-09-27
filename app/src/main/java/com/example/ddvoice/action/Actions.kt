@@ -1,5 +1,6 @@
 package com.example.ddvoice.action
 
+import android.accessibilityservice.AccessibilityService
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
@@ -21,7 +22,7 @@ fun launchCamera() {
     sayOK()
     turnOnScreen()
     val starter = Intent()
-    starter.action = if (gIsPhoneLocked)  "android.media.action.STILL_IMAGE_CAMERA_SECURE" else
+    starter.action = if (gIsPhoneLocked) "android.media.action.STILL_IMAGE_CAMERA_SECURE" else
         "android.media.action.STILL_IMAGE_CAMERA"
     try {
         gApplicationContext.stAct(starter)
@@ -46,13 +47,13 @@ fun alipayQRcode() {
 }
 
 fun alipayScan() {
-//    speak("支付宝扫码")
+    //    speak("支付宝扫码")
     sayOK()
     viewUri("alipays://platformapi/startapp?appId=10000007")
 }
 
 fun wxScan() {
-//    speak("微信扫码")
+    //    speak("微信扫码")
     sayOK()
     try {
         val intent = gApplicationContext.packageManager.getLaunchIntentForPackage("com.tencent.mm")
@@ -108,6 +109,31 @@ fun wxContact() {
         e.printStackTrace()
     }
 }
+
+/**
+ * 钉钉打卡下班
+ */
+fun punchOut() {
+    try {
+        openApp("com.alibaba.android.rimet")
+        Thread.sleep(4000)
+        findTextAndClick(gAccessibilityService, "工作")
+        Thread.sleep(1000)
+        findTextAndClick(gAccessibilityService, "考勤打卡")
+        Thread.sleep(7000)
+        if (findTextAndClick(gAccessibilityService, "下班打卡")) {
+            Thread.sleep(3000)
+            performGlobalAction(AccessibilityService.GLOBAL_ACTION_HOME)
+        }
+    } catch (e: Exception) {
+        e.printStackTrace()
+    }
+}
+
+fun performGlobalAction(action: Int) {
+    gAccessibilityService.performGlobalAction(action)
+}
+
 
 fun turnOnUsageAccess() {
     try {

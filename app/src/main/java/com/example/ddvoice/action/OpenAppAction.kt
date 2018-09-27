@@ -163,3 +163,9 @@ fun openApp(mAppName: String?, mContext: Context, mBFromIntent: Boolean = true):
     //        }
     //    }
 }
+
+fun openApp(pkgName: String) {
+    val intent = gApplicationContext.packageManager.getLaunchIntentForPackage(pkgName)
+    intent!!.addCategory("android.intent.category.LAUNCHER")
+    gAccessibilityService.stAct(intent)
+}
