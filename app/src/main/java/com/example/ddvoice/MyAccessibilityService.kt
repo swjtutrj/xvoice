@@ -290,8 +290,23 @@ class MyAccessibilityService : AccessibilityService() {
             }
             
             Thread.sleep(750)
-            WechatUtils.findEditableAndPaste(this, gWxContent)
             
+            if (gWxContact == "滴答清单") {
+                WechatUtils.findTextAndClick(this, "消息")
+                Thread.sleep(500)
+            }
+            
+            if (!WechatUtils.findEditableAndPaste(this, gWxContent)) {
+                //语音模式
+                WechatUtils.findTextAndClick(this, "切换到键盘")
+                Thread.sleep(500)
+                WechatUtils.findEditableAndPaste(this, gWxContent)
+            }
+    
+            if (gWxContact == "滴答清单") {
+                Thread.sleep(500)
+                WechatUtils.findTextAndClick(this, "发送")
+            }
             //            gWxContact = ""
             
         } catch (e: Exception) {

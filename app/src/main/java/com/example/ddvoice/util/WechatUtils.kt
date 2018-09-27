@@ -40,7 +40,7 @@ object WechatUtils {
             for (nodeInfo in nodeInfoList) {
                 if (nodeInfo != null && (text == nodeInfo.text || text == nodeInfo.contentDescription)) {
                     performClick(nodeInfo)
-//                    break
+                    //                    break
                     return true
                 }
             }
@@ -53,7 +53,7 @@ object WechatUtils {
         
         val info = accessibilityService.rootInActiveWindow
         var found = false
-    
+        
         fun traverse(info: AccessibilityNodeInfo) {
             if (info.childCount == 0 && !info.text.isNullOrEmpty()) {
                 //            Log.i(TAG, "child widget----------------------------" + info.className)
@@ -81,7 +81,6 @@ object WechatUtils {
     }
     
     
-    
     fun findTextShortPYAndClick(accessibilityService: AccessibilityService, shortPY: String):
             Boolean {
         val accessibilityNodeInfo = accessibilityService.rootInActiveWindow
@@ -106,7 +105,7 @@ object WechatUtils {
                     }
                 }
             }
-//            return false
+            //            return false
         }
         
         traverse(accessibilityNodeInfo)
@@ -130,10 +129,10 @@ object WechatUtils {
         }
     }
     
-    fun findEditableAndPaste(accessibilityService: AccessibilityService, content: String) {
+    fun findEditableAndPaste(accessibilityService: AccessibilityService, content: String): Boolean {
         Log.d(TAG, "content:" + content)
-        val accessibilityNodeInfo = accessibilityService.rootInActiveWindow ?: return
-        fun traverse(info: AccessibilityNodeInfo) {
+        val accessibilityNodeInfo = accessibilityService.rootInActiveWindow ?: return false
+        fun traverse(info: AccessibilityNodeInfo): Boolean {
             if (info.childCount == 0) {
                 if (info.isEditable) {
                     val arguments = Bundle()
@@ -141,6 +140,7 @@ object WechatUtils {
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                         info.performAction(AccessibilityNodeInfo.ACTION_SET_TEXT, arguments)
                     }
+                    return true
                 }
             } else {
                 for (i in 0 until info.childCount) {
@@ -149,10 +149,10 @@ object WechatUtils {
                     }
                 }
             }
-            //            return false
+            return false
         }
-    
-        traverse(accessibilityNodeInfo)
+        
+        return traverse(accessibilityNodeInfo)
     }
     
     
