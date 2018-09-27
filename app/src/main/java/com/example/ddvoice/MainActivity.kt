@@ -814,7 +814,7 @@ class MainActivity : Activity(), EventListener {
                             speak("发语音技能还在学习中，查找$gWxContact")
                             startActivity(Intent().setComponent(ComponentName("com.tencent.mm",
                                     "com.tencent.mm.ui.LauncherUI")).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))
-                            gAccessibilityService.wxContact()
+                            wxContact()
                         } else {
                             if (arrayOf("saoyisao", "saoma", "erweima", "saomiaoerweima").contains
                                     (contactPinYin)) {
@@ -830,7 +830,7 @@ class MainActivity : Activity(), EventListener {
                             }
                             startActivity(Intent().setComponent(ComponentName("com.tencent.mm",
                                     "com.tencent.mm.ui.LauncherUI")).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))
-                            gAccessibilityService.wxContact()
+                            wxContact()
                         }
                     }
                     "send_redbag" -> {
@@ -838,7 +838,7 @@ class MainActivity : Activity(), EventListener {
                         //                        gWxContact = getSlotValueByName("contact") ?: ""
                         startActivity(Intent().setComponent(ComponentName("com.tencent.mm",
                                 "com.tencent.mm.ui.LauncherUI")).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))
-                        gAccessibilityService.wxContact()
+                        wxContact()
                     }
                     "scan_qrcode" -> {
                         wxScan()

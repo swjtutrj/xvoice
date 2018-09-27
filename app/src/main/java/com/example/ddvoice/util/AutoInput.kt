@@ -9,15 +9,15 @@ import com.github.stuxuhai.jpinyin.PinyinException
 import com.github.stuxuhai.jpinyin.PinyinFormat
 import com.github.stuxuhai.jpinyin.PinyinHelper
 
-fun PinyinHelper.toPinyin(string: String) {
-    PinyinHelper.convertToPinyinString(string, "", PinyinFormat.WITHOUT_TONE)
-}
+//fun PinyinHelper.toPinyin(string: String) {
+//    PinyinHelper.convertToPinyinString(string, "", PinyinFormat.WITHOUT_TONE)
+//}
 
 /**
  * Created by Clearlee
  * 2017/12/22.
  */
-object WechatUtils {
+//object WechatUtils {
     
     var NAME: String? = null
     var CONTENT: String? = null
@@ -289,4 +289,4 @@ object WechatUtils {
             service.performGlobalAction(AccessibilityService.GLOBAL_ACTION_BACK)
         }
     }
-}
+//}

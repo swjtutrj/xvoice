@@ -17,7 +17,6 @@ import android.util.Log
 import android.view.KeyEvent
 import android.view.WindowManager
 import android.view.accessibility.AccessibilityEvent
-import android.widget.Toast
 import com.android.volley.Request
 import com.android.volley.toolbox.JsonObjectRequest
 import com.baidu.speech.EventManager
@@ -26,9 +25,6 @@ import com.baidu.speech.asr.SpeechConstant
 import com.example.ddvoice.action.*
 import com.example.ddvoice.receiver.ScreenOffBroadcastReceiver
 import com.example.ddvoice.receiver.ScreenOnBroadcastReceiver
-import com.example.ddvoice.util.WechatUtils
-import com.github.stuxuhai.jpinyin.PinyinFormat
-import com.github.stuxuhai.jpinyin.PinyinHelper
 import org.json.JSONObject
 import java.util.*
 import kotlin.concurrent.timerTask
@@ -268,79 +264,6 @@ class MyAccessibilityService : AccessibilityService() {
     //        return Service.START_STICKY
     //    }
     
-    fun wxContact() {
-        Thread.sleep(750)
-        try {
-            val pinYin = PinyinHelper.convertToPinyinString(gWxContact, "", PinyinFormat.WITHOUT_TONE)
-            val shortPinYin = PinyinHelper.getShortPinyin(gWxContact)
-            
-            if (!WechatUtils.findTextPYAndClick(this, pinYin)) {   //search in main UI first
-                WechatUtils.findTextAndClick(this, "搜索")
-                Thread.sleep(750)
-                WechatUtils.findFocusAndPaste(this, shortPinYin)
-                Thread.sleep(1000)
-                if (!WechatUtils.findTextPYAndClick(this, pinYin)) {
-                    //if there is content, don't match short pinyin
-                    if (!gWxContent.isNullOrEmpty() || !WechatUtils.findTextShortPYAndClick(this,
-                                    shortPinYin)) {
-                        speak("主人,我尽力了")
-                        return
-                    }
-                }
-            }
-            
-            Thread.sleep(750)
-            
-            if (gWxContact == "滴答清单") {
-                WechatUtils.findTextAndClick(this, "消息")
-                Thread.sleep(500)
-            }
-            
-            if (!WechatUtils.findEditableAndPaste(this, gWxContent)) {
-                //语音模式
-                WechatUtils.findTextAndClick(this, "切换到键盘")
-                Thread.sleep(500)
-                WechatUtils.findEditableAndPaste(this, gWxContent)
-            }
-    
-            if (gWxContact == "滴答清单") {
-                Thread.sleep(500)
-                WechatUtils.findTextAndClick(this, "发送")
-            }
-            //            gWxContact = ""
-            
-        } catch (e: Exception) {
-            e.printStackTrace()
-        }
-    }
-    
-    
-    private fun turnOnUsageAccess() {
-        try {
-            //            Thread.sleep(450)
-            for (x in 0..6) {
-                Thread.sleep(800)
-                if (WechatUtils.findTextAndClick(this, "小美")) break
-            }
-            
-            Thread.sleep(1000)
-            
-            var msg = ""
-            if (WechatUtils.findTextAndClick(this, "允许访问使用记录", true)) {
-                msg = "桌面语音唤醒功能需要查看使用情况权限，已为您开启"
-                startChecker()
-            } else {
-                msg = "桌面语音唤醒功能需要查看使用情况权限，请您开启"
-            }
-            
-            Toast.makeText(this, msg, Toast.LENGTH_LONG).show();
-            speak(msg)
-            //            gOpenningUsageAccess = false
-            
-        } catch (e: Exception) {
-            e.printStackTrace()
-        }
-    }
     
     
     /**

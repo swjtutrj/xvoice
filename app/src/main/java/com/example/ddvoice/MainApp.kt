@@ -1,5 +1,6 @@
 package com.example.ddvoice
 
+import android.accessibilityservice.AccessibilityService
 import android.app.Activity
 import android.app.Application
 import android.bluetooth.BluetoothAdapter
@@ -48,7 +49,6 @@ const val LONG_PRESS_INTERVAL = 250L    //长按最短间隔
 const val DOUBLE_CLICK_INTERVAL = 500L    //双击最长间隔
 const val STOP_WAKE_UP_DELAY = 0L    //unlock stop wake delay
 
-lateinit var gAccessibilityService: MyAccessibilityService
 var gIsMainActActive = false
 var gIsRecording = false
 var gIsSpeaking = false
@@ -585,12 +585,14 @@ fun syncContacts(ctx: Context) {
 }*/
 
 lateinit var gApplicationContext: Context
+lateinit var gAccessibilityService: AccessibilityService
 
 fun turnOnScreen() {
     val pm = gApplicationContext?.getSystemService(Context.POWER_SERVICE) as PowerManager?
     // 获取PowerManager.WakeLock对象,后面的参数|表示同时传入两个值,最后的是LogCat里用的Tag
     val wl = pm?.newWakeLock(
-            PowerManager.ACQUIRE_CAUSES_WAKEUP or PowerManager.SCREEN_BRIGHT_WAKE_LOCK, "bright")
+            PowerManager.ACQUIRE_CAUSES_WAKEUP or PowerManager.SCREEN_BRIGHT_WAKE_LOCK,
+            "xvoice:mywakelocktag")
     wl?.acquire(20000) // 点亮屏幕
     wl?.release() // 释放
 }
