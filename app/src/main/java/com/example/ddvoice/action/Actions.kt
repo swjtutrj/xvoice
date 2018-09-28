@@ -70,9 +70,9 @@ fun alipayTransfer() {
 fun donate() {
     speak("谢,主,隆,恩")
     alipayTransfer()
-    Thread.sleep(5000)
+    Thread.sleep(3000)
     if (!findTextAndClick("转到支付宝账户")) {
-        Thread.sleep(1500)
+        Thread.sleep(2500)
         findTextAndClick("转到支付宝账户")
     }
     Thread.sleep(1200)
