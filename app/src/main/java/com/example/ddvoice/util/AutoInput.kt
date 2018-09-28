@@ -5,6 +5,7 @@ import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.accessibility.AccessibilityNodeInfo
+import com.example.ddvoice.gAccessibilityService
 import com.github.stuxuhai.jpinyin.PinyinException
 import com.github.stuxuhai.jpinyin.PinyinFormat
 import com.github.stuxuhai.jpinyin.PinyinHelper
@@ -31,13 +32,14 @@ import com.github.stuxuhai.jpinyin.PinyinHelper
      *
      * @param text
      */
-    fun findTextAndClick(accessibilityService: AccessibilityService, text: String, bContain:
+    fun findTextAndClick(text: String, bContain:
     Boolean = false): Boolean {
-        val accessibilityNodeInfo = accessibilityService.rootInActiveWindow ?: return false
+        val accessibilityNodeInfo = gAccessibilityService.rootInActiveWindow ?: return false
         
         val nodeInfoList = accessibilityNodeInfo.findAccessibilityNodeInfosByText(text)
         if (nodeInfoList != null && !nodeInfoList.isEmpty()) {
             for (nodeInfo in nodeInfoList) {
+                Log.i("lyn----------", "text:" + nodeInfo.text)
                 if (nodeInfo != null && (text == nodeInfo.text || text == nodeInfo.contentDescription)) {
                     performClick(nodeInfo)
                     //                    break
@@ -65,10 +67,9 @@ import com.github.stuxuhai.jpinyin.PinyinHelper
                     performClick(info.parent.parent.parent)
                     found = true
                 }
-                
             } else {
                 for (i in 0 until info.childCount) {
-                    if (info.getChild(i) != null) {
+                    if (!found && info.getChild(i) != null) {
                         traverse(info.getChild(i))
                     }
                 }
@@ -114,8 +115,8 @@ import com.github.stuxuhai.jpinyin.PinyinHelper
     }
     
     
-    fun findFocusAndPaste(accessibilityService: AccessibilityService, content: String) {
-        val accessibilityNodeInfo = accessibilityService.rootInActiveWindow ?: return
+    fun findFocusAndPaste(content: String) {
+        val accessibilityNodeInfo = gAccessibilityService.rootInActiveWindow ?: return
         val nodeInfo = accessibilityNodeInfo.findFocus(AccessibilityNodeInfo.FOCUS_INPUT)
         Log.i("lyn----------", "nodeInfoList:" + nodeInfo)
         
