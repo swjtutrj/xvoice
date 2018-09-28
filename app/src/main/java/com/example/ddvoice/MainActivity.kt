@@ -5,7 +5,6 @@ import android.accessibilityservice.AccessibilityService
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.KeyguardManager
-import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import android.media.AudioManager
@@ -830,8 +829,8 @@ class MainActivity : Activity(), EventListener {
                         val contentType = getSlotValueByName("contentType") ?: ""
                         if (contentType == "voice") {  //语音
                             speak("发语音技能还在学习中，查找$gWxContact")
-                            startActivity(Intent().setComponent(ComponentName("com.tencent.mm",
-                                    "com.tencent.mm.ui.LauncherUI")).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))
+//                            startActivity(Intent().setComponent(ComponentName("com.tencent.mm",
+//                                    "com.tencent.mm.ui.LauncherUI")).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))
                             wxContact()
                         } else {
                             if (arrayOf("saoyisao", "saoma", "erweima", "saomiaoerweima").contains
@@ -846,17 +845,22 @@ class MainActivity : Activity(), EventListener {
                             } else {
                                 speak("发送${gWxContent}给$gWxContact")
                             }
-                            startActivity(Intent().setComponent(ComponentName("com.tencent.mm",
-                                    "com.tencent.mm.ui.LauncherUI")).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))
+                            
                             wxContact()
                         }
+                    }
+                    "dida_task" -> {
+                        sayOK()
+                        gWxContact = "滴答清单"
+                        gWxContent = getSlotValueByName("content") ?: ""
+                        wxContact()
                     }
                     "send_redbag" -> {
                         val howMuch = getSlotValueByName("how_much")
                         if (howMuch.isNullOrEmpty()) sayOK() else speak("暂不支持具体金额，跳到界面")
                         //                        speak("发红包技能还在学习中，查找$gWxContact")
-                        startActivity(Intent().setComponent(ComponentName("com.tencent.mm",
-                                "com.tencent.mm.ui.LauncherUI")).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))
+//                        startActivity(Intent().setComponent(ComponentName("com.tencent.mm",
+//                                "com.tencent.mm.ui.LauncherUI")).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))
 //                        wxContact()
                         wxRedBag("")
                     }
