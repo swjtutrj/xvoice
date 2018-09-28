@@ -175,7 +175,8 @@ fun punchOut() {
     }
 }
 
-fun performGlobalAction(action: Int) {
+fun performGlobalAction(action: Int, sayOk: Boolean = false) {
+    if (sayOk) sayOK()
     gAccessibilityService.performGlobalAction(action)
 }
 

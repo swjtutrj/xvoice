@@ -1,6 +1,7 @@
 package com.example.ddvoice
 
 import android.Manifest
+import android.accessibilityservice.AccessibilityService
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.KeyguardManager
@@ -784,6 +785,8 @@ class MainActivity : Activity(), EventListener {
             "LXY.default" -> {
                 when (intent) {
                     "punch_out" -> punchOut()
+                    "back_home" -> performGlobalAction(AccessibilityService.GLOBAL_ACTION_HOME,
+                            true)
                 }
             }
             "LXY.map" -> {
