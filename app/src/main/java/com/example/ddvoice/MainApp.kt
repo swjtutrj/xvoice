@@ -4,7 +4,6 @@ import android.accessibilityservice.AccessibilityService
 import android.app.Activity
 import android.app.Application
 import android.bluetooth.BluetoothAdapter
-import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
@@ -16,7 +15,6 @@ import android.media.AudioTrack
 import android.net.Uri
 import android.net.wifi.WifiManager
 import android.os.Handler
-import android.os.PowerManager
 import android.preference.PreferenceManager
 import android.provider.ContactsContract
 import android.provider.Settings
@@ -384,6 +382,7 @@ fun speak(msg: String?) {
     gStrTts += msg
 }
 
+var gBNlpCanceled = false
 
 fun startVoiceNlp() {
     if (null == gAIUIAgent) {
@@ -393,6 +392,8 @@ fun startVoiceNlp() {
     
     Log.i(TAG, "start voice nlp")
     //        mNlpText.setText("")
+    
+    gBNlpCanceled = false
     
     // 先发送唤醒消息，改变AIUI内部状态，只有唤醒状态才能接收语音输入
     // 默认为oneshot模式，即一次唤醒后就进入休眠。可以修改aiui_phone.cfg中speech参数的interact_mode为continuous以支持持续交互

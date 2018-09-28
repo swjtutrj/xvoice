@@ -97,10 +97,13 @@ class MainActivity : Activity(), EventListener {
         
         dlgView.donate.setOnClickListener {
             mAIUIDialog?.dismiss()
+            gBNlpCanceled = true
             donate()
         }
         
         dlgView.setting.setOnClickListener {
+            mAIUIDialog?.dismiss()
+            gBNlpCanceled = true
             startActivity(Intent(this, PreferencesActivity::class.java))
         }
     
@@ -530,7 +533,7 @@ class MainActivity : Activity(), EventListener {
                             val resultStr: String = cntJson.optString("intent")
                             Log.i(TAG, "语义结果:$resultStr")
                             //                            showTip("语义结果:$resultStr")
-                            if (!resultStr.isNullOrEmpty()) {
+                            if (!gBNlpCanceled && !resultStr.isNullOrEmpty()) {
                                 handleAIUIResult(resultStr)
                             } /*else mIatDialog.dismiss()*/
                             

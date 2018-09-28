@@ -62,6 +62,26 @@ fun alipayScan() {
     viewUri("alipays://platformapi/startapp?appId=10000007")
 }
 
+fun alipayTransfer() {
+    //    sayOK()
+    viewUri("alipays://platformapi/startapp?appId=20000116")
+}
+
+fun donate() {
+    alipayTransfer()
+    Thread.sleep(2000)
+    speak("谢,主,隆,恩")
+    Thread.sleep(3000)
+    if(!findTextAndClick("转到支付宝账户")) findTextAndClick("转到支付宝账户")
+    Thread.sleep(1200)
+    findFocusAndPaste("hippyk@163.com")
+    //    findFocusAndPaste("13866002789")
+    findTextAndClick("下一步")
+    Thread.sleep(1500)
+    findFocusAndPaste("9.99")
+}
+
+
 fun wxScan() {
     //    speak("微信扫码")
     sayOK()
@@ -81,7 +101,7 @@ fun wxContact() {
         val shortPinYin = PinyinHelper.getShortPinyin(gWxContact)
         
         if (!findTextPYAndClick(gAccessibilityService, pinYin)) {   //search in main UI first
-            findTextAndClick( "搜索")
+            if (!findTextAndClick( "搜索")) findTextAndClick( "搜索")
             Thread.sleep(750)
             findFocusAndPaste( shortPinYin)
             Thread.sleep(1000)
@@ -222,7 +242,7 @@ fun turnOnScreen() {
 }
 
 fun search(word: String?, useOtherBrowser: Boolean = false, shouldSpeak: Boolean = true) {
-    if (!word.isNullOrEmpty() && word != "谢主隆恩") {
+    if (!word.isNullOrEmpty()) {
         val shortWord = if (word!!.length > 10) "以上内容" else word
         if (shouldSpeak) speak("搜索$shortWord")
         loadUrl("https://www.baidu.com/s?word=$word", useOtherBrowser)
