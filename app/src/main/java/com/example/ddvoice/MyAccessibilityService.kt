@@ -109,7 +109,7 @@ class MyAccessibilityService : AccessibilityService() {
     
     
 //        if (BuildConfig.DEBUG) {
-//            Handler().postDelayed({ testAction() }, 1000L)
+//            Handler().postDelayed({ wxRedBag("") }, 1000L)
 //        }
         
         registerReceiver(screenOnBroadcastReceiver, IntentFilter(Intent.ACTION_SCREEN_ON))

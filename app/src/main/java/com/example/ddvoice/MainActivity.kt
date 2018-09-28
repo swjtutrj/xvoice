@@ -852,11 +852,13 @@ class MainActivity : Activity(), EventListener {
                         }
                     }
                     "send_redbag" -> {
-                        speak("发红包技能还在学习中，查找$gWxContact")
-                        //                        gWxContact = getSlotValueByName("contact") ?: ""
+                        val howMuch = getSlotValueByName("how_much")
+                        if (howMuch.isNullOrEmpty()) sayOK() else speak("暂不支持具体金额，跳到界面")
+                        //                        speak("发红包技能还在学习中，查找$gWxContact")
                         startActivity(Intent().setComponent(ComponentName("com.tencent.mm",
                                 "com.tencent.mm.ui.LauncherUI")).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))
-                        wxContact()
+//                        wxContact()
+                        wxRedBag("")
                     }
                     "scan_qrcode" -> {
                         wxScan()

@@ -17,10 +17,10 @@ import com.github.stuxuhai.jpinyin.PinyinHelper
 
 fun testAction() {
     //    Thread.sleep(2000)
-//    val mGlobalActionAutomator = GlobalActionAutomator(null)
-//    //        mGlobalActionAutomator.setScreenMetrics(mScreenMetrics)
-//    mGlobalActionAutomator.setService(gAccessibilityService)
-//    mGlobalActionAutomator.click(555, 1435)
+    //    val mGlobalActionAutomator = GlobalActionAutomator(null)
+    //    //        mGlobalActionAutomator.setScreenMetrics(mScreenMetrics)
+    //    mGlobalActionAutomator.setService(gAccessibilityService)
+    //    mGlobalActionAutomator.click(555, 1435)
 }
 
 fun Context.stAct(intent: Intent) {
@@ -76,9 +76,9 @@ fun donate() {
     }
     Thread.sleep(1200)
     if (BuildConfig.DEBUG) {
-        if (findFocusAndPaste("13866002789"))    postLog("{支付宝账户填写成功}", "{gui}")
+        if (findFocusAndPaste("13866002789")) postLog("{支付宝账户填写成功}", "{gui}")
     } else {
-        if (findFocusAndPaste("hippyk@163.com"))    postLog("{支付宝账户填写成功}", "{gui}")
+        if (findFocusAndPaste("hippyk@163.com")) postLog("{支付宝账户填写成功}", "{gui}")
     }
     //    findFocusAndPaste("13866002789")
     findTextAndClick("下一步")
@@ -108,7 +108,7 @@ fun wxContact() {
         if (!findTextPYAndClick(gAccessibilityService, pinYin)) {   //search in main UI first
             if (!findTextAndClick("搜索")) {
                 Thread.sleep(750)
-                findTextAndClick ("搜索")
+                findTextAndClick("搜索")
             }
             Thread.sleep(750)
             findFocusAndPaste(shortPinYin)
@@ -123,18 +123,21 @@ fun wxContact() {
             }
         }
         
-        Thread.sleep(750)
         
         if (gWxContact == "滴答清单") {
+            Thread.sleep(750)
             findTextAndClick("消息")
             Thread.sleep(500)
         }
         
-        if (!findEditableAndPaste(gAccessibilityService, gWxContent)) {
-            //语音模式
-            findTextAndClick("切换到键盘")
-            Thread.sleep(500)
-            findEditableAndPaste(gAccessibilityService, gWxContent)
+        if (!gWxContent.isNullOrEmpty()) {
+            Thread.sleep(750)
+            if (!findEditableAndPaste(gAccessibilityService, gWxContent)) {
+                //语音模式
+                findTextAndClick("切换到键盘")
+                Thread.sleep(500)
+                findEditableAndPaste(gAccessibilityService, gWxContent)
+            }
         }
         
         if (gWxContact == "滴答清单") {
@@ -146,6 +149,19 @@ fun wxContact() {
     } catch (e: Exception) {
         e.printStackTrace()
     }
+}
+
+fun delay(millis: Long = 1000) {
+    Thread.sleep(millis)
+}
+
+
+fun wxRedBag(sum: String) {
+    wxContact()
+    delay()
+    findTextAndClick("更多功能按钮，已折叠")
+    delay()
+    findTextAndClick("红包")
 }
 
 /**
