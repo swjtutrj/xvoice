@@ -106,6 +106,11 @@ class MyAccessibilityService : AccessibilityService() {
         
         gAccessibilityService = this
         //        gAudioManager = getSystemService(Context.AUDIO_SERVICE) as AudioManager
+    
+    
+//        if (BuildConfig.DEBUG) {
+//            Handler().postDelayed({ testAction() }, 1000L)
+//        }
         
         registerReceiver(screenOnBroadcastReceiver, IntentFilter(Intent.ACTION_SCREEN_ON))
         registerReceiver(screenOffBroadcastReceiver, IntentFilter(Intent.ACTION_SCREEN_OFF))

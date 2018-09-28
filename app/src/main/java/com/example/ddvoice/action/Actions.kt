@@ -14,6 +14,14 @@ import com.github.stuxuhai.jpinyin.PinyinHelper
  * Created by Lyn on 18-8-27.
  */
 
+fun testAction() {
+//    Thread.sleep(2000)
+    val mGlobalActionAutomator = GlobalActionAutomator(null)
+    //        mGlobalActionAutomator.setScreenMetrics(mScreenMetrics)
+    mGlobalActionAutomator.setService(gAccessibilityService)
+    mGlobalActionAutomator.click(555, 1435)
+}
+
 fun Context.stAct(intent: Intent) {
     startActivity(intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK))
 }
@@ -120,11 +128,18 @@ fun punchOut() {
         findTextAndClick(gAccessibilityService, "工作")
         Thread.sleep(1000)
         findTextAndClick(gAccessibilityService, "考勤打卡")
-        Thread.sleep(7000)
-        if (findTextAndClick(gAccessibilityService, "下班打卡")) {
+    
+        /*if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
+            Thread.sleep(7000)
+            val mGlobalActionAutomator = GlobalActionAutomator(null)
+            //        mGlobalActionAutomator.setScreenMetrics(mScreenMetrics)
+            mGlobalActionAutomator.setService(gAccessibilityService)
+            mGlobalActionAutomator.click(555, 1435)
+            //        if (findTextAndClick(gAccessibilityService, "下班打卡")) {
             Thread.sleep(3000)
             performGlobalAction(AccessibilityService.GLOBAL_ACTION_HOME)
-        }
+            //        }
+        }*/
     } catch (e: Exception) {
         e.printStackTrace()
     }
