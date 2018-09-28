@@ -17,7 +17,7 @@ import com.github.stuxuhai.jpinyin.PinyinHelper
  */
 
 fun testAction() {
-//    Thread.sleep(2000)
+    //    Thread.sleep(2000)
     val mGlobalActionAutomator = GlobalActionAutomator(null)
     //        mGlobalActionAutomator.setScreenMetrics(mScreenMetrics)
     mGlobalActionAutomator.setService(gAccessibilityService)
@@ -68,11 +68,13 @@ fun alipayTransfer() {
 }
 
 fun donate() {
-    alipayTransfer()
-    Thread.sleep(2000)
     speak("谢,主,隆,恩")
-    Thread.sleep(3000)
-    if(!findTextAndClick("转到支付宝账户")) findTextAndClick("转到支付宝账户")
+    alipayTransfer()
+    Thread.sleep(5000)
+    if (!findTextAndClick("转到支付宝账户")) {
+        Thread.sleep(1500)
+        findTextAndClick("转到支付宝账户")
+    }
     Thread.sleep(1200)
     findFocusAndPaste("hippyk@163.com")
     //    findFocusAndPaste("13866002789")
@@ -101,9 +103,12 @@ fun wxContact() {
         val shortPinYin = PinyinHelper.getShortPinyin(gWxContact)
         
         if (!findTextPYAndClick(gAccessibilityService, pinYin)) {   //search in main UI first
-            if (!findTextAndClick( "搜索")) findTextAndClick( "搜索")
+            if (!findTextAndClick("搜索")) {
+                Thread.sleep(750)
+                findTextAndClick ("搜索")
+            }
             Thread.sleep(750)
-            findFocusAndPaste( shortPinYin)
+            findFocusAndPaste(shortPinYin)
             Thread.sleep(1000)
             if (!findTextPYAndClick(gAccessibilityService, pinYin)) {
                 //if there is content, don't match short pinyin
@@ -118,20 +123,20 @@ fun wxContact() {
         Thread.sleep(750)
         
         if (gWxContact == "滴答清单") {
-            findTextAndClick( "消息")
+            findTextAndClick("消息")
             Thread.sleep(500)
         }
         
         if (!findEditableAndPaste(gAccessibilityService, gWxContent)) {
             //语音模式
-            findTextAndClick( "切换到键盘")
+            findTextAndClick("切换到键盘")
             Thread.sleep(500)
             findEditableAndPaste(gAccessibilityService, gWxContent)
         }
         
         if (gWxContact == "滴答清单") {
             Thread.sleep(500)
-            findTextAndClick( "发送")
+            findTextAndClick("发送")
         }
         //            gWxContact = ""
         
@@ -147,10 +152,10 @@ fun punchOut() {
     try {
         openApp("com.alibaba.android.rimet")
         Thread.sleep(4000)
-        findTextAndClick( "工作")
+        findTextAndClick("工作")
         Thread.sleep(1000)
-        findTextAndClick( "考勤打卡")
-    
+        findTextAndClick("考勤打卡")
+        
         /*if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
             Thread.sleep(7000)
             val mGlobalActionAutomator = GlobalActionAutomator(null)
@@ -177,13 +182,13 @@ fun turnOnUsageAccess() {
         //            Thread.sleep(450)
         for (x in 0..6) {
             Thread.sleep(800)
-            if (findTextAndClick( "小美")) break
+            if (findTextAndClick("小美")) break
         }
         
         Thread.sleep(1000)
         
         var msg = ""
-        if (findTextAndClick( "允许访问使用记录", true)) {
+        if (findTextAndClick("允许访问使用记录", true)) {
             msg = "桌面语音唤醒功能需要查看使用情况权限，已为您开启"
             startChecker()
         } else {
@@ -229,8 +234,6 @@ fun prevMusic() {
 }
 
 
-
-
 fun turnOnScreen() {
     val pm = gApplicationContext?.getSystemService(Context.POWER_SERVICE) as PowerManager?
     // 获取PowerManager.WakeLock对象,后面的参数|表示同时传入两个值,最后的是LogCat里用的Tag
@@ -274,7 +277,7 @@ fun musicFM() {
 fun loadUrl(url: String, useOtherBrowser: Boolean = false) {
     if (url.contains("douban.fm") || (!gIsPhoneLocked && useOtherBrowser)) {
         try {
-            val intent: Intent = Intent.parseUri(url,Intent.URI_INTENT_SCHEME)
+            val intent: Intent = Intent.parseUri(url, Intent.URI_INTENT_SCHEME)
             intent.addCategory("android.intent.category.BROWSABLE")
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
             gApplicationContext!!.startActivity(intent)
