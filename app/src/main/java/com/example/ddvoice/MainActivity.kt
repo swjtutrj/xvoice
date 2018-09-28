@@ -99,12 +99,14 @@ class MainActivity : Activity(), EventListener {
             mAIUIDialog?.dismiss()
             gBNlpCanceled = true
             donate()
+            postLog("{赏赐}", "gui")
         }
         
         dlgView.setting.setOnClickListener {
             mAIUIDialog?.dismiss()
             gBNlpCanceled = true
             startActivity(Intent(this, PreferencesActivity::class.java))
+            postLog("{设置}", "gui")
         }
     
         val txt = dlgView.findViewWithTag("textlink") as TextView

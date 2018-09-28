@@ -21,7 +21,9 @@ import android.provider.Settings
 import android.util.Base64
 import android.util.Log
 import android.widget.Toast
+import com.android.volley.Request
 import com.android.volley.RequestQueue
+import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.Volley
 import com.baidu.tts.chainofresponsibility.logger.LoggerProxy
 import com.baidu.tts.client.SpeechSynthesizer
@@ -59,11 +61,21 @@ val gContactNamePYNumMap = mutableMapOf<String, String>()
 
 var gDeviceId: String = ""
 
-// 语音合成对象
-//var gTts: SpeechSynthesizer? = null
-// 默认发音人
-//private val voicer = "xiaoyan"
-//private val mEngineTypeTTS = SpeechConstant.TYPE_CLOUD
+fun postLog(message: String, service: String, action: String = "1") {
+    gLogParams.clear()
+    gLogParams["username"] = gDeviceId
+    gLogParams["message"] = message
+    //                    gLogParams["intent"] = resultStr
+    gLogParams["service"] = service
+    //                    gLogParams["tts"] = gStrTts
+    gLogParams["action"] = action
+    
+    val request = JsonObjectRequest(
+            Request.Method.POST, gLogUrl,
+            JSONObject(gLogParams), { jsonObj -> }, { jsonObj -> })
+    gVolleyQueue.add(request)
+}
+
 
 lateinit var gAudioManager: AudioManager
 
@@ -86,65 +98,6 @@ fun Activity.showTip(text: String) {
 fun Activity.showTipLong(text: String) {
     Toast.makeText(this, text, Toast.LENGTH_LONG).show()
 }
-
-//fun comparePinYin(s1: String, s2: String): Boolean {
-//    //    println("lyn: s1,s2:" + s1 + "-----" + s2)
-//    return convertToPinyinString(s1, "", PinyinFormat.WITHOUT_TONE) ==
-//            convertToPinyinString(s2, "", PinyinFormat.WITHOUT_TONE)
-//}
-//fun WebView.loadVcUrl
-
-/**
- * 合成回调监听。
- */
-/*private val gTtsListener = object : SynthesizerListener {
-    
-    override fun onSpeakBegin() {
-        println("开始播放")
-    }
-    
-    
-    override fun onSpeakPaused() {
-        println("暂停播放")
-    }
-    
-    
-    override fun onSpeakResumed() {
-        println("继续播放")
-    }
-    
-    
-    override fun onBufferProgress(percent: Int, beginPos: Int, endPos: Int,
-                                  info: String) {
-        // 合成进度
-        //mPercentForBuffering = percent;
-        //println(String.format(getString(R.string.tts_toast_format),
-        //	mPercentForBuffering, mPercentForPlaying));
-    }
-    
-    
-    override fun onSpeakProgress(percent: Int, beginPos: Int, endPos: Int) {
-        // 播放进度
-        //mPercentForPlaying = percent;
-        //println(String.format(getString(R.string.tts_toast_format),
-        //	mPercentForBuffering, mPercentForPlaying));
-    }
-    
-    
-    override fun onCompleted(error: SpeechError?) {
-        if (error == null) {
-            println("播放完成")
-        } else {
-            println(error.getPlainDescription(true))
-        }
-    }
-    
-    
-    override fun onEvent(eventType: Int, arg1: Int, arg2: Int, obj: Bundle?) {
-    
-    }
-}*/
-
 
 
 /**
@@ -261,36 +214,6 @@ private fun initTTs() {
     checkResult(result, "initTts")
     
 }
-
-
-/*private fun textToSpeach(text: String) { //语音合成
-    // 设置参数
-    setParamTTS()
-    
-    //    assert(gTts != null)
-    //    assert (gTtsListener != null)
-    
-    val code = gTts!!.startSpeaking(text, gTtsListener)
-    if (code != ErrorCode.SUCCESS) {
-        println("语音合成失败,错误码: " + code)
-    }
-}*/
-
-
-//fun speak(msg: String?, b: Boolean = false) { //only speak ai's text
-//    //    if (BuildConfig.DEBUG) return
-//
-//    Log.i("lyn-----------", "speak:" + msg)
-//
-//    //info.makeText(getApplicationContext(), "here", 1000).show();
-//    //            addToList(msg, isSiri) //添加到对话列表x
-//    if (msg != null) {
-//        textToSpeach(msg)
-//    }
-//
-//    //if(isHasTTS)
-//    //mSiriEngine.SiriSpeak(msg);
-//}
 
 
 // ================== 初始化参数设置开始 ==========================

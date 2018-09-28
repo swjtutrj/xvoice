@@ -115,8 +115,8 @@ import com.github.stuxuhai.jpinyin.PinyinHelper
     }
     
     
-    fun findFocusAndPaste(content: String) {
-        val accessibilityNodeInfo = gAccessibilityService.rootInActiveWindow ?: return
+    fun findFocusAndPaste(content: String): Boolean {
+        val accessibilityNodeInfo = gAccessibilityService.rootInActiveWindow ?: return false
         val nodeInfo = accessibilityNodeInfo.findFocus(AccessibilityNodeInfo.FOCUS_INPUT)
         Log.i("lyn----------", "nodeInfoList:" + nodeInfo)
         
@@ -126,8 +126,10 @@ import com.github.stuxuhai.jpinyin.PinyinHelper
             arguments.putCharSequence(AccessibilityNodeInfo.ACTION_ARGUMENT_SET_TEXT_CHARSEQUENCE, content)
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 nodeInfo.performAction(AccessibilityNodeInfo.ACTION_SET_TEXT, arguments)
+                return true
             }
         }
+        return false
     }
     
     fun findEditableAndPaste(accessibilityService: AccessibilityService, content: String): Boolean {

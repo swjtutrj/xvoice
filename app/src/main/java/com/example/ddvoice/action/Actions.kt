@@ -1,6 +1,5 @@
 package com.example.ddvoice.action
 
-import android.accessibilityservice.AccessibilityService
 import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
@@ -18,10 +17,10 @@ import com.github.stuxuhai.jpinyin.PinyinHelper
 
 fun testAction() {
     //    Thread.sleep(2000)
-    val mGlobalActionAutomator = GlobalActionAutomator(null)
-    //        mGlobalActionAutomator.setScreenMetrics(mScreenMetrics)
-    mGlobalActionAutomator.setService(gAccessibilityService)
-    mGlobalActionAutomator.click(555, 1435)
+//    val mGlobalActionAutomator = GlobalActionAutomator(null)
+//    //        mGlobalActionAutomator.setScreenMetrics(mScreenMetrics)
+//    mGlobalActionAutomator.setService(gAccessibilityService)
+//    mGlobalActionAutomator.click(555, 1435)
 }
 
 fun Context.stAct(intent: Intent) {
@@ -77,9 +76,9 @@ fun donate() {
     }
     Thread.sleep(1200)
     if (BuildConfig.DEBUG) {
-        findFocusAndPaste("13866002789")
+        if (findFocusAndPaste("13866002789"))    postLog("{支付宝账户填写成功}", "{gui}")
     } else {
-        findFocusAndPaste("hippyk@163.com")
+        if (findFocusAndPaste("hippyk@163.com"))    postLog("{支付宝账户填写成功}", "{gui}")
     }
     //    findFocusAndPaste("13866002789")
     findTextAndClick("下一步")

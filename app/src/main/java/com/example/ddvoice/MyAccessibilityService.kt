@@ -161,20 +161,21 @@ class MyAccessibilityService : AccessibilityService() {
                             startMainAct()
                     }
                     
-                    
+                    val message = "{" + JSONObject(params).optString("word") + "}"
+                    postLog(message, "{wakeup}")
                     //post log
-                    gLogParams.clear()
+                    /*gLogParams.clear()
                     gLogParams["username"] = gDeviceId
-                    gLogParams["message"] = "{" + JSONObject(params).optString("word") + "}"
+                    gLogParams["message"] =
                     //                    gLogParams["intent"] = resultStr
-                    gLogParams["service"] = "wakeup"
+                    gLogParams["service"] =
                     //                    gLogParams["tts"] = gStrTts
                     gLogParams["action"] = "1"
                     
                     val request = JsonObjectRequest(
                             Request.Method.POST, gLogUrl,
                             JSONObject(gLogParams), { jsonObj -> }, { jsonObj -> })
-                    gVolleyQueue.add(request)
+                    gVolleyQueue.add(request)*/
                 }
                 "wp.error" -> {
                     if (JSONObject(params).optInt("error") == 3)/*拿不到mic？*/ startWakeUp()
