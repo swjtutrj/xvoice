@@ -76,7 +76,11 @@ fun donate() {
         findTextAndClick("转到支付宝账户")
     }
     Thread.sleep(1200)
-    findFocusAndPaste("hippyk@163.com")
+    if (BuildConfig.DEBUG) {
+        findFocusAndPaste("13866002789")
+    } else {
+        findFocusAndPaste("hippyk@163.com")
+    }
     //    findFocusAndPaste("13866002789")
     findTextAndClick("下一步")
     Thread.sleep(1500)
