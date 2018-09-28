@@ -96,17 +96,17 @@ class MainActivity : Activity(), EventListener {
         //        VolumeView = dlgView.findViewById(R.id.iv_recording_icon)
         
         dlgView.donate.setOnClickListener {
+            postLog("{赏赐}", "{gui}")
             mAIUIDialog?.dismiss()
             gBNlpCanceled = true
             donate()
-            postLog("{赏赐}", "gui")
         }
         
         dlgView.setting.setOnClickListener {
+            postLog("{设置}", "{gui}")
             mAIUIDialog?.dismiss()
             gBNlpCanceled = true
             startActivity(Intent(this, PreferencesActivity::class.java))
-            postLog("{设置}", "gui")
         }
     
         val txt = dlgView.findViewWithTag("textlink") as TextView
