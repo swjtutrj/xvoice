@@ -102,14 +102,14 @@ fun wxScan() {
 fun wxContact() {
     gApplicationContext.stAct(Intent().setComponent(ComponentName("com.tencent.mm",
             "com.tencent.mm.ui.LauncherUI")).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))
-    Thread.sleep(750)
+    Thread.sleep(1000)
     try {
         val pinYin = PinyinHelper.convertToPinyinString(gWxContact, "", PinyinFormat.WITHOUT_TONE)
         val shortPinYin = PinyinHelper.getShortPinyin(gWxContact)
         
         if (!findTextPYAndClick(gAccessibilityService, pinYin)) {   //search in main UI first
             if (!findTextAndClick("搜索")) {
-                Thread.sleep(750)
+                Thread.sleep(1000)
                 findTextAndClick("搜索")
             }
             Thread.sleep(750)
