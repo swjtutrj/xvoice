@@ -867,6 +867,10 @@ class MainActivity : Activity(), EventListener {
                     "scan_qrcode" -> {
                         wxScan()
                     }
+                    "INSTRUCTION" -> {
+                        val insType = getSlotValueByName("insType")
+                        if (insType == "OPEN") openApp("com.tencent.mm")
+                    }
                     else -> {
                         saySorry()
                     }

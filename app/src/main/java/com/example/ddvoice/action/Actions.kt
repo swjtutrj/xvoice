@@ -70,9 +70,9 @@ fun donate() {
     speak("谢,主,隆,恩")
     alipayTransfer()
     Thread.sleep(3000)
-    if (!findTextAndClick("转到支付宝账户")) {
+    if (!findTextAndClick2("转到支付宝账户")) {
         Thread.sleep(2500)
-        findTextAndClick("转到支付宝账户")
+        findTextAndClick2("转到支付宝账户")
     }
     Thread.sleep(1200)
     if (BuildConfig.DEBUG) {
@@ -81,7 +81,7 @@ fun donate() {
         if (findFocusAndPaste("hippyk@163.com")) postLog("{支付宝账户填写成功}", "{gui}")
     }
     //    findFocusAndPaste("13866002789")
-    findTextAndClick("下一步")
+    findTextAndClick2("下一步")
     Thread.sleep(1500)
     findFocusAndPaste("9.99")
 }
@@ -108,10 +108,10 @@ fun wxContact() {
         val shortPinYin = PinyinHelper.getShortPinyin(gWxContact)
         
         if (!findTextPYAndClick(gAccessibilityService, pinYin)) {   //search in main UI first
-            if (!findTextAndClick("搜索")) {
-                Thread.sleep(750)
-                findTextAndClick("搜索")
-            }
+            //            if (!findTextAndClick2("搜索")) {
+            //            Thread.sleep(750)
+            findTextAndClick2("搜索")
+            //            }
             Thread.sleep(750)
             findFocusAndPaste(shortPinYin)
             Thread.sleep(1000)
@@ -125,27 +125,27 @@ fun wxContact() {
             }
         }
         
-        
         if (gWxContact == "滴答清单") {
             Thread.sleep(750)
-            findTextAndClick("消息")
-            Thread.sleep(500)
-        }
-        
-        if (!gWxContent.isNullOrEmpty()) {
+            findTextAndClick2("消息")
+            if (!gWxContent.isNullOrEmpty()) {
+                Thread.sleep(1000)
+                findEditableAndPaste(gWxContent)
+                Thread.sleep(700)
+                findTextAndClick2("发送")
+            }
+        } else if (!gWxContent.isNullOrEmpty()) {
             Thread.sleep(750)
-            if (!findEditableAndPaste(gAccessibilityService, gWxContent)) {
+            if (!findEditableAndPaste(gWxContent)) {
                 //语音模式
-                findTextAndClick("切换到键盘")
-                Thread.sleep(500)
-                findEditableAndPaste(gAccessibilityService, gWxContent)
+                findTextAndClick2("切换到键盘")
+                Thread.sleep(1000)
+                findFocusAndPaste(gWxContent)
             }
         }
         
-        if (gWxContact == "滴答清单") {
-            Thread.sleep(500)
-            findTextAndClick("发送")
-        }
+//        if (gWxContact == "滴答清单") {
+//        }
         //            gWxContact = ""
         
     } catch (e: Exception) {
@@ -161,9 +161,9 @@ fun delay(millis: Long = 1000) {
 fun wxRedBag(sum: String) {
     wxContact()
     delay()
-    findTextAndClick("更多功能按钮，已折叠")
+    findTextAndClick2("更多功能按钮，已折叠")
     delay()
-    findTextAndClick("红包")
+    findTextAndClick2("红包")
 }
 
 /**
@@ -173,9 +173,9 @@ fun punchOut() {
     try {
         openApp("com.alibaba.android.rimet")
         Thread.sleep(4000)
-        findTextAndClick("工作")
+        findTextAndClick2("工作")
         Thread.sleep(1000)
-        findTextAndClick("考勤打卡")
+        findTextAndClick2("考勤打卡")
         
         /*if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
             Thread.sleep(7000)
@@ -183,7 +183,7 @@ fun punchOut() {
             //        mGlobalActionAutomator.setScreenMetrics(mScreenMetrics)
             mGlobalActionAutomator.setService(gAccessibilityService)
             mGlobalActionAutomator.click(555, 1435)
-            //        if (findTextAndClick( "下班打卡")) {
+            //        if (findTextAndClick2( "下班打卡")) {
             Thread.sleep(3000)
             performGlobalAction(AccessibilityService.GLOBAL_ACTION_HOME)
             //        }
@@ -204,13 +204,13 @@ fun turnOnUsageAccess() {
         //            Thread.sleep(450)
         for (x in 0..6) {
             Thread.sleep(800)
-            if (findTextAndClick("小美")) break
+            if (findTextAndClick2("小美")) break
         }
         
         Thread.sleep(1000)
         
         var msg = ""
-        if (findTextAndClick("允许访问使用记录", true)) {
+        if (findTextAndClick2("允许访问使用记录", true)) {
             msg = "桌面语音唤醒功能需要查看使用情况权限，已为您开启"
             startChecker()
         } else {
