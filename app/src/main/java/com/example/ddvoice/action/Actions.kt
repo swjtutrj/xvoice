@@ -131,7 +131,7 @@ fun wxContact() {
             if (!gWxContent.isNullOrEmpty()) {
                 Thread.sleep(1000)
                 findEditableAndPaste(gWxContent)
-                Thread.sleep(700)
+//                Thread.sleep(500)
                 findTextAndClick2("发送")
             }
         } else if (!gWxContent.isNullOrEmpty()) {
