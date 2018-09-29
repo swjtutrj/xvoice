@@ -634,13 +634,13 @@ fun loadSharedPrefs() {
     gAccessibilityEnabled = loadBool(SP_ACCESSIBILITY_ENABLED, false)
 }
 
-lateinit var mHomes: List<String>
+var mWakeOnPackages: ArrayList<String> = ArrayList()
 
 /**
  * 获得属于桌面的应用的应用包名称
  * @return 返回包含所有包名的字符串列表
  */
-private fun getHomes(): List<String> {
+private fun getHomes(): ArrayList<String> {
     val names = ArrayList<String>()
     val packageManager = gApplicationContext.packageManager
     //属性
@@ -659,10 +659,18 @@ private var gAppChecker: AppChecker? = null
 
 fun startChecker() {
     if (gAppChecker == null) {
-        gAppChecker = AppChecker().whenOther { it: String? ->
-            Log.d(TAG, "Foreground: $it")
-            if (mHomes.contains(it)) startWakeUp() else stopWakeUp()
-        }.timeout(1000)
+        gAppChecker = AppChecker().whenOther { it: String ->
+//            Log.d(TAG, "Foreground: $it")
+            var found = false
+            for (item in mWakeOnPackages) {
+                if (it.contains(item)) {
+                    found = true
+                    break
+                }
+            }
+            
+            if (found) startWakeUp() else stopWakeUp()
+        }.timeout(2000)
         
         gAppChecker!!.start(gApplicationContext)
     } /*else {
@@ -739,7 +747,10 @@ class MainApp : Application() {
         
         loadSharedPrefs()
         
-        mHomes = getHomes()
+        mWakeOnPackages.addAll(getHomes())
+        //地图
+        mWakeOnPackages.add("com.baidu.BaiduMap")
+        mWakeOnPackages.add("com.autonavi")
     
         gVolleyQueue = Volley.newRequestQueue(gApplicationContext)
         
