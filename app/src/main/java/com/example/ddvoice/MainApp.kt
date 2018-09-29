@@ -660,7 +660,7 @@ private var gAppChecker: AppChecker? = null
 fun startChecker() {
     if (gAppChecker == null) {
         gAppChecker = AppChecker().whenOther { it: String ->
-//            Log.d(TAG, "Foreground: $it")
+            Log.d(TAG, "Foreground: $it")
             var found = false
             for (item in mWakeOnPackages) {
                 if (it.contains(item)) {

@@ -254,7 +254,7 @@ class MainActivity : Activity(), EventListener {
             if (!gAccessibilityEnabled) {
                 speak("尊贵的主人，您好，很高兴为您服务。为了保证服务体验，需要授予小美一些权限哦。首先在接下来的界面中开启小美的辅助功能吧。一定要保证小美常驻后台不会杀死，否则将无法唤醒我，而且下次辅助功能又需要再次开启哦。")
             } else {
-                speak("主人，糟糕，小美之前好像确实被暗杀了，辅助功能被自动关闭了呢。为了避免悲剧再次重演，还请您仔细阅读当前显示的说明。")
+                speak("主人，糟糕，小美之前好像被暗杀了，辅助功能被自动关闭了呢。为了避免悲剧再次重演，还请您仔细阅读当前显示的说明。")
             }
             AlertDialog.Builder(this).setTitle("辅助服务开启提示，非常重要！")
                     .setIcon(android.R.drawable.ic_dialog_alert)
