@@ -837,6 +837,8 @@ class MainActivity : Activity(), EventListener {
                                     (contactPinYin)) {
                                 gWxContact = ""
                                 return wxScan()
+                            } else if (gWxContact == "发红包"){
+                                return speak("试试说：给谁谁发红包")
                             }
                             
                             gWxContent = getSlotValueByName("content") ?: ""
