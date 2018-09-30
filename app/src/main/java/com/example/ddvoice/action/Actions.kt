@@ -83,7 +83,7 @@ fun donate() {
     //    findFocusAndPaste("13866002789")
     findTextAndClick2("下一步")
     Thread.sleep(1500)
-    findFocusAndPaste("9.99")
+    findFocusAndPaste("19.99")
 }
 
 
