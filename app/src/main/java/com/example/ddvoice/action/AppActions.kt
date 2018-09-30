@@ -2,10 +2,13 @@ package com.example.ddvoice.action
 
 import android.content.Context
 import android.content.Intent
+import android.net.Uri
 import android.os.Handler
 import com.example.ddvoice.*
 import com.github.stuxuhai.jpinyin.PinyinFormat
 import com.github.stuxuhai.jpinyin.PinyinHelper
+
+
 
 val APP_NAMES_ARRAY = arrayOf(
         arrayOf("通讯录", "联系人", "号码本", "电话本"),
@@ -148,20 +151,6 @@ fun openApp(mAppName: String?, mContext: Context, mBFromIntent: Boolean = true):
     }
     return false
     //    }
-    
-    //    fun start() {
-    //        if (!appName.isNullOrEmpty()) {
-    //            if (!launchAppByName()) {
-    //                if (mBFromIntent) {
-    //                    speak("没找到应用,跳到搜索")
-    //                } else {    //非intent，也未找到app，才算未命中
-    //                    gMHit = false
-    //                }
-    //
-    //                search(appName, false, !mBFromIntent)
-    //            }
-    //        }
-    //    }
 }
 
 fun openApp(pkgName: String) {
@@ -169,4 +158,83 @@ fun openApp(pkgName: String) {
     val intent = gApplicationContext.packageManager.getLaunchIntentForPackage(pkgName)
     intent!!.addCategory("android.intent.category.LAUNCHER")
     gAccessibilityService.stAct(intent)
+}
+
+
+
+fun uninstallApp(mAppName: String?): Boolean //
+// Log.d("dd","here");
+{
+    var appName = mAppName
+    for (valueArray in APP_NAMES_ARRAY) {
+        if (valueArray.contains(mAppName)) {
+            appName = valueArray[0]
+            break
+        }
+    }
+
+    var pkgName = ""
+    var asrNamePinYin = PinyinHelper.convertToPinyinString(appName!!.toLowerCase(), "",
+            PinyinFormat.WITHOUT_TONE)
+    
+    //完全匹配查找
+    for (appEntry in gAppNamePackageMap) {
+        val namePinYin = appEntry.key
+        
+        if (namePinYin == asrNamePinYin) {
+            pkgName = appEntry.value
+            break
+        }
+    }
+    
+    
+    //完全匹配查找，try another name
+    if (appName == "通讯录") {
+        appName = "联系人"   //try another name
+        asrNamePinYin = PinyinHelper.convertToPinyinString(appName!!.toLowerCase(), "",
+                PinyinFormat.WITHOUT_TONE)
+        for (appEntry in gAppNamePackageMap) {
+            val namePinYin = appEntry.key
+            
+            if (namePinYin == asrNamePinYin) {
+                pkgName = appEntry.value
+                break
+            }
+        }
+    }
+    
+    
+    //完全匹配查找，try another name
+    if (appName == "信息") {
+        appName = "短信"   //try another name
+        asrNamePinYin = PinyinHelper.convertToPinyinString(appName!!.toLowerCase(), "",
+                PinyinFormat.WITHOUT_TONE)
+        for (appEntry in gAppNamePackageMap) {
+            val namePinYin = appEntry.key
+            
+            if (namePinYin == asrNamePinYin) {
+                pkgName = appEntry.value
+                break
+            }
+        }
+    }
+    
+    
+    //完全匹配未找到，进行包含匹配查找
+    for (appEntry in gAppNamePackageMap) {
+        val namePinYin = appEntry.key
+        
+        if (namePinYin.contains(asrNamePinYin)) {
+            pkgName = appEntry.value
+            break
+        }
+    }
+    
+    if (pkgName.isNullOrEmpty()) {
+        return false
+    } else {
+        val uri = Uri.parse("package:$pkgName")
+        gApplicationContext.stAct(Intent(Intent.ACTION_DELETE, uri))
+        return true
+    }
 }
