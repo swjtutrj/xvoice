@@ -410,7 +410,7 @@ class MyAccessibilityService : AccessibilityService() {
                 return true
             } else if (event.action == KeyEvent.ACTION_UP) {
                 
-                if (Calendar.getInstance().time.time - mKeyDownTime > LONG_PRESS_INTERVAL) {
+                if (Calendar.getInstance().time.time - mKeyDownTime > LONG_PRESS_INTERVAL * 1.5) {
                     //长按，不处理
                     //                    Toast.makeText(this, "lyn____________:key long pressed!", Toast.LENGTH_SHORT).show()
                     return true
