@@ -8,13 +8,11 @@ import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.content.pm.PackageManager
-import android.database.ContentObserver
 import android.media.AudioFormat
 import android.media.AudioManager
 import android.media.AudioTrack
 import android.net.Uri
 import android.net.wifi.WifiManager
-import android.os.Handler
 import android.preference.PreferenceManager
 import android.provider.ContactsContract
 import android.provider.Settings
@@ -727,12 +725,6 @@ val gLogUrl = "http://121.40.106.47:6000/log/asr"
 
 
 class MainApp : Application() {
-    private val mContactsObserver = object : ContentObserver(Handler()) {
-        override fun onChange(selfChange: Boolean) {
-            super.onChange(selfChange)
-            gContactSyncOK = false
-        }
-    }
     
     override fun onCreate() {
         super.onCreate()
@@ -775,9 +767,6 @@ class MainApp : Application() {
             updateAppNamePackageMap()
         }).start()
         
-        //联系人变动监测
-        contentResolver.registerContentObserver(
-                ContactsContract.Contacts.CONTENT_URI, true, mContactsObserver)
         
         
         //所有contact name的拼音和number映射

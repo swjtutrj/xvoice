@@ -8,10 +8,12 @@ import android.app.Service
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
+import android.database.ContentObserver
 import android.media.AudioManager
 import android.media.AudioManager.USE_DEFAULT_STREAM_TYPE
 import android.os.Build
 import android.os.Handler
+import android.provider.ContactsContract
 import android.provider.Settings
 import android.util.Log
 import android.view.KeyEvent
@@ -250,10 +252,21 @@ class MyAccessibilityService : AccessibilityService() {
             var content = "主人，" + (intent!!.getStringExtra("content") ?: "提醒时间到啦") + "。"
             for (i in 0..2) content += content
             speak(content)
+        } else if (intent?.action == "observe_contacts") {
+//            println("lyn_________:observe_contacts")
+            //联系人变动监测
+            contentResolver.registerContentObserver(
+                    ContactsContract.Contacts.CONTENT_URI, true, mContactsObserver)
         }
         return Service.START_STICKY //super.onStartCommand(intent, flags, startId)
     }
     
+    private val mContactsObserver = object : ContentObserver(Handler()) {
+        override fun onChange(selfChange: Boolean) {
+            super.onChange(selfChange)
+            gContactSyncOK = false
+        }
+    }
     
     public override fun onServiceConnected() {
         val info = serviceInfo ?: return

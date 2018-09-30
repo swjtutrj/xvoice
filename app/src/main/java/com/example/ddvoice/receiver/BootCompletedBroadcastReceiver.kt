@@ -13,7 +13,6 @@ import com.example.ddvoice.startWakeUp
 class BootCompletedBroadcastReceiver : BroadcastReceiver() {
     override fun onReceive(p0: Context, p1: Intent?) {
         Log.i("lyn-" + "BootReceiver:", "system boot!")
-//        p0.startService(Intent(p0, MyAccessibilityService::class.java))
         startWakeUp()
     }
 }

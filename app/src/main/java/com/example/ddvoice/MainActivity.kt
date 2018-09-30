@@ -51,6 +51,7 @@ import kotlin.concurrent.thread
 var gAIUIAgent: AIUIAgent? = null
 //var gUrlToLoad = ""
 //var gPlayer: MediaPlayer? = null //播放音乐
+var gBContactsObserved = false
 var gBHit = false
 var gBAction = false
 var gLatePostLog = false
@@ -286,6 +287,12 @@ class MainActivity : Activity(), EventListener {
             saveBool(SP_ACCESSIBILITY_ENABLED, gAccessibilityEnabled)
             //request permissions
             if (!requestAllPower()) return
+            
+            if (!gBContactsObserved) {
+                startService(Intent(this, MyAccessibilityService::class.java).setAction
+                ("observe_contacts"))
+                gBContactsObserved = true
+            }
             
             if (gDeviceId.isNullOrEmpty()) {
                 val tm = gApplicationContext!!.getSystemService(Context.TELEPHONY_SERVICE) as
