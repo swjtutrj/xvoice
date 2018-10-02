@@ -54,7 +54,7 @@ var gContactSyncOK = false
 var gFromHeadset = false
 var gIsPhoneLocked: Boolean = false
 //var gIsHome: Boolean = false
-val gAppNamePackageMap = mutableMapOf<String, String>()
+val gAppNamePYPackageMap = mutableMapOf<String, String>()
 val gContactNamePYNumMap = mutableMapOf<String, String>()
 
 var gDeviceId: String = ""
@@ -345,7 +345,7 @@ fun updateAppNamePackageMap() {
     val pm = gApplicationContext.packageManager
     val installAppList = pm.queryIntentActivities(intent, 0)
     
-    gAppNamePackageMap.clear()  //先重置map
+    gAppNamePYPackageMap.clear()  //先重置map
     for (info in installAppList) {
         val name = info.loadLabel(pm).toString()
         
@@ -354,7 +354,7 @@ fun updateAppNamePackageMap() {
         
         val pkgname = info.activityInfo.packageName
         
-        gAppNamePackageMap.put(namePinYin, pkgname)
+        gAppNamePYPackageMap.put(namePinYin, pkgname)
     }
 }
 

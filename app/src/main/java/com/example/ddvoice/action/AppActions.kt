@@ -55,7 +55,7 @@ fun openApp(mAppName: String?, mContext: Context, mBFromIntent: Boolean = true):
             PinyinFormat.WITHOUT_TONE)
     
     //完全匹配查找
-    for (appEntry in gAppNamePackageMap) {
+    for (appEntry in gAppNamePYPackageMap) {
         val namePinYin = appEntry.key
         
         if (namePinYin == asrNamePinYin) {
@@ -80,7 +80,7 @@ fun openApp(mAppName: String?, mContext: Context, mBFromIntent: Boolean = true):
         appName = "联系人"   //try another name
         asrNamePinYin = PinyinHelper.convertToPinyinString(appName!!.toLowerCase(), "",
                 PinyinFormat.WITHOUT_TONE)
-        for (appEntry in gAppNamePackageMap) {
+        for (appEntry in gAppNamePYPackageMap) {
             val namePinYin = appEntry.key
             
             if (namePinYin == asrNamePinYin) {
@@ -107,7 +107,7 @@ fun openApp(mAppName: String?, mContext: Context, mBFromIntent: Boolean = true):
         appName = "短信"   //try another name
         asrNamePinYin = PinyinHelper.convertToPinyinString(appName!!.toLowerCase(), "",
                 PinyinFormat.WITHOUT_TONE)
-        for (appEntry in gAppNamePackageMap) {
+        for (appEntry in gAppNamePYPackageMap) {
             val namePinYin = appEntry.key
             
             if (namePinYin == asrNamePinYin) {
@@ -130,7 +130,7 @@ fun openApp(mAppName: String?, mContext: Context, mBFromIntent: Boolean = true):
     
     
     //完全匹配未找到，进行包含匹配查找
-    for (appEntry in gAppNamePackageMap) {
+    for (appEntry in gAppNamePYPackageMap) {
         val namePinYin = appEntry.key
         
         if (namePinYin.contains(asrNamePinYin)) {
@@ -178,7 +178,7 @@ fun uninstallApp(mAppName: String?): Boolean //
             PinyinFormat.WITHOUT_TONE)
     
     //完全匹配查找
-    for (appEntry in gAppNamePackageMap) {
+    for (appEntry in gAppNamePYPackageMap) {
         val namePinYin = appEntry.key
         
         if (namePinYin == asrNamePinYin) {
@@ -193,7 +193,7 @@ fun uninstallApp(mAppName: String?): Boolean //
         appName = "联系人"   //try another name
         asrNamePinYin = PinyinHelper.convertToPinyinString(appName!!.toLowerCase(), "",
                 PinyinFormat.WITHOUT_TONE)
-        for (appEntry in gAppNamePackageMap) {
+        for (appEntry in gAppNamePYPackageMap) {
             val namePinYin = appEntry.key
             
             if (namePinYin == asrNamePinYin) {
@@ -209,7 +209,7 @@ fun uninstallApp(mAppName: String?): Boolean //
         appName = "短信"   //try another name
         asrNamePinYin = PinyinHelper.convertToPinyinString(appName!!.toLowerCase(), "",
                 PinyinFormat.WITHOUT_TONE)
-        for (appEntry in gAppNamePackageMap) {
+        for (appEntry in gAppNamePYPackageMap) {
             val namePinYin = appEntry.key
             
             if (namePinYin == asrNamePinYin) {
@@ -221,7 +221,7 @@ fun uninstallApp(mAppName: String?): Boolean //
     
     
     //完全匹配未找到，进行包含匹配查找
-    for (appEntry in gAppNamePackageMap) {
+    for (appEntry in gAppNamePYPackageMap) {
         val namePinYin = appEntry.key
         
         if (namePinYin.contains(asrNamePinYin)) {

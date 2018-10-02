@@ -47,7 +47,11 @@ fun viewUri(uri: String) {
     starter.action = Intent.ACTION_VIEW
     starter.data = Uri.parse(uri)
     starter.flags = Intent.FLAG_RECEIVER_FOREGROUND
-    gApplicationContext.startActivity(starter)
+    try {
+        gApplicationContext.startActivity(starter)
+    } catch (e: Exception) {
+        e.printStackTrace()
+    }
 }
 
 fun alipayQRcode() {

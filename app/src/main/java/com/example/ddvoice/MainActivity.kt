@@ -18,6 +18,7 @@ import android.text.Html
 import android.text.TextUtils
 import android.text.method.LinkMovementMethod
 import android.util.Log
+import android.view.View.GONE
 import android.view.View.inflate
 import android.view.ViewGroup
 import android.view.Window
@@ -95,12 +96,15 @@ class MainActivity : Activity(), EventListener {
         
         val dlgView = inflate(this, R.layout.layout_microphone, null)
         //        VolumeView = dlgView.findViewById(R.id.iv_recording_icon)
-        
-        dlgView.donate.setOnClickListener {
-            postLog("{赏赐}", "{gui}")
-            mAIUIDialog?.dismiss()
-            gBNlpCanceled = true
-            donate()
+        if (gAppNamePYPackageMap["zhifubao"].isNullOrEmpty()) {
+            dlgView.donate.visibility = GONE
+        } else {
+            dlgView.donate.setOnClickListener {
+                postLog("{赏赐}", "{gui}")
+                mAIUIDialog?.dismiss()
+                gBNlpCanceled = true
+                donate()
+            }
         }
         
         dlgView.setting.setOnClickListener {
