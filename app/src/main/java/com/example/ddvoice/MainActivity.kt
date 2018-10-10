@@ -1160,6 +1160,10 @@ class MainActivity : Activity(), EventListener {
                                         AudioManager.ADJUST_RAISE,
                                         AudioManager.FX_FOCUS_NAVIGATION_UP)
                             }
+                            "volume_max" -> {
+                                sayOK()
+                                gAudioManager.setStreamVolume(AudioManager.STREAM_MUSIC, 20, 0)
+                            }
                             "mute" -> {
                                 sayOK()
                                 gAudioManager.adjustStreamVolume(AudioManager.STREAM_MUSIC,
